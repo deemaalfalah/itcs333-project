@@ -2,7 +2,7 @@
 session_start();
 
 // Email validation regex
-$useridReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
+$useridReg = "/\d{8}/";
 
 // Form submission logic
 
@@ -76,7 +76,7 @@ $useridReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
           if (preg_match($useridReg, $userid)) {
               try {
                   require('connection.php');
-                  $sql = "SELECT * FROM users WHERE userid LIKE ?";
+                  $sql = "SELECT * FROM users WHERE userid = ?";
                   $result = $db->prepare($sql);
                   $result->execute(array($userid));
                   $db = null;
@@ -86,6 +86,7 @@ $useridReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
   
               $count = $result->rowCount();
               $row = $result->fetch(PDO::FETCH_ASSOC);
+            
               if ($count == 1) {
                   // Check if the password is valid
                   if (password_verify($userPassword, $row['password'])) {
@@ -95,23 +96,23 @@ $useridReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
                       if ($row["usertype"] == 'instructor') {
                           header('Location: view-instructor.php');
                           exit();
-                      } else if ($row["user_type"] == 'admin') {
+                      } else if ($row["usertype"] == 'admin') {
                           header('Location: view-admin.php');
                           exit();
-                      } else if ($row["user_type"] == 'student') {
+                      } else if ($row["usertype"] == 'student') {
                           header('Location: student-Interface.php');
                           exit();
                       }
                   } else {
-                      echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
+                      echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid1111';
                                      document.getElementById('messageBox').style.visibility = 'visible'</script>";
                   }
               } else {
-                  echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
+                  echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid2';
                                     document.getElementById('messageBox').style.visibility = 'visible';</script>";
               }
           } else {
-              echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
+              echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid3';
                             document.getElementById('messageBox').style.visibility = 'visible';</script>";
           }
       }
@@ -125,7 +126,7 @@ $useridReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
     <script>
         // Change the color of the icon and the underline when clicking on the input field
         function emailChange(input) {
-            const element = document.getElementById('emailInput');
+            const element = document.getElementById('useridInput');
             const icon = document.getElementById('userIcon');
             element.style.borderBottomColor = '#a9856c';
             icon.style.color = '#a9856c';
