@@ -2,7 +2,7 @@
 session_start();
 
 // Email validation regex
-$emailReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
+$useridReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
 
 // Form submission logic
 
@@ -30,11 +30,11 @@ $emailReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
                     <div id="messageBox" style='visibility: hidden;'> 
                         <span id='message'></span>
                     </div>
-                    <div class="inputF" id="emailInput">
+                    <div class="inputF" id="useridInput">
                         <i class="fa-solid fa-user" id="userIcon"></i>
-                        <input onfocus="emailChange(this)" onblur="emailReset(this)" type="text" class="input" placeholder="E-mail" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email'];?>">
+                        <input onfocus="useridChange(this)" onblur="useridlReset(this)" type="text" class="input" placeholder="User ID" name="userid" value="<?php if(isset($_POST['userid'])) echo $_POST['userid'];?>">
                     </div>
-                    <span id='email' style='color:red;'></span>
+                    <span id='userid' style='color:red;'></span>
                     <div class="inputF" id="passwordInput">
                         <i class="fa-solid fa-lock" id="passIcon"></i>
                         <input onfocus="passChange(this)" onblur="passReset(this)" type="password" class="input" placeholder="Password" name="password">
@@ -60,11 +60,11 @@ $emailReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
     if (isset($_POST['sbtn'])) {
       // Check for empty fields
       $print = false;
-      $userEmail = trim($_POST['email']);
+      $userid = trim($_POST['userid']);
       $userPassword = trim($_POST['password']);
   
-      if ($userEmail == "") {
-          echo "<script>document.getElementById('email').innerHTML='* E-mail is required'; document.getElementById('emailInput').style.borderBottomColor = 'red';</script>";
+      if ($userid == "") {
+          echo "<script>document.getElementById('userid').innerHTML='* User ID is required'; document.getElementById('useridInput').style.borderBottomColor = 'red';</script>";
           $print = true;
       }
       if ($userPassword == "") {
@@ -72,13 +72,13 @@ $emailReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
           $print = true;
       }
       if (!$print) {
-          // If the email is valid
-          if (preg_match($emailReg, $userEmail)) {
+          // If the userid is valid
+          if (preg_match($useridReg, $userid)) {
               try {
                   require('connection.php');
-                  $sql = "SELECT * FROM users WHERE email LIKE ?";
+                  $sql = "SELECT * FROM users WHERE userid LIKE ?";
                   $result = $db->prepare($sql);
-                  $result->execute(array($userEmail));
+                  $result->execute(array($userid));
                   $db = null;
               } catch (PDOException $e) {
                   die($e->getMessage());
@@ -89,29 +89,29 @@ $emailReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
               if ($count == 1) {
                   // Check if the password is valid
                   if (password_verify($userPassword, $row['password'])) {
-                      $_SESSION['currentUser'] = $row["user_Id"];
-                      $_SESSION['userType'] = $row["user_type"];
+                      $_SESSION['currentUser'] = $row["userid"];
+                      $_SESSION['userType'] = $row["usertype"];
   
-                      if ($row["user_type"] == 'user') {
-                          header('Location: view-user.php');
+                      if ($row["usertype"] == 'instructor') {
+                          header('Location: view-instructor.php');
                           exit();
                       } else if ($row["user_type"] == 'admin') {
                           header('Location: view-admin.php');
                           exit();
-                      } else if ($row["user_type"] == 'librarian') {
-                          header('Location: Librarian-Interface.php');
+                      } else if ($row["user_type"] == 'student') {
+                          header('Location: student-Interface.php');
                           exit();
                       }
                   } else {
-                      echo "<script>document.getElementById('message').innerHTML='E-mail or password is not valid';
+                      echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
                                      document.getElementById('messageBox').style.visibility = 'visible'</script>";
                   }
               } else {
-                  echo "<script>document.getElementById('message').innerHTML='E-mail or password is not valid';
+                  echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
                                     document.getElementById('messageBox').style.visibility = 'visible';</script>";
               }
           } else {
-              echo "<script>document.getElementById('message').innerHTML='E-mail or password is not valid';
+              echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
                             document.getElementById('messageBox').style.visibility = 'visible';</script>";
           }
       }
@@ -132,7 +132,7 @@ $emailReg = "/^\w+@[a-z]+(\.[a-z]{2,5})+$/i";
         }
 
         function emailReset(input) {
-            const element = document.getElementById('emailInput');
+            const element = document.getElementById('useridInput');
             const icon = document.getElementById('userIcon');
             element.style.borderBottomColor = '#757575';
             icon.style.color = '#757575';
