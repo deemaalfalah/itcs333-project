@@ -67,9 +67,6 @@ if(isset($_POST["sbtn"]) ){
       catch (PDOEXCEPTION $e) {
         die("Error ".$e->getMessage());
       }
-       
-
-  
   }
   
 ?>
