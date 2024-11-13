@@ -8,19 +8,16 @@
 <body>
     <form method="post">
     <label for="">User Name</label>
-    <input type="text" name='fname'>
+    <input type="text" name='username'>
     <br><br>
-    <label for="">email</label>
-    <input type="text" name='email'>
+    <label for="">User ID</label>
+    <input type="text" name='userid'>
     <br><br>
     <label for="">Password</label>
     <input type="password" name='password'>
     <br><br>
-    <label for="">Address</label>
-   <textarea name="address"></textarea>
-    <br><br>
-    <label for="">Phone</label>
-    <input type="text" name='phone'>
+    <label for="">email</label>
+    <input type="text" name='email'>
     <br><br>
     <label for="">userType</label>
     <input type="text" name='type'>
@@ -36,29 +33,25 @@
 <?php
 
 if(isset($_POST["sbtn"]) ){
-    $fname= $_POST["fname"];
-    $lname= $_POST["lname"];
+    $username= $_POST["username"];
+    $userid= $_POST["userid"];
     $email=$_POST["email"];
     $password=$_POST["password"];
-    $address=$_POST["address"];
-    $phone=$_POST["phone"];
     $userType=$_POST["type"];
 
 
       try {
         require("connection.php");
 
-        $query="INSERT INTO users VALUES (null,:fname,:lname,:email,:password,:address,:phone,null,null,:type)";
+        $query="INSERT INTO users VALUES (:username,:userid,:password,:email,:type)";
         $stmt=$db->prepare($query);
 
         $hps=password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt->bindParam(":fname",$fname);
-        $stmt->bindParam(":lname",$lname);
-        $stmt->bindParam(":email",$email);
+        $stmt->bindParam(":username",$username);
+        $stmt->bindParam(":userid",$userid);
         $stmt->bindParam(":password",$hps);
-        $stmt->bindParam(":address",$address);
-        $stmt->bindParam(":phone",$phone);
+        $stmt->bindParam(":email",$email);
         $stmt->bindParam(":type",$userType);
 
     
