@@ -20,7 +20,8 @@
     <input type="text" name='email'>
     <br><br>
     <label for="">userType</label>
-    <input type="text" name='type'>
+    <input type="text" name='type'>//select admin,student,instructor
+    
 
     <br><br>
     <button name="sbtn">Submit</button>
