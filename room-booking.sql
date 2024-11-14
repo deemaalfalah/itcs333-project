@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 02:03 PM
+-- Generation Time: Nov 14, 2024 at 05:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,24 +24,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `building`
+-- Table structure for table `rooms`
 --
 
-CREATE TABLE `building` (
-  `building-num` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `dr-rooms`
---
-
-CREATE TABLE `dr-rooms` (
-  `room-num` int(10) NOT NULL,
-  `room-cap` int(10) NOT NULL,
-  `room-type` varchar(50) NOT NULL,
-  `description` varchar(500) NOT NULL
+CREATE TABLE `rooms` (
+  `department` varchar(255) NOT NULL,
+  `room_num` int(255) NOT NULL,
+  `capacity` int(255) NOT NULL,
+  `lab` tinyint(1) NOT NULL,
+  `smartboard` tinyint(1) NOT NULL,
+  `datashow` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -67,26 +59,27 @@ CREATE TABLE `transaction` (
 CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `userid` int(9) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `usertype` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`username`, `userid`, `password`, `email`, `usertype`) VALUES
+('bayan', 76767676, '$2y$10$Krkqyf9cCd3Sscb5xIxl0udtg7kN8NnbsXuT.9gN5SZArHP9arzV6', 'bayan@gmail.com', 'admin');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `building`
+-- Indexes for table `rooms`
 --
-ALTER TABLE `building`
-  ADD PRIMARY KEY (`building-num`);
-
---
--- Indexes for table `dr-rooms`
---
-ALTER TABLE `dr-rooms`
-  ADD PRIMARY KEY (`room-num`);
+ALTER TABLE `rooms`
+  ADD PRIMARY KEY (`room_num`);
 
 --
 -- Indexes for table `transaction`

@@ -1,0 +1,127 @@
+/* Reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    background-color: #2C3E50;
+    color: #ECF0F1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.account-btn {
+    background-color: #2980B9;
+    color: #ECF0F1;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.account-btn:hover {
+    background-color: #3498DB;
+}
+
+.nav-menu ul {
+    list-style: none;
+    width: 100%;
+}
+
+.nav-menu ul li {
+    margin: 15px 0;
+}
+
+.nav-menu ul li a {
+    color: #ECF0F1;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.nav-menu ul li a:hover {
+    background-color: #34495E;
+}
+
+/* Main content styling */
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ECF0F1;
+}
+
+.content h1 {
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+
+.content p {
+    color: #7F8C8D;
+}
+
+/* Style for the search bar */
+.search-bar {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style for the buttons */
+.button {
+    width: 80%;
+    max-width: 400px;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 18px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    background-color: #45a049;
+}

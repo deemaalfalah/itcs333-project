@@ -2,9 +2,10 @@
 session_start();
 
 // Email validation regex
-$useridReg = "/\d{8}/";
+$useridReg = "/\d{8,}/";
 
 // Form submission logic
+
 
 ?>
 <!DOCTYPE html>
@@ -58,6 +59,7 @@ $useridReg = "/\d{8}/";
     </div>
     <?php
     if (isset($_POST['sbtn'])) {
+        print_r($_POST['sbtn']);
       // Check for empty fields
       $print = false;
       $userid = trim($_POST['userid']);
@@ -86,9 +88,9 @@ $useridReg = "/\d{8}/";
   
               $count = $result->rowCount();
               $row = $result->fetch(PDO::FETCH_ASSOC);
-            
               if ($count == 1) {
                   // Check if the password is valid
+        
                   if (password_verify($userPassword, $row['password'])) {
                       $_SESSION['currentUser'] = $row["userid"];
                       $_SESSION['userType'] = $row["usertype"];
@@ -154,4 +156,4 @@ $useridReg = "/\d{8}/";
         }
     </script>
 </body>
-</html>
+</html> -
