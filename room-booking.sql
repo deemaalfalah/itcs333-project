@@ -1,99 +1,36 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 14, 2024 at 05:24 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `room-booking`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rooms`
---
-
+-- Create the `rooms` table with an auto-increment primary key for `room_id` and a unique constraint on `room_num`
 CREATE TABLE `rooms` (
-  `department` varchar(255) NOT NULL,
-  `room_num` int(255) NOT NULL,
-  `capacity` int(255) NOT NULL,
-  `lab` tinyint(1) NOT NULL,
-  `smartboard` tinyint(1) NOT NULL,
-  `datashow` tinyint(1) NOT NULL
+  `room_id` INT(11) NOT NULL AUTO_INCREMENT,  -- Added an auto-increment column
+  `department` VARCHAR(255) NOT NULL,
+  `room_num` INT(255) NOT NULL,
+  `capacity` INT(255) NOT NULL,
+  `lab` TINYINT(1) NOT NULL,
+  `smartboard` TINYINT(1) NOT NULL,
+  `datashow` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`room_id`),  -- Set the primary key to the auto-increment column
+  UNIQUE KEY `room_num_unique` (`room_num`)  -- Ensure that room_num is unique
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `transaction`
---
-
 CREATE TABLE `transaction` (
-  `bulding-num` varchar(10) NOT NULL,
-  `room-num` int(10) NOT NULL,
-  `booking-date` date NOT NULL,
-  `start-time` time NOT NULL,
-  `end-time` time NOT NULL
+  `bulding-num` VARCHAR(10) NOT NULL,
+  `room-num` INT(10) NOT NULL,
+  `booking-date` DATE NOT NULL,
+  `start-time` TIME NOT NULL,
+  `end-time` TIME NOT NULL,
+  PRIMARY KEY (`bulding-num`, `room-num`)  -- Ensure the combination of building number and room number is unique
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
---
-
 CREATE TABLE `users` (
-  `username` varchar(50) NOT NULL,
-  `userid` int(9) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `usertype` varchar(20) NOT NULL
+  `username` VARCHAR(50) NOT NULL,
+  `userid` INT(9) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  `usertype` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`userid`)  -- Primary key for the `userid` column
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `users`
---
-
+-- Insert data for users table
 INSERT INTO `users` (`username`, `userid`, `password`, `email`, `usertype`) VALUES
 ('bayan', 76767676, '$2y$10$Krkqyf9cCd3Sscb5xIxl0udtg7kN8NnbsXuT.9gN5SZArHP9arzV6', 'bayan@gmail.com', 'admin');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `rooms`
---
-ALTER TABLE `rooms`
-  ADD PRIMARY KEY (`room_num`);
-
---
--- Indexes for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`bulding-num`,`room-num`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`userid`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
