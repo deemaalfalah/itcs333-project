@@ -70,6 +70,8 @@ if (isset($_POST['sbtn'])) {
             <h2>Account</h2>
             <ul>
                 <li><a href="#">Profile</a></li>
+                <li><a href="#">add classes</a></li>
+                <li><a href="#">view classes</a></li>
                 <li><a href="#">Settings</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
