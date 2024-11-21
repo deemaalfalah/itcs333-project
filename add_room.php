@@ -1,55 +1,44 @@
 <?php
-if (isset($_POST['sbtn'])) {
-    $modalMessage = "";
-    $showModal = false;
+// Include database connection
+require("connection.php");
+
+// Initialize the variable with a default value
+$showModal = false;
+
+// Check if the room was added successfully
+if (isset($_GET['added']) && $_GET['added'] == 'true') {
+    $showModal = true;
+}
+
+// Handle the form submission to add a room
+if (isset($_POST['add_room'])) {
+    $room_num = $_POST['room_num'];
+    $department = $_POST['department'];
+    $capacity = $_POST['capacity'];
+    $lab = isset($_POST['lab']) ? 1 : 0;
+    $smartboard = isset($_POST['smartboard']) ? 1 : 0;
+    $datashow = isset($_POST['datashow']) ? 1 : 0;
+
     try {
-        require("connection.php");
-        $db->beginTransaction();
+        // Insert the new room into the database
+        $sql = "INSERT INTO rooms (room_num, department, capacity, lab, smartboard, datashow) 
+                VALUES (:room_num, :department, :capacity, :lab, :smartboard, :datashow)";
+        $stmt = $db->prepare($sql);
 
-        // Collect form data
-        $department = $_POST['department'];
-        $room_num = $_POST['room_number'];
-        $capacity = $_POST['capacity'];
+        // Bind parameters
+        $stmt->bindParam(':room_num', $room_num);
+        $stmt->bindParam(':department', $department);
+        $stmt->bindParam(':capacity', $capacity);
+        $stmt->bindParam(':lab', $lab);
+        $stmt->bindParam(':smartboard', $smartboard);
+        $stmt->bindParam(':datashow', $datashow);
 
-        // Set checkbox values to 1 if checked, otherwise set to 0
-        $lab = isset($_POST['lab']) ? 1 : 0;
-        $smartboard = isset($_POST['smartboard']) ? 1 : 0;
-        $datashow = isset($_POST['datashow']) ? 1 : 0;
-
-        // Check if room number already exists
-        $stmt = $db->prepare("SELECT COUNT(*) FROM rooms WHERE room_num = :room_num");
-        $stmt->bindParam(":room_num", $room_num);
+        // Execute the statement
         $stmt->execute();
-        $roomExists = $stmt->fetchColumn();
 
-        if ($roomExists > 0) {
-            // Room number already exists
-            $modalMessage = "Error: The room number $room_num already exists. Please choose another room number.";
-            $showModal = true;
-        } else {
-            // Insert new room if room number is unique
-            $sql = "INSERT INTO rooms (department, room_num, capacity, lab, smartboard, datashow)
-                    VALUES (:department, :room_num, :capacity, :lab, :smartboard, :datashow)";
-            $stmt = $db->prepare($sql);
-
-            // Bind the parameters correctly
-            $stmt->bindParam(":department", $department);
-            $stmt->bindParam(":room_num", $room_num);
-            $stmt->bindParam(":capacity", $capacity);
-            $stmt->bindParam(":lab", $lab);
-            $stmt->bindParam(":smartboard", $smartboard);
-            $stmt->bindParam(":datashow", $datashow);
-
-            // Execute the query
-            $stmt->execute();
-            $db->commit();
-
-            // Success message
-            $modalMessage = "Room added successfully!";
-            $showModal = true;
-        }
+        // Redirect to the same page with an added=true query parameter to show the success modal
+        echo "<script>window.location='add_room.php?added=true';</script>";
     } catch (PDOException $e) {
-        $db->rollBack();
         die("Error: " . $e->getMessage());
     }
 }
@@ -61,88 +50,72 @@ if (isset($_POST['sbtn'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
+    <!-- Link to External CSS -->
     <link rel="stylesheet" href="styles/add_room.css">
 </head>
 <body>
-    <!-- Sidebar -->
+
+    <!-- Sidebar HTML (this is for navigation) -->
     <div class="sidebar">
         <div class="sidebar-content">
-            <h2>Account</h2>
+            <h2>Admin Panel</h2>
             <ul>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">add classes</a></li>
-                <li><a href="#">view classes</a></li>
+            <li><a href="#">Profile</a></li>
+                <li><a href="add_room.php">Add Classes</a></li> <!-- Link to ADD Classes -->
+                <li><a href="home_page(admin).php">View Classes</a></li> <!-- Link to View Classes -->
                 <li><a href="#">Settings</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </div>
     </div>
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>Add Room</h1>
-            <div class="search-container">
-                <form method="GET" action="#">
-                    <input type="text" placeholder="Search..." name="search" required>
-                    <button type="submit">Search</button>
-                </form>
+        <h2>Add Room</h2>
+
+        <!-- Form for adding room -->
+        <form method="POST">
+            <div class="form-group">
+                <label for="room_num">Room Number:</label>
+                <input type="text" name="room_num" id="room_num" required>
             </div>
-        </header>
 
-        <!-- Form Container -->
-        <div class="form-container">
-            <fieldset>
-                <legend>Room Details</legend>
-                <form method="POST">
-                    <!-- Department Selection -->
-                    <div class="form-group">
-                        <label>Department:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="department" value="IS" required> IS</label>
-                            <label><input type="radio" name="department" value="CS"> CS</label>
-                            <label><input type="radio" name="department" value="CE"> CE</label>
-                        </div>
-                    </div>
+            <div class="form-group">
+                <label>Department:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="department" value="IS" required> IS</label>
+                    <label><input type="radio" name="department" value="CS"> CS</label>
+                    <label><input type="radio" name="department" value="CE"> CE</label>
+                </div>
+            </div>
 
-                    <!-- Room Number -->
-                    <div class="form-group">
-                        <label for="room_number">Room Number:</label>
-                        <input type="text" id="room_number" name="room_number" required>
-                    </div>
+            <div class="form-group">
+                <label for="capacity">Capacity:</label>
+                <input type="number" name="capacity" id="capacity" required min="1">
+            </div>
 
-                    <!-- Capacity -->
-                    <div class="form-group">
-                        <label for="capacity">Capacity:</label>
-                        <input type="number" id="capacity" name="capacity" min="1" placeholder="Enter capacity" required>
-                    </div>
+            <div class="form-group">
+                <label>Features:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="lab" value="Lab"> Lab</label>
+                    <label><input type="checkbox" name="smartboard" value="Smartboard"> Smartboard</label>
+                    <label><input type="checkbox" name="datashow" value="Datashow"> Datashow</label>
+                </div>
+            </div>
 
-                    <!-- Features -->
-                    <div class="form-group">
-                        <label>Features:</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" name="lab" value="Lab"> Lab</label>
-                            <label><input type="checkbox" name="smartboard" value="Smartboard"> Smartboard</label>
-                            <label><input type="checkbox" name="datashow" value="Datashow"> Datashow</label>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" name="sbtn" class="submit-btn">Add Room</button>
-                </form>
-            </fieldset>
-        </div>
+            <button type="submit" name="add_room" class="submit-btn">Add Room</button>
+        </form>
     </div>
 
-    <!-- Modal for Success/Error Message (Optional) -->
+    <!-- Modal for Success Message -->
     <?php if ($showModal): ?>
         <div class="modal">
             <div class="modal-content">
-                <span class="close" onclick="document.querySelector('.modal').style.display='none'">&times;</span>
-                <p><?php echo $modalMessage; ?></p>
+                <h3>Room Added Successfully!</h3>
+                <button onclick="window.location.href='add_room.php'">OK</button>
             </div>
         </div>
     <?php endif; ?>
 </body>
 </html>
+
