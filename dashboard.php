@@ -1,22 +1,7 @@
 <?php 
 // Include database connection
 require("connection.php");
-
-// Handle delete request
-// if (isset($_GET['delete_room'])) {
-//     $room_id = $_GET['delete_room'];
-//     try {
-//         $sql = "DELETE FROM rooms WHERE room_id = :room_id";
-//         $stmt = $db->prepare($sql);
-//         $stmt->bindParam(':room_id', $room_id);
-//         $stmt->execute();
-//         echo "<script>alert('Room deleted successfully!');</script>";
-//     } catch (PDOException $e) {
-//         echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
-//     }
-// }
-
-// Fetch all rooms
+    
 $rooms = [];
 try {
     $searchQuery = '';
@@ -85,7 +70,6 @@ try {
                     <th>Lab</th>
                     <th>Smartboard</th>
                     <th>Datashow</th>
-                    <!-- <th>Actions</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -98,10 +82,6 @@ try {
                             <td><?= $room['lab'] ? 'Yes' : 'No' ?></td>
                             <td><?= $room['smartboard'] ? 'Yes' : 'No' ?></td>
                             <td><?= $room['datashow'] ? 'Yes' : 'No' ?></td>
-                            <!-- <td>
-                                <button class="edit-btn" onclick="location.href='edit_room.php?room_id=<?= $room['room_id'] ?>'">Edit</button>
-                                <button class="delete-btn" onclick="deleteRoom(<?= $room['room_id'] ?>)">Delete</button>
-                            </td> -->
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -112,15 +92,5 @@ try {
             </tbody>
         </table>
     </div>
-
-    <!-- <script>
-        // JavaScript function to handle room deletion
-        function deleteRoom(roomId) {
-            if (confirm("Are you sure you want to delete room " + roomId + "?")) {
-                // Redirect to the current page with delete_room query parameter
-                location.href = "home_page(admin).php?delete_room=" + roomId;
-            }
-        }
-    </script> -->
 </body>
 </html>
