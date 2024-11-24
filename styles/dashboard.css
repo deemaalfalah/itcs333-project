@@ -11,11 +11,18 @@ body {
     height: 100vh;
     padding: 20px;
     box-sizing: border-box;
+    align-items: center;
+    text-align: center; 
+}
+
+.elem-inside{
+    margin-top: 60px;
 }
 
 .sidebar h2 {
     margin: 0 0 20px;
     text-align: center;
+    margin-top: 30px;
 }
 
 .sidebar ul {
@@ -34,6 +41,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.3s;
+    cursor: pointer;
 }
 
 .sidebar ul li a:hover {
@@ -114,5 +122,16 @@ body {
     background-color: #2c3e50;
     color: white;
 }
+.edit-btn{
+    background-color: #34495e;
+    color: white;
+    border-radius: 5px;
+}
+.delete-btn{
+    background-color: #34495e;
+    color: white;
+    border-radius: 5px;
+}
+
 
 

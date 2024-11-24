@@ -14,7 +14,7 @@ if (isset($_GET['room_id'])) {
 
         if (!$room) {
             // Room not found, redirect or show error
-            echo "<script>alert('Room not found!'); window.location='home_page(admin).php';</script>";
+            echo "<script>alert('Room not found!'); window.location='manage_rooms.php';</script>";
             exit;
         }
 
@@ -23,7 +23,7 @@ if (isset($_GET['room_id'])) {
     }
 } else {
     // Redirect if room_id is not set
-    echo "<script>alert('Room ID is missing!'); window.location='home_page(admin).php';</script>";
+    echo "<script>alert('Room ID is missing!'); window.location='manage_rooms.php';</script>";
     exit;
 }
 
@@ -53,7 +53,7 @@ if (isset($_POST['sbtn'])) {
         $stmt->execute();
 
         // Success message
-        echo "<script>alert('Room updated successfully!'); window.location='home_page(admin).php';</script>";
+        echo "<script>alert('Room updated successfully!'); window.location='manage_rooms.php';</script>";
 
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
@@ -71,30 +71,28 @@ if (isset($_POST['sbtn'])) {
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-content">
-            <h2>Account</h2>
-            <ul>
-                <li><a href="#">Profile</a></li>
-                <li><a href="add_room.php">Add Classes</a></li> <!-- Link to ADD Classes -->
-                <li><a href="home_page(admin).php">View Classes</a></li> <!-- Link to View Classes -->
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Logout</a></li>
-            </ul>
+<div class="sidebar">
+        <h2>Admin Panel</h2>
+        <div class="elem-inside">
+        <ul>
+            <li><a onclick="location.href='dashboard.php'">Dashboard</a></li>
+            <li><a onclick="location.href='add_room.php'">Add Room</a></li>
+            <li><a onclick="location.href='manage_rooms.php'">Manage Rooms</a></li>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Logout</a></li>
+        </ul>
         </div>
     </div>
 
     <!-- Main Content Container -->
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1>Edit Room</h1>
-        </header>
+        
 
         <!-- Form Container -->
         <div class="form-container">
             <fieldset>
-                <legend>Room Details</legend>
+                <legend>Edit Room</legend>
                 <form method="POST">
                     <!-- Department Selection -->
                     <div class="form-group">

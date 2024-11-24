@@ -41,37 +41,40 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>manage rooms</title>
     <!-- Link the external CSS file -->
-    <link rel="stylesheet" href="styles/home_page(admin).css">
+    <link rel="stylesheet" href="styles/manage_rooms.css">
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Admin Panel</h2>
+        <div class="elem-inside">
         <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Manage Rooms</a></li>
+            <li><a onclick="location.href='dashboard.php'">Dashboard</a></li>
+            <li><a onclick="location.href='add_room.php'">Add Room</a></li>
+            <li><a onclick="location.href='manage_rooms.php'">Manage Rooms</a></li>
+            <li><a href="#">My Account</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Logout</a></li>
         </ul>
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
             <h1>Manage Rooms</h1>
+            
             <div class="search-container">
-                <form method="GET" action="home_page(admin).php">
+                <form method="GET" action="manage_rooms.php">
                     <input type="text" name="search" placeholder="Search room number..." value="<?= htmlspecialchars($searchQuery) ?>">
                     <button type="submit">Search</button>
                 </form>
             </div>
         </div>
 
-        <div class="actions">
-            <button onclick="location.href='add_room.php'">Add Room</button>
-        </div>
+        
 
         <!-- Room List -->
         <table class="room-list">
@@ -116,7 +119,7 @@ try {
         function deleteRoom(roomId) {
             if (confirm("Are you sure you want to delete room " + roomId + "?")) {
                 // Redirect to the current page with delete_room query parameter
-                location.href = "home_page(admin).php?delete_room=" + roomId;
+                location.href = "manage_rooms.php?delete_room=" + roomId;
             }
         }
     </script>
