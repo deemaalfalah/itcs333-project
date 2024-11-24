@@ -71,7 +71,7 @@ if (isset($_POST['add_room'])) {
 
     <!-- Main Content -->
     <div class="container">
-        <h2>Add Room</h2>
+        <h1>Add Room</h1>
 
         <!-- Form for adding room -->
         <form method="POST">

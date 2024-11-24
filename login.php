@@ -99,7 +99,7 @@ $useridReg = "/\d{8,}/";
                           header('Location: view-instructor.php');
                           exit();
                       } else if ($row["usertype"] == 'admin') {
-                          header('Location: view-admin.php');
+                          header('Location: dashboard.php');
                           exit();
                       } else if ($row["usertype"] == 'student') {
                           header('Location: student-Interface.php');
