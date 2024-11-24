@@ -45,7 +45,7 @@
 
   <div class="input-group">
   <i class="fa-solid fa-user-tie" id="userIcon"></i>
-      <input type="text" name="type" placeholder="User Type">
+      <input type="text" name="type" placeholder="User Type (Admin or Instructor)">
     </div>
   <br>
     
