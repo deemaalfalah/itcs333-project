@@ -8,6 +8,7 @@
     <script src="scripts/sidebar-toggle.js" defer></script>
 </head>
 <body>
+    <!-- Sidebar Section -->
     <div class="sidebar">
         <div class="profile">
             <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
@@ -30,8 +31,9 @@
         </nav>
     </div>
 
+    <!-- Main Content Section -->
     <div class="content">
-        <div class="room-details-container">
+        <div class="main-content">
             <!-- Room Details Section -->
             <div class="room-details">
                 <h1>Room Details</h1>
@@ -78,10 +80,6 @@
                 </iframe>
             </div>
         </div>
-    </div>
-</body>
-</html>
-
     </div>
 </body>
 </html>
