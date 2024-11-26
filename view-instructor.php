@@ -20,11 +20,11 @@
                     <li class="menu-item">
                         <a href="#" class="menu-title" onclick="toggleSubmenu('book-room')">Book Room &#9662;</a>
                         <ul class="submenu" id="book-room">
-                            <li><a href="single_booking.php">Single Booking</a></li>
-                            <li><a href="daily_booking.php">Daily Booking</a></li>
+                            <li><a href="single-booking.php">Single Booking</a></li>
+                            <li><a href="daily-booking.php">Daily Booking</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="view-instructor.php">Dashboard</a></li>
                     <li><a href="#">Help</a></li>
                     <li><a href="#">My Account</a></li>
                     <li><a href="logout.php" class="logout-button">Logout</a>
@@ -35,89 +35,43 @@
 
         <!-- Main Content Section -->
         <div class="main-content">
-            <div class="rooms-container">
-                <!-- Repeat this block for each room -->
-                <div class="room">
-                    <img src="picture/class No 077.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                
-                <!-- Add more rooms as needed -->
-                <div class="room">
-                    <img src="picture/class No 021.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
+            <h1>Instructor Dashboard</h1>
 
-                <div class="room">
-                    <img src="picture/class No 060.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
+            <div class="courses-container">
+                <!-- PHP code to fetch and display courses for the instructor -->
+                <?php
+                // Example data, this should come from the database in a real-world scenario
+                $courses = [
+                    [
+                        'course_name' => 'Computer Science 101',
+                        'room_number' => '101',
+                        'building_number' => 'Building A',
+                        'class_time' => '9:00 AM - 11:00 AM',
+                        'section_number' => 'CS101-01',
+                    ],
+                    [
+                        'course_name' => 'Mathematics 201',
+                        'room_number' => '205',
+                        'building_number' => 'Building B',
+                        'class_time' => '11:30 AM - 1:30 PM',
+                        'section_number' => 'MATH201-02',
+                    ],
+                    // Add more courses as needed
+                ];
 
-                <div class="room">
-                    <img src="picture/class No 088.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-
-                <div class="room">
-                    <img src="picture/class No 1006.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 1047.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 1081.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 1089.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 2050.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 2087.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No2033.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 2045.jpeg.jpg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
+                // Loop through each course and display the details
+                foreach ($courses as $course) {
+                    echo '<div class="course">';
+                    echo '<h3>' . $course['course_name'] . '</h3>';
+                    echo '<p><strong>Room Number:</strong> ' . $course['room_number'] . '</p>';
+                    echo '<p><strong>Building Number:</strong> ' . $course['building_number'] . '</p>';
+                    echo '<p><strong>Class Time:</strong> ' . $course['class_time'] . '</p>';
+                    echo '<p><strong>Section Number:</strong> ' . $course['section_number'] . '</p>';
+                    echo '</div>';
+                }
+                ?>
             </div>
         </div>
-
-        
 
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">
