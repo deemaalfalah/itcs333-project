@@ -2,6 +2,7 @@
 // Include database connection
 require("connection.php");
 
+
 // Initialize the variable with a default value
 $showModal = false;
 
