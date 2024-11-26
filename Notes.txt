@@ -1,5 +1,4 @@
 1- modify the sign up to accept only instructor and student
 2- time slot for daily and single booking
-3- logout
-4- theme the login 
+
 
