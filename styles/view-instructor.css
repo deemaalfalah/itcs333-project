@@ -6,6 +6,12 @@ body {
     min-height: 100vh;
 }
 
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
 /* Sidebar Styling */
 .sidebar {
     width: 240px;
@@ -13,11 +19,7 @@ body {
     color: #fff;
     padding: 20px;
     position: fixed;
-    height: 200%;
-    top: 0;
-    left: 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-
+    height: 100%;
 }
 
 .profile {
@@ -69,30 +71,33 @@ body {
     background-color: #1ABC9C;
 }
 
-iframe {
-    width: 130%;
-    height: 800px;
-    border-radius: 8px;
+/* Main Content Styling */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* Adjusts for the sidebar width */
+    margin-right: 260px; /* Adjusts for the right section */
+    padding: 20px;
 }
 
- /* Parent container for all rooms */
-.parent {
- length: 250px;
-   width: 1100px;
-    display: inline-flex;
-    flex-wrap: wrap; /* Allows items to wrap onto the next line when space is insufficient */
-    justify-content: center; /* Distribute items evenly with space between */
-    flex-direction: row-reverse;
+.rooms-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
-/* Individual room block */
 .room {
-    flex: 1 0 22%; /* Allows up to 5 items per row, change the percentage for different layouts */
-    margin: 10px;
-    box-sizing: border-box;
+    width: 22%;
+    border: 1px solid #ccc;
+    padding: 10px;
     text-align: center;
+    box-sizing: border-box;
 }
 
+.room img {
+    width: 100%;
+    height: auto;
+}
 /* Room image styles */
 .room .room-image {
     width: 100%; /* Matches container width */
@@ -103,74 +108,40 @@ iframe {
     margin-bottom: 10px; /* Adds space below the image */
 }
 
-/* Room Number and Description */
-.room p {
-    margin: 10px 0;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-}
-
-/* Room Number Style */
-.room p strong {
-    color: #2c3e50;
-    font-weight: bold;
-}
-
-/* Description Text */
-.room p {
-    font-size: 14px;
-    color: #7f8c8d;
-    line-height: 1.5;
-}
-
-/* Button Style */
-.view-details-btn {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-/* Button Hover Effect */
-.view-details-btn:hover {
-    background-color: #2980b9;
-}
-
-/* Hover Effect for Rooms */
-.room:hover {
-    transform: scale(1.05); /* Slight zoom effect when hovering over the room */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .room {
-        width: calc(50% - 20px); /* 2 rooms per row on smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .room {
-        width: 100%; /* 1 room per row on mobile devices */
-    }
-}
-
-.search-bar-container {
+/* Right Section Styling */
+.right-section {
+    width: 260px;
+    background-color: #f7f7f7;
+    padding: 20px;
     position: fixed;
-    top: 10px;
-    right: 20px;
-    z-index: 1000; /* Ensures it appears on top */
+    right: 0;
+    top: 0;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .search-bar {
-    width: 250px;
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.map-container {
+    margin-top: 20px;
+}
+
+.logout-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f05454;
+    color: white;
+    text-decoration: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #d43d3d;
 }
 

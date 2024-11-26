@@ -41,7 +41,8 @@ try {
             <li><a onclick="location.href='manage_rooms.php'">Manage Rooms</a></li>
             <li><a href="#">My Account</a></li>
             <li><a href="#">Settings</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="logout.php" class="logout-button">Logout</a>
+            </li>
         </ul>
         </div>
     </div>

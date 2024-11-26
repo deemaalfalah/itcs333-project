@@ -20,10 +20,15 @@ $useridReg = "/\d{8,}/";
 </head>
 <body>  
     <div class="container">
-        <div class="side">
-            <img src="images/logo.svg" alt="logo" >
-            <p>Welcome to our library <br>Where knowledge awaits and imagination takes flight! <br>Step inside and embark on literary adventure like no other</p>
-        </div>
+    <div class="side">
+    <img src="picture/University_of_Bahrain_logo.png" alt="logo" style="width: 100px; height: auto; margin-bottom: 20px;">
+
+
+    <p>Welcome to the University of Bahrain<br>
+    Dedicated to enhancing your experience with the Information Technology Room System.<br>
+    Reserve, manage, and access IT resources with ease.<br>
+    Your journey to innovation starts here!</p>
+</div>
         <main>
             <div class="login">
                 <h1 class='log'>Login</h1>
@@ -52,6 +57,9 @@ $useridReg = "/\d{8,}/";
                         <a href="">About us</a>
                         <span>|</span>
                         <a href="help.php">Help</a>
+                        <span>|</span>
+                        <a href="logout.php" class="logout-button">Logout</a>
+
                     </p>
                 </div>
             </div>
@@ -156,4 +164,4 @@ $useridReg = "/\d{8,}/";
         }
     </script>
 </body>
-</html> -
+</html> 
