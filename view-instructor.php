@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor View</title>
-    <link rel="stylesheet" href="styles/view-instructor.css">
+    <link rel="stylesheet" href="styles/single-booking.css">
     <script src="scripts/sidebar-toggle.js" defer></script>
 </head>
 <body>
@@ -33,45 +33,61 @@
             </nav>
         </div>
 
+        
+        <div class="header-container">
+            <h1>Welcome</h1>
+        </div>
+        
         <!-- Main Content Section -->
         <div class="main-content">
-            <h1>Instructor Dashboard</h1>
+            <div class="rooms-container">
+                <!-- Repeat this block for each room -->
+                <div class="room">
+                <p><strong>itcs333</strong></p>
+                <p><strong>section :</section>:</strong> 01</p>
+                    <p><strong>Room Number:</strong> 101</p>
+                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                </div>
 
-            <div class="courses-container">
-                <!-- PHP code to fetch and display courses for the instructor -->
-                <?php
-                // Example data, this should come from the database in a real-world scenario
-                $courses = [
-                    [
-                        'course_name' => 'Computer Science 101',
-                        'room_number' => '101',
-                        'building_number' => 'Building A',
-                        'class_time' => '9:00 AM - 11:00 AM',
-                        'section_number' => 'CS101-01',
-                    ],
-                    [
-                        'course_name' => 'Mathematics 201',
-                        'room_number' => '205',
-                        'building_number' => 'Building B',
-                        'class_time' => '11:30 AM - 1:30 PM',
-                        'section_number' => 'MATH201-02',
-                    ],
-                    // Add more courses as needed
-                ];
+                <div class="room">
+                <p><strong>itcs333</strong></p>
+                <p><strong>section :</section>:</strong> 01</p>
+                    <p><strong>Room Number:</strong> 101</p>
+                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                </div>
+                <div class="room">
+                <p><strong>itcs333</strong></p>
+                <p><strong>section :</section>:</strong> 01</p>
+                    <p><strong>Room Number:</strong> 101</p>
+                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                </div>
 
-                // Loop through each course and display the details
-                foreach ($courses as $course) {
-                    echo '<div class="course">';
-                    echo '<h3>' . $course['course_name'] . '</h3>';
-                    echo '<p><strong>Room Number:</strong> ' . $course['room_number'] . '</p>';
-                    echo '<p><strong>Building Number:</strong> ' . $course['building_number'] . '</p>';
-                    echo '<p><strong>Class Time:</strong> ' . $course['class_time'] . '</p>';
-                    echo '<p><strong>Section Number:</strong> ' . $course['section_number'] . '</p>';
-                    echo '</div>';
-                }
-                ?>
+                <div class="room">
+                <p><strong>itcs333</strong></p>
+                <p><strong>section :</section>:</strong> 01</p>
+                    <p><strong>Room Number:</strong> 101</p>
+                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                </div>
+
+                <div class="room">
+                <p><strong>itcs333</strong></p>
+                <p><strong>section :</section>:</strong> 01</p>
+                    <p><strong>Room Number:</strong> 101</p>
+                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                </div>
+
+                <div class="room">
+                <p><strong>itcs333</strong></p>
+                <p><strong>section :</section>:</strong> 01</p>
+                    <p><strong>Room Number:</strong> 101</p>
+                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                </div>
+                
+                
             </div>
         </div>
+
+        
 
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">

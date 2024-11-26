@@ -145,3 +145,18 @@ body {
     background-color: #d43d3d;
 }
 
+/* Center Header */
+.header-container {
+    text-align: center;
+    margin-top: 20px; /* Adjust spacing from the top */
+    margin-bottom: 20px; /* Spacing before main content */
+    font-size: 2rem; /* Adjust font size */
+    color: #333; /* Optional: Add custom color */
+}
+
+/* Optional: Add a subtle border below the header */
+.header-container h1 {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    display: inline-block; /* To shrink the underline to the text width */
+}
