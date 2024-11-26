@@ -50,9 +50,17 @@ $useridReg = "/\d{8,}/";
                         <button type="submit" name="sbtn" class="button">login</button>
                     </div>
                 </form>
+
+                <div class="signup-container">
+                    <p>Doesn't have an account?</p>
+                    <a onclick="location.href='signup-instructor.php'">
+                        <button class="signup-button">Sign Up</button>
+                    </a>
+                </div>
+
                 <div class="info">
                     <p>
-                        <a href="contact-us.php">Contact us</a> 
+                        <a onclick="location.href='contact-us.php'" >Contact us</a> 
                         <span>|</span>
                         <a href="">About us</a>
                         <span>|</span>
