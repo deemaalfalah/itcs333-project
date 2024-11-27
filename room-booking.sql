@@ -13,13 +13,17 @@ CREATE TABLE `rooms` (
 
 -- Table structure for table `transaction`
 CREATE TABLE `transaction` (
-  `bulding-num` VARCHAR(10) NOT NULL,
-  `room-num` INT(10) NOT NULL,
-  `booking-date` DATE NOT NULL,
-  `start-time` TIME NOT NULL,
-  `end-time` TIME NOT NULL,
-  PRIMARY KEY (`bulding-num`, `room-num`)  -- Ensure the combination of building number and room number is unique
+  `record_id` INT(11) NOT NULL AUTO_INCREMENT, -- Use backticks and specify size for INT
+  `userid` INT(9) NOT NULL,
+  `room_num` INT(10) NOT NULL, -- Use backticks and remove hyphen (use underscores for column names)
+  `semester` VARCHAR(50) NOT NULL,
+  `start_date` DATE NOT NULL, -- Use underscores for column names
+  `end_date` DATE NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  PRIMARY KEY (`record_id`) -- Primary key for `record_id`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- Table structure for table `users`
 CREATE TABLE `users` (

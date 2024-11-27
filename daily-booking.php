@@ -34,88 +34,66 @@
         </div>
 
         <!-- Main Content Section -->
+        <?php
+
+
+// Database connection using PDO
+require("connection.php");
+
+// Fetch room data from the database
+$sql = "SELECT * FROM rooms";
+$stmt = $db->prepare($sql);
+$stmt->execute();
+$rooms = $stmt->fetchAll(); // Fetch all rows
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Information</title>
+    <link rel="stylesheet" href="styles/single-booking.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Main Content Section -->
         <div class="main-content">
             <div class="rooms-container">
-                <!-- Repeat this block for each room -->
-                <div class="room">
-                    <img src="picture/class No 077.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                
-                <!-- Add more rooms as needed -->
-                <div class="room">
-                    <img src="picture/class No 021.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-
-                <div class="room">
-                    <img src="picture/class No 060.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-
-                <div class="room">
-                    <img src="picture/class No 088.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-
-                <div class="room">
-                    <img src="picture/class No 1006.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 1047.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 1081.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 1089.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 2050.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 2087.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No2033.jpeg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
-                <div class="room">
-                    <img src="picture/class No 2045.jpeg.jpg" alt="Room 1" class="room-image">
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>Description:</strong> This room is equipped with a projector, air conditioning, and seating for 50 people.</p>
-                    <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=101'">View More Details</button>
-                </div>
+                <?php
+                // Check if any rooms are available
+                if (count($rooms) > 0) {
+                    // Loop through each room and display its details
+                    foreach ($rooms as $row) {
+                        ?>
+                        <div class="room">
+                            <img src="picture/class No 060.jpeg" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
+                            <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
+                            <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
+                            <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
+                            <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
+                            <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
+                            <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+                            <button class="view-details-btn" onclick="window.location.href='room_details.php?room_id=<?= $row['room_id'] ?>'">View More Details</button>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    // If no rooms are found, display a message
+                    echo "<p>No rooms available.</p>";
+                }
+                ?>
             </div>
         </div>
+    </div>
+
+    <?php
+    // Close database connection (not strictly necessary)
+    $db = null;
+    ?>
+</body>
+</html>
+
 
         
 
