@@ -145,3 +145,30 @@ body {
     background-color: #d43d3d;
 }
 
+.room-table {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.room-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.room-table th, .room-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.room:hover + .room-table {
+    display: block;
+}
+
+
