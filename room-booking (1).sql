@@ -1,5 +1,3 @@
-
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -11,30 +9,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rooms`
+-- Create the `rooms` table
 --
 
 CREATE TABLE `rooms` (
-  `room_id` int(11) NOT NULL,
-  `department` varchar(255) NOT NULL,
-  `room_num` int(255) NOT NULL,
-  `capacity` int(255) NOT NULL,
-  `lab` tinyint(1) NOT NULL,
-  `smartboard` tinyint(1) NOT NULL,
-  `datashow` tinyint(1) NOT NULL
+    `room_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `department` VARCHAR(255) NOT NULL,
+    `room_num` INT(255) NOT NULL,
+    `capacity` INT(255) NOT NULL,
+    `lab` TINYINT(1) NOT NULL,
+    `smartboard` TINYINT(1) NOT NULL,
+    `datashow` TINYINT(1) NOT NULL,
+    `image` LONGBLOB,  -- To store image data
+    PRIMARY KEY (`room_id`),
+    UNIQUE KEY `room_num_unique` (`room_num`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `rooms`
---
-
 INSERT INTO `rooms` (`room_id`, `department`, `room_num`, `capacity`, `lab`, `smartboard`, `datashow`) VALUES
 (1, 'CS', 2334, 33, 1, 0, 0);
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `transaction`
+-- 
+-- Create the `transaction` table
 --
 
 CREATE TABLE `transaction` (
@@ -50,8 +48,8 @@ CREATE TABLE `transaction` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `users`
+-- 
+-- Create the `users` table
 --
 
 CREATE TABLE `users` (
@@ -62,64 +60,56 @@ CREATE TABLE `users` (
   `usertype` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
 -- Dumping data for table `users`
---
-
 INSERT INTO `users` (`username`, `userid`, `password`, `email`, `usertype`) VALUES
 ('bayan', 76767676, '$2y$10$Krkqyf9cCd3Sscb5xIxl0udtg7kN8NnbsXuT.9gN5SZArHP9arzV6', 'bayan@gmail.com', 'admin');
 
---
--- Indexes for dumped tables
---
+-- --------------------------------------------------------
 
 --
--- Indexes for table `rooms`
+-- Indexes for table `rooms` (No need to re-add the primary key as it's already set in table creation)
 --
-ALTER TABLE `rooms`
-  ADD PRIMARY KEY (`room_id`),
-  ADD UNIQUE KEY `room_num_unique` (`room_num`);
+
+-- You do not need to add PRIMARY KEY and UNIQUE KEY again, as they are already defined during table creation.
+
+-- --------------------------------------------------------
 
 --
 -- Indexes for table `transaction`
 --
+
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`record_id`),
   ADD KEY `fk_room_num` (`room_num`);
 
+-- --------------------------------------------------------
+
 --
 -- Indexes for table `users`
 --
+
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userid`);
 
---
--- AUTO_INCREMENT for dumped tables
---
+-- --------------------------------------------------------
 
---
--- AUTO_INCREMENT for table `rooms`
---
+-- AUTO_INCREMENT for dumped tables
+
+-- Set AUTO_INCREMENT for table `rooms`
 ALTER TABLE `rooms`
   MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `transaction`
---
+-- Set AUTO_INCREMENT for table `transaction`
 ALTER TABLE `transaction`
   MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- Constraints for dumped tables
---
+-- --------------------------------------------------------
 
---
--- Constraints for table `transaction`
---
+-- Constraints for dumped tables
+
+-- Add foreign key constraint for table `transaction`
 ALTER TABLE `transaction`
   ADD CONSTRAINT `fk_room_num` FOREIGN KEY (`room_num`) REFERENCES `rooms` (`room_num`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

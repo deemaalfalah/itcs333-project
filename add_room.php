@@ -1,46 +1,64 @@
 <?php
-// Include database connection
-require("connection.php");
+// Include the database connection
+require('connection.php');
 
-
-// Initialize the variable with a default value
+// Initialize the $showModal variable
 $showModal = false;
+$error = false;
 
-// Check if the room was added successfully
-if (isset($_GET['added']) && $_GET['added'] == 'true') {
-    $showModal = true;
-}
-
-// Handle the form submission to add a room
-if (isset($_POST['add_room'])) {
-    $room_num = $_POST['room_num'];
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+    // Get form data
     $department = $_POST['department'];
+    $room_num = $_POST['room_num'];
     $capacity = $_POST['capacity'];
-    $lab = isset($_POST['lab']) ? 1 : 0;
+    $lab = isset($_POST['lab']) ? 1 : 0;  // If checkbox is checked, set to 1, otherwise 0
     $smartboard = isset($_POST['smartboard']) ? 1 : 0;
     $datashow = isset($_POST['datashow']) ? 1 : 0;
 
-    try {
-        // Insert the new room into the database
-        $sql = "INSERT INTO rooms (room_num, department, capacity, lab, smartboard, datashow) 
-                VALUES (:room_num, :department, :capacity, :lab, :smartboard, :datashow)";
+    // Handle file upload for image
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        // Get image data
+        $imageData = file_get_contents($_FILES['image']['tmp_name']);
+    } else {
+        // Set default image or handle error
+        $imageData = null;
+    }
+
+    // Check if the room number already exists
+    $checkSql = "SELECT * FROM rooms WHERE room_num = :room_num";
+    $checkStmt = $db->prepare($checkSql);
+    $checkStmt->bindParam(':room_num', $room_num);
+    $checkStmt->execute();
+
+    if ($checkStmt->rowCount() > 0) {
+        // Room number already exists, show error message
+        $error = "The room number $room_num already exists. Please choose a different number.";
+    } else {
+        // Prepare SQL query to insert room data
+        $sql = "INSERT INTO rooms (department, room_num, capacity, lab, smartboard, datashow, image)
+                VALUES (:department, :room_num, :capacity, :lab, :smartboard, :datashow, :image)";
+
+        // Prepare the statement
         $stmt = $db->prepare($sql);
 
-        // Bind parameters
-        $stmt->bindParam(':room_num', $room_num);
+        // Bind parameters to the SQL query
         $stmt->bindParam(':department', $department);
+        $stmt->bindParam(':room_num', $room_num);
         $stmt->bindParam(':capacity', $capacity);
         $stmt->bindParam(':lab', $lab);
         $stmt->bindParam(':smartboard', $smartboard);
         $stmt->bindParam(':datashow', $datashow);
+        $stmt->bindParam(':image', $imageData, PDO::PARAM_LOB);  // Store the image as BLOB
 
-        // Execute the statement
-        $stmt->execute();
-
-        // Redirect to the same page with an added=true query parameter to show the success modal
-        echo "<script>window.location='add_room.php?added=true';</script>";
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
+        // Execute the query
+        if ($stmt->execute()) {
+            // If the room is added successfully, set $showModal to true to display the success modal
+            $showModal = true;
+        } else {
+            // Handle error (you can display an error message here)
+            $error = "There was an error adding the room.";
+        }
     }
 }
 ?>
@@ -51,73 +69,54 @@ if (isset($_POST['add_room'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Room</title>
-    <!-- Link to External CSS -->
-    <link rel="stylesheet" href="styles/add_room.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-    <!-- Sidebar -->
-<div class="sidebar">
-        <h2>Admin Panel</h2>
-        <div class="elem-inside">
-        <ul>
-            <li><a onclick="location.href='dashboard.php'">Dashboard</a></li>
-            <li><a onclick="location.href='add_room.php'">Add Room</a></li>
-            <li><a onclick="location.href='manage_rooms.php'">Manage Rooms</a></li>
-            <li><a href="#">My Account</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="logout.php" class="logout-button">Logout</a>
-            </li>
-        </ul>
-        </div>
-    </div>
 
-    <!-- Main Content -->
     <div class="container">
-        <h1>Add Room</h1>
+        <!-- Form for adding a new room -->
+        <form method="POST" enctype="multipart/form-data">
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" required><br>
 
-        <!-- Form for adding room -->
-        <form method="POST">
-            <div class="form-group">
-                <label for="room_num">Room Number:</label>
-                <input type="text" name="room_num" id="room_num" required>
-            </div>
+            <label for="room_num">Room Number:</label>
+            <input type="number" id="room_num" name="room_num" required><br>
 
-            <div class="form-group">
-                <label>Department:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="department" value="IS" required> IS</label>
-                    <label><input type="radio" name="department" value="CS"> CS</label>
-                    <label><input type="radio" name="department" value="CE"> CE</label>
-                </div>
-            </div>
+            <label for="capacity">Capacity:</label>
+            <input type="number" id="capacity" name="capacity" required><br>
 
-            <div class="form-group">
-                <label for="capacity">Capacity:</label>
-                <input type="number" name="capacity" id="capacity" required min="1">
-            </div>
+            <label for="lab">Lab Room:</label>
+            <input type="checkbox" id="lab" name="lab"><br>
 
-            <div class="form-group">
-                <label>Features:</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="lab" value="Lab"> Lab</label>
-                    <label><input type="checkbox" name="smartboard" value="Smartboard"> Smartboard</label>
-                    <label><input type="checkbox" name="datashow" value="Datashow"> Datashow</label>
-                </div>
-            </div>
+            <label for="smartboard">Smartboard:</label>
+            <input type="checkbox" id="smartboard" name="smartboard"><br>
 
-            <button type="submit" name="add_room" class="submit-btn">Add Room</button>
+            <label for="datashow">Datashow:</label>
+            <input type="checkbox" id="datashow" name="datashow"><br>
+
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image"><br>
+
+            <button type="submit" name="submit">Add Room</button>
         </form>
+
+        <!-- Success Modal -->
+        <?php if ($showModal): ?>
+            <div id="successModal" style="display: block;">
+                <h2>Room Added Successfully!</h2>
+                <button onclick="document.getElementById('successModal').style.display='none'">Close</button>
+            </div>
+        <?php endif; ?>
+
+        <!-- Error Modal -->
+        <?php if (isset($error) && $error): ?>
+            <div id="errorModal" style="display: block;">
+                <h2><?php echo $error; ?></h2>
+                <button onclick="document.getElementById('errorModal').style.display='none'">Close</button>
+            </div>
+        <?php endif; ?>
+
     </div>
 
-    <!-- Modal for Success Message -->
-    <?php if ($showModal): ?>
-        <div class="modal">
-            <div class="modal-content">
-                <h3>Room Added Successfully!</h3>
-                <button onclick="window.location.href='add_room.php'">OK</button>
-            </div>
-        </div>
-    <?php endif; ?>
 </body>
 </html>
-
