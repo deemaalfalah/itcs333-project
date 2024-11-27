@@ -71,6 +71,7 @@ $rooms = $stmt->fetchAll(); // Fetch all rows
             fetchTransactionData(roomNum).then(data => {
                 let tableContent = `<table>
                     <thead>
+                    <h3>The room is booked at:</h3>
                         <tr>
                             <th>Record ID</th>
                             <th>User ID</th>
@@ -153,12 +154,8 @@ $rooms = $stmt->fetchAll(); // Fetch all rows
     $db = null;
     ?>
 
-    
 </body>
 </html>
-
-
-        
 
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">

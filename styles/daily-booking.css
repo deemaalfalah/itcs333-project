@@ -170,5 +170,48 @@ body {
 .room:hover + .room-table {
     display: block;
 }
+.room-table {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border: 2px solid #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+}
 
+.room-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.room-table th, .room-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.room-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.room-table td {
+    background-color: #fafafa;
+}
+
+/* Styling for the room divs */
+.room {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.room:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
