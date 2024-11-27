@@ -113,13 +113,7 @@
     // Close database connection (optional)
     $db = null;
     ?>
-<<<<<<< HEAD
-</body>
-</html>
-=======
 
-</body>
-</html>
 
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">
