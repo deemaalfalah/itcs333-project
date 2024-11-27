@@ -63,6 +63,29 @@
     </script>
 </head>
 <body>
+     <!-- Sidebar Section -->
+     <div class="sidebar">
+            <div class="profile">
+                <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
+                <h2>Instructor Name</h2>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li class="menu-item">
+                        <a href="#" class="menu-title" onclick="toggleSubmenu('book-room')">Book Room &#9662;</a>
+                        <ul class="submenu" id="book-room">
+                            <li><a href="single-booking.php">Single Booking</a></li>
+                            <li><a href="daily-booking.php">Daily Booking</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="view-instructor.php">Dashboard</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="logout.php" class="logout-button">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     <div class="container">
         <div class="main-content">
             <div class="rooms-container">
@@ -136,4 +159,4 @@
     </div>
 </body>
 </html>
->>>>>>> b7ecab65ae8a02d21a9decfaa76e94bdcf8c7cf3
+
