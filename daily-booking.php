@@ -6,6 +6,7 @@
     <title>Room Information</title>
     <link rel="stylesheet" href="styles/daily-booking.css">
     <script>
+        // Fetch transaction data for displaying booked rooms (as per your previous code)
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
             const data = await response.json();
@@ -60,58 +61,56 @@
             const tableContainer = document.getElementById('room-table-container');
             tableContainer.style.display = 'none';
         }
+
+        function openBookingForm(roomNum) {
+            // Display booking form in a modal or new page
+            window.location.href = `book_room.php?room_num=${roomNum}`;
+        }
     </script>
 </head>
 <body>
-     <!-- Sidebar Section -->
-     <div class="sidebar">
-            <div class="profile">
-                <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
-                <h2>Instructor Name</h2>
-            </div>
-            <nav class="nav-menu">
-                <ul>
-                    <li class="menu-item">
-                        <a href="#" class="menu-title" onclick="toggleSubmenu('book-room')">Book Room &#9662;</a>
-                        <ul class="submenu" id="book-room">
-                            <li><a href="single-booking.php">Single Booking</a></li>
-                            <li><a href="daily-booking.php">Daily Booking</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="view-instructor.php">Dashboard</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#">My Account</a></li>
-                    <li><a href="logout.php" class="logout-button">Logout</a>
-                    </li>
-                </ul>
-            </nav>
+    <!-- Sidebar Section -->
+    <div class="sidebar">
+        <div class="profile">
+            <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
+            <h2>Instructor Name</h2>
         </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="menu-item">
+                    <a href="#" class="menu-title" onclick="toggleSubmenu('book-room')">Book Room &#9662;</a>
+                    <ul class="submenu" id="book-room">
+                        <li><a href="single-booking.php">Single Booking</a></li>
+                        <li><a href="daily-booking.php">Daily Booking</a></li>
+                    </ul>
+                </li>
+                <li><a href="view-instructor.php">Dashboard</a></li>
+                <li><a href="#">Help</a></li>
+                <li><a href="#">My Account</a></li>
+                <li><a href="logout.php" class="logout-button">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
     <div class="container">
         <div class="main-content">
             <div class="rooms-container">
                 <?php
-                // Include database connection
                 require("connection.php");
 
                 // Fetch room data from the database
                 $sql = "SELECT * FROM rooms";
                 $stmt = $db->prepare($sql);
                 $stmt->execute();
-                $rooms = $stmt->fetchAll(); // Fetch all rows
+                $rooms = $stmt->fetchAll();
 
-                // Check if any rooms are available
                 if (count($rooms) > 0) {
-                    // Loop through each room and display its details
                     foreach ($rooms as $row) {
-                        // Generate the image source dynamically
                         $imageSrc = $row['image'] 
                             ? "data:image/jpeg;base64," . base64_encode($row['image']) 
                             : "https://placehold.co/150x150/gray/white";
                         ?>
-                        <div 
-                            class="room" 
-                            onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" 
-                            onmouseout="hideTransactionTable()">
+                        <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
                             <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
                             <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
                             <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
@@ -119,11 +118,12 @@
                             <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
                             <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
                             <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+                            <!-- Add Book button -->
+                            <button onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
                         </div>
                         <?php
                     }
                 } else {
-                    // If no rooms are found, display a message
                     echo "<p>No rooms available.</p>";
                 }
                 ?>
@@ -131,6 +131,10 @@
             <div id="room-table-container" class="room-table"></div>
         </div>
     </div>
+
+    <?php $db = null; ?>
+</body>
+</html>
 
     <?php
     // Close database connection (optional)
