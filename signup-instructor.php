@@ -64,47 +64,51 @@
 </html>
 
 
-
 <?php
 
-if(isset($_POST["sbtn"]) ){
-    $username= $_POST["username"];
-    $userid= $_POST["userid"];
-    $email=$_POST["email"];
-    $password=$_POST["password"];
-    $userType="instructor";
+if(isset($_POST["sbtn"])) {
+    $username = $_POST["username"];
+    $userid = $_POST["userid"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $userType = "instructor";  // Default value for user type
+
+    // Check if any field is empty
     if (empty($username) || empty($userid) || empty($email) || empty($password) || empty($userType)) {
-      echo "<script>alert('All fields are required.');</script>";
-  } else {
-      try {
-        require("connection.php");
+        echo "<script>alert('All fields are required.');</script>";
+    } else {
+        // Validate email with regex for id_number@stu.uob.edu.bh
+        if (!preg_match('/^\d+@stu\.uob\.edu\.bh$/', $email)) {
+            echo "<script>alert('Email must be in the format: id_number@stu.uob.edu.bh');</script>";
+        } else {
+            try {
+                require("connection.php");
 
-        $query="INSERT INTO users VALUES (:username,:userid,:password,:email,:type)";
-        $stmt=$db->prepare($query);
+                // Prepare the query to insert the user into the database
+                $query = "INSERT INTO users (username, userid, password, email, type) VALUES (:username, :userid, :password, :email, :type)";
+                $stmt = $db->prepare($query);
 
-        $hps=password_hash($password, PASSWORD_DEFAULT);
+                // Hash the password
+                $hps = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt->bindParam(":username",$username);
-        $stmt->bindParam(":userid",$userid);
-        $stmt->bindParam(":password",$hps);
-        $stmt->bindParam(":email",$email);
-        $stmt->bindParam(":type",$userType);
+                // Bind the parameters
+                $stmt->bindParam(":username", $username);
+                $stmt->bindParam(":userid", $userid);
+                $stmt->bindParam(":password", $hps);
+                $stmt->bindParam(":email", $email);
+                $stmt->bindParam(":type", $userType);
 
-    
-      if($stmt->execute()){
-        echo "<script>document.getElementById('msg').innerHTML='Registered successfully, <a href=\'login.php\'>Login</a>'; </script>";
-      }
+                // Execute the query
+                if ($stmt->execute()) {
+                    echo "<script>document.getElementById('msg').innerHTML='Registered successfully, <a href=\'login.php\'>Login</a>'; </script>";
+                }
 
-      $db=null;
+                $db = null;
 
-      } 
-      
-      catch (PDOEXCEPTION $e) {
-        die("Error ".$e->getMessage());
-      }
-  }
+            } catch (PDOException $e) {
+                die("Error: " . $e->getMessage());
+            }
+        }
+    }
 }
-  
-
-
 ?>
