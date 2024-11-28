@@ -30,6 +30,7 @@
                             <th>End Date</th>
                             <th>Start Time</th>
                             <th>End Time</th>
+                            <th>Days</th>
                         </tr>
                     </thead>
                     <tbody>`;
@@ -45,10 +46,11 @@
                                 <td>${record.end_date}</td>
                                 <td>${record.start_time}</td>
                                 <td>${record.end_time}</td>
+                                <td>${record.days}</td>
                             </tr>`;
                     });
                 } else {
-                    tableContent += '<tr><td colspan="7">No records found</td></tr>';
+                    tableContent += '<tr><td colspan="8">No records found</td></tr>';
                 }
 
                 tableContent += `</tbody></table>`;
