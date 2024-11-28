@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
-    <link rel="stylesheet" href="styles/single-booking.css">
+    <link rel="stylesheet" href="styles/daily-booking.css">
     <script>
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
