@@ -66,7 +66,7 @@
 
         function openBookingForm(roomNum) {
             // Display booking form in a modal or new page
-            window.location.href = `book_room.php?room_num=${roomNum}`;
+            window.location.href = `daily_book_room.php?room_num=${roomNum}`;
         }
     </script>
 </head>
