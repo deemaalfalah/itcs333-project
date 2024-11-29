@@ -53,7 +53,7 @@ $useridReg = "/\d{8,}/";
 
                 <div class="signup-container">
                     <p>Doesn't have an account?</p>
-                    <a onclick="location.href='signup-instructor.php'">
+                    <a onclick="location.href='signup-user.php'">
                         <button class="signup-button">Sign Up</button>
                     </a>
                 </div>
@@ -111,16 +111,13 @@ $useridReg = "/\d{8,}/";
                       $_SESSION['currentUser'] = $row["userid"];
                       $_SESSION['userType'] = $row["usertype"];
   
-                      if ($row["usertype"] == 'instructor') {
+                      if ($row["usertype"] == 'user') {
                           header('Location: view-instructor.php');
                           exit();
                       } else if ($row["usertype"] == 'admin') {
                           header('Location: dashboard.php');
                           exit();
-                      } else if ($row["usertype"] == 'student') {
-                          header('Location: student-Interface.php');
-                          exit();
-                      }
+                      } 
                   } else {
                       echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid1111';
                                      document.getElementById('messageBox').style.visibility = 'visible'</script>";

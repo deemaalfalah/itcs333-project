@@ -22,7 +22,7 @@
                         <a href="#" class="menu-title" onclick="toggleSubmenu('book-room')">Book Room &#9662;</a>
                         <ul class="submenu" id="book-room">
                             <li><a href="single-booking.php">Single Booking</a></li>
-                            <li><a href="daily-booking.php">Daily Booking</a></li>
+                            <li><a href="daily-booking-ID.php">Daily Booking</a></li>
                         </ul>
                     </li>
                     <li><a href="view-instructor.php">Dashboard</a></li>
