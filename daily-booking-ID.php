@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['currentUser'])) {
+    header('Location: login.php'); // Redirect to login page if not logged in
+    exit();
+}
+
+$userId = $_SESSION['currentUser'];  // Get user ID from the session
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +35,6 @@
                     <thead>
                         <h3>The room is booked at:</h3>
                         <tr>
-                            <th>Record ID</th>
                             <th>User ID</th>
                             <th>Semester</th>
                             <th>Start Date</th>
@@ -39,7 +50,6 @@
                     data.forEach(record => {
                         tableContent += `
                             <tr>
-                                <td>${record.record_id}</td>
                                 <td>${record.userid}</td>
                                 <td>${record.semester}</td>
                                 <td>${record.start_date}</td>
@@ -64,7 +74,7 @@
         }
 
         function openBookingForm(roomNum) {
-            const userId = '123'; // Replace with session logic to fetch logged-in user ID
+            const userId = <?php echo json_encode($userId); ?>; // Fetch user ID from PHP session
             document.getElementById('user-id').value = userId;
             document.getElementById('room-num').value = roomNum;
             document.getElementById('booking-form-modal').style.display = 'block';
@@ -101,13 +111,10 @@
         </div>
         <nav class="nav-menu">
             <ul>
-                <li class="menu-item">
-                    <a href="#" class="menu-title" onclick="toggleSubmenu('book-room')">Book Room &#9662;</a>
-                    <ul class="submenu" id="book-room">
-                        <li><a href="single-booking.php">Single Booking</a></li>
-                        <li><a href="daily-booking.php">Daily Booking</a></li>
-                    </ul>
-                </li>
+                
+                        <li><a href="daily-booking-ID.php">Room Booking</a></li>
+                        
+                   
                 <li><a href="view-instructor.php">Dashboard</a></li>
                 <li><a href="contact-us.php">Contact US</a></li>
                 <li><a href="#">My Account</a></li>
@@ -162,7 +169,9 @@
             <h3>Book Room</h3>
             <form id="booking-form" onsubmit="handleBooking(event)">
                 <label for="user-id">User ID:</label>
-                <input type="text" id="user-id" name="user_id" readonly>
+                <!-- <input type="text" id="user-id" name="user_id" readonly> -->
+                <input type="text" id="user-id" name="user_id" value="<?php echo htmlspecialchars($userId); ?>" readonly>
+
 
                 <label for="room-num">Room Number:</label>
                 <input type="text" id="room-num" name="room_num" readonly>
