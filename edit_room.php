@@ -1,62 +1,48 @@
 <?php
-// Include database connection
-require("connection.php");
+require('connection.php');
 
-if (isset($_GET['room_id'])) {
-    $room_id = $_GET['room_id'];
-    try {
-        // Fetch room details based on room_id
-        $sql = "SELECT * FROM rooms WHERE room_id = :room_id";
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(':room_id', $room_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $room = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch room details
+// Check if room_num is provided in the URL
+if (isset($_GET['room_num'])) {
+    $room_num = htmlspecialchars($_GET['room_num']);
 
-        if (!$room) {
-            // Room not found, redirect or show error
-            echo "<script>alert('Room not found!'); window.location='manage_rooms.php';</script>";
-            exit;
-        }
+    // Fetch room data from the database
+    $sql = "SELECT * FROM rooms WHERE room_num = :room_num";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':room_num', $room_num);
+    $stmt->execute();
+    $room = $stmt->fetch();
 
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
+    // If room doesn't exist, redirect to manage rooms page
+    if (!$room) {
+        header('Location: manage_rooms.php');
+        exit();
     }
-} else {
-    // Redirect if room_id is not set
-    echo "<script>alert('Room ID is missing!'); window.location='manage_rooms.php';</script>";
-    exit;
 }
 
-if (isset($_POST['sbtn'])) {
-    $department = $_POST['department'];
-    $room_num = $_POST['room_number'];
-    $capacity = $_POST['capacity'];
+// Handle the form submission (POST request)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $room_num = htmlspecialchars($_POST['room_num']);
+    $department = htmlspecialchars($_POST['department']);
+    $capacity = htmlspecialchars($_POST['capacity']);
     $lab = isset($_POST['lab']) ? 1 : 0;
     $smartboard = isset($_POST['smartboard']) ? 1 : 0;
     $datashow = isset($_POST['datashow']) ? 1 : 0;
 
-    try {
-        // Update room details in the database
-        $sql = "UPDATE rooms SET department = :department, room_num = :room_num, capacity = :capacity, 
-                lab = :lab, smartboard = :smartboard, datashow = :datashow WHERE room_id = :room_id";
-        $stmt = $db->prepare($sql);
+    // Update room details in the database
+    $stmt = $db->prepare("UPDATE rooms SET department = :department, capacity = :capacity, lab = :lab, smartboard = :smartboard, datashow = :datashow WHERE room_num = :room_num");
+    $stmt->bindParam(':department', $department);
+    $stmt->bindParam(':capacity', $capacity);
+    $stmt->bindParam(':lab', $lab);
+    $stmt->bindParam(':smartboard', $smartboard);
+    $stmt->bindParam(':datashow', $datashow);
+    $stmt->bindParam(':room_num', $room_num);
 
-        $stmt->bindParam(':department', $department);
-        $stmt->bindParam(':room_num', $room_num);
-        $stmt->bindParam(':capacity', $capacity);
-        $stmt->bindParam(':lab', $lab);
-        $stmt->bindParam(':smartboard', $smartboard);
-        $stmt->bindParam(':datashow', $datashow);
-        $stmt->bindParam(':room_id', $room_id);
-
-        // Execute the update
-        $stmt->execute();
-
-        // Success message
-        echo "<script>alert('Room updated successfully!'); window.location='manage_rooms.php';</script>";
-
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
+    // Execute the update query and redirect
+    if ($stmt->execute()) {
+        echo "<script>alert('Room updated successfully.'); window.location.href = 'dashboard.php';</script>";
+        exit(); // Ensure the rest of the script doesn't run after the redirect
+    } else {
+        echo "<script>alert('Failed to update room.'); window.history.back();</script>";
     }
 }
 ?>
@@ -68,70 +54,36 @@ if (isset($_POST['sbtn'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Room</title>
     <link rel="stylesheet" href="styles/edit_room.css">
+   
 </head>
 <body>
-    <!-- Sidebar -->
-<div class="sidebar">
-        <h2>Admin Panel</h2>
-        <div class="elem-inside">
-        <ul>
-            <li><a onclick="location.href='dashboard.php'">Dashboard</a></li>
-            <li><a onclick="location.href='add_room.php'">Add Room</a></li>
-            <li><a onclick="location.href='manage_rooms.php'">Manage Rooms</a></li>
-            <li><a href="#">My Account</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-        </div>
-    </div>
+    
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <div class="container">
-        
+        <div class="main-content">
+            <h3>Edit Room: <?= htmlspecialchars($room['room_num']) ?></h3>
+            <form action="edit_room.php?room_num=<?= $room['room_num'] ?>" method="POST">
+                <input type="hidden" name="room_num" value="<?= $room['room_num'] ?>">
 
-        <!-- Form Container -->
-        <div class="form-container">
-            <fieldset>
-                <legend>Edit Room</legend>
-                <form method="POST">
-                    <!-- Department Selection -->
-                    <div class="form-group">
-                        <label>Department:</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="department" value="IS" <?= ($room['department'] == 'IS') ? 'checked' : ''; ?> required> IS</label>
-                            <label><input type="radio" name="department" value="CS" <?= ($room['department'] == 'CS') ? 'checked' : ''; ?>> CS</label>
-                            <label><input type="radio" name="department" value="CE" <?= ($room['department'] == 'CE') ? 'checked' : ''; ?>> CE</label>
-                        </div>
-                    </div>
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" value="<?= htmlspecialchars($room['department']) ?>" required>
 
-                    <!-- Room Number -->
-                    <div class="form-group">
-                        <label>Room Number:</label>
-                        <input type="text" name="room_number" value="<?= htmlspecialchars($room['room_num']) ?>" required>
-                    </div>
+                <label for="capacity">Capacity:</label>
+                <input type="number" id="capacity" name="capacity" value="<?= htmlspecialchars($room['capacity']) ?>" required>
 
-                    <!-- Capacity -->
-                    <div class="form-group">
-                        <label>Capacity:</label>
-                        <input type="number" name="capacity" value="<?= htmlspecialchars($room['capacity']) ?>" required>
-                    </div>
+                <label for="lab">Lab:</label>
+                <input type="checkbox" id="lab" name="lab" <?= $room['lab'] ? 'checked' : '' ?>>
 
-                    <!-- Facilities (Checkboxes) -->
-                    <div class="form-group">
-                        <label>Facilities:</label>
-                        <label><input type="checkbox" name="lab" <?= $room['lab'] ? 'checked' : ''; ?>> Lab</label>
-                        <label><input type="checkbox" name="smartboard" <?= $room['smartboard'] ? 'checked' : ''; ?>> Smartboard</label>
-                        <label><input type="checkbox" name="datashow" <?= $room['datashow'] ? 'checked' : ''; ?>> Datashow</label>
-                    </div>
+                <label for="smartboard">Smartboard:</label>
+                <input type="checkbox" id="smartboard" name="smartboard" <?= $room['smartboard'] ? 'checked' : '' ?>>
 
-                    <!-- Submit Button -->
-                    <div class="form-group">
-                        <button type="submit" name="sbtn">Update Room</button>
-                    </div>
-                </form>
-            </fieldset>
+                <label for="datashow">Datashow:</label>
+                <input type="checkbox" id="datashow" name="datashow" <?= $room['datashow'] ? 'checked' : '' ?>>
+
+                <button type="submit">Update Room</button>
+            </form>
         </div>
     </div>
 </body>
 </html>
-
