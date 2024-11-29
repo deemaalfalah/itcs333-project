@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor View</title>
-    <link rel="stylesheet" href="styles/single-booking.css">
+    <link rel="stylesheet" href="styles/dashboard-user.css">
     <script src="scripts/sidebar-toggle.js" defer></script>
 </head>
 <body>
@@ -13,16 +13,17 @@
         <div class="sidebar">
             <div class="profile">
                 <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
-                <h2>Instructor Name</h2>
+                <h2>User Name</h2>
             </div>
             <nav class="nav-menu">
                 <ul>
-                <li><a href="room-booking.php.php">Room Booking</a></li>
-                    <li><a href="view-instructor.php">Dashboard</a></li>
-                    <li><a href="contact-us.php">Contact US</a></li>
+                <li>
+                    <li><a href="dashboard-user.php">Dashboard</a></li>
+                    <li><a href="room-booking.php">Room Booking</a></li>
                     <li><a href="#">My Account</a></li>
-                    <li><a href="logout.php" class="logout-button">Logout</a>
-                    </li>
+                    <li><a href="contact-us.php">Contact US</a></li>
+                    <li><a href="#">Setting</a></li>
+                    <li><a href="logout.php" class="logout-button">Logout</a></li>
                 </ul>
             </nav>
         </div>

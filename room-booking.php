@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['currentUser'])) {
-    header('Location: login.php'); // Redirect to login page if not logged in
+    header('Location: login.php'); 
     exit();
 }
 
-$userId = $_SESSION['currentUser'];  // Get user ID from the session
+$userId = $_SESSION['currentUser']; 
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +15,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
-    <link rel="stylesheet" href="styles/daily-booking.css">
+    <link rel="stylesheet" href="styles/room-booking.css">
     <script>
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
@@ -107,17 +106,15 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     <div class="sidebar">
         <div class="profile">
             <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
-            <h2>Instructor Name</h2>
+            <h2>User Name</h2>
         </div>
         <nav class="nav-menu">
             <ul>
-                
-                        <li><a href="daily-booking-ID.php">Room Booking</a></li>
-                        
-                   
-                <li><a href="view-instructor.php">Dashboard</a></li>
-                <li><a href="contact-us.php">Contact US</a></li>
+                <li><a href="dashboard-user.php">Dashboard</a></li>
+                <li><a href="room-booking.php">Room Booking</a></li>
                 <li><a href="#">My Account</a></li>
+                <li><a href="contact-us.php">Contact US</a></li>
+                <li><a href="#">Setting</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
         </nav>

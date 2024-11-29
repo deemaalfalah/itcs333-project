@@ -112,7 +112,7 @@ $useridReg = "/\d{8,}/";
                       $_SESSION['userType'] = $row["usertype"];
   
                       if ($row["usertype"] == 'user') {
-                          header('Location: view-instructor.php');
+                          header('Location: dashboard-user.php');
                           exit();
                       } else if ($row["usertype"] == 'admin') {
                           header('Location: dashboard-admin.php');
