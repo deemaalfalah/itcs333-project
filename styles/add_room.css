@@ -7,6 +7,18 @@ body {
     height: 100vh;
     background-color: #f4f4f9;
 }
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
 
 /* Sidebar */
 

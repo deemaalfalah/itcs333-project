@@ -141,9 +141,6 @@ body {
     transition: background-color 0.3s;
 }
 
-.logout-button:hover {
-    background-color: #d43d3d;
-}
 
 .room-table {
     display: none;

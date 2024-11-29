@@ -62,7 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 </head>
 <body>
     <div class="sidebar">
-        <h2>Admin Panel</h2>
+    
+        <div class="profile">
+                <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
+                <h2>admin Name</h2>
+            </div>
         <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="add_room.php">Add Room</a></li>

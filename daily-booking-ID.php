@@ -106,7 +106,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     <!-- Sidebar Section -->
     <div class="sidebar">
         <div class="profile">
-            <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
+            <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
             <h2>Instructor Name</h2>
         </div>
         <nav class="nav-menu">

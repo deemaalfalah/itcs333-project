@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['currentUser'])) {
+    header('Location: login.php'); // Redirect to login page if not logged in
+    exit();
+}
+
+$userId = $_SESSION['currentUser'];  // Get user ID from the session
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +17,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
     <link rel="stylesheet" href="styles/dashboard.css">
-    <link rel="stylesheet" href="styles/daily-booking.css">
     <script>
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
@@ -24,7 +35,6 @@
                     <thead>
                         <h3>The room is booked at:</h3>
                         <tr>
-                            <th>Record ID</th>
                             <th>User ID</th>
                             <th>Semester</th>
                             <th>Start Date</th>
@@ -40,7 +50,6 @@
                     data.forEach(record => {
                         tableContent += `
                             <tr>
-                                <td>${record.record_id}</td>
                                 <td>${record.userid}</td>
                                 <td>${record.semester}</td>
                                 <td>${record.start_date}</td>
@@ -65,7 +74,7 @@
         }
 
         function openBookingForm(roomNum) {
-            const userId = '123'; // Replace with session logic to fetch logged-in user ID
+            const userId = <?php echo json_encode($userId); ?>; // Fetch user ID from PHP session
             document.getElementById('user-id').value = userId;
             document.getElementById('room-num').value = roomNum;
             document.getElementById('booking-form-modal').style.display = 'block';
@@ -94,63 +103,73 @@
     </script>
 </head>
 <body>
+    <!-- Sidebar Section -->
     <div class="sidebar">
-        <h2>Admin Panel</h2>
-        <ul>
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="add_room.php">Add Room</a></li>
-        
-            <li><a href="#">My Account</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="logout.php" class="logout-button">Logout</a></li>
-        </ul>
+        <div class="profile">
+            <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
+            <h2>Instructor Name</h2>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                
+                        <li><a href="add_room.php">add room</a></li>
+                        
+                   
+                <li><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="contact-us.php">Contact US</a></li>
+                <li><a href="#">My Account</a></li>
+                <li><a href="logout.php" class="logout-button">Logout</a></li>
+            </ul>
+        </nav>
     </div>
+
     <div class="container">
         <div class="main-content">
-            <div class="rooms-container">
-                <?php
-                require("connection.php");
+        <div class="rooms-container">
+    <?php
+    require("connection.php");
 
-                // Fetch room data from the database
-                $sql = "SELECT * FROM rooms";
-                $stmt = $db->prepare($sql);
-                $stmt->execute();
-                $rooms = $stmt->fetchAll();
+    // Fetch room data from the database
+    $sql = "SELECT * FROM rooms";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $rooms = $stmt->fetchAll();
 
-                if (count($rooms) > 0) {
-                    foreach ($rooms as $row) {
-                        $imageSrc = $row['image'] 
-                            ? "data:image/jpeg;base64," . base64_encode($row['image']) 
-                            : "https://placehold.co/150x150/gray/white";
-                ?>
-                <div class="room">
-                    <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
-                    <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
-                    <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
-                    <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
-                    <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
-                    <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
-                    <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+    if (count($rooms) > 0) {
+        foreach ($rooms as $row) {
+            $imageSrc = $row['image'] 
+                ? "data:image/jpeg;base64," . base64_encode($row['image']) 
+                : "https://placehold.co/150x150/gray/white";
+    ?>
+    <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
+        <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
+        <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
+        <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
+        <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
+        <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
+        <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
+        <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+        
+        <!-- Book Room Button -->
+        <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
+        
+        <!-- Edit Room Button -->
+        <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
+        
+        <!-- Remove Room Button -->
+        <form action="delete_room.php" method="POST" style="display:inline-block;">
+            <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
+            <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+        </form>
+    </div>
+    <?php
+        }
+    } else {
+        echo "<p>No rooms available.</p>";
+    }
+    ?>
+</div>
 
-                    <!-- Book Button -->
-                    <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
-
-                    <!-- Edit Button -->
-                    <button class="edit-room-button" onclick="location.href='edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>'">Edit</button>
-
-                    <!-- Remove Button -->
-                    <form method="POST" action="delete_room.php" onsubmit="return confirm('Are you sure you want to delete this room?')">
-                        <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="remove-room-button">Remove</button>
-                    </form>
-                </div>
-                <?php
-                    }
-                } else {
-                    echo "<p>No rooms available.</p>";
-                }
-                ?>
-            </div>
             <div id="room-table-container" class="room-table"></div>
         </div>
     </div>
@@ -162,7 +181,9 @@
             <h3>Book Room</h3>
             <form id="booking-form" onsubmit="handleBooking(event)">
                 <label for="user-id">User ID:</label>
-                <input type="text" id="user-id" name="user_id" readonly>
+                <!-- <input type="text" id="user-id" name="user_id" readonly> -->
+                <input type="text" id="user-id" name="user_id" value="<?php echo htmlspecialchars($userId); ?>" readonly>
+
 
                 <label for="room-num">Room Number:</label>
                 <input type="text" id="room-num" name="room_num" readonly>
@@ -190,6 +211,9 @@
         </div>
     </div>
 
+    <script>
+        // Your JS logic here
+    </script>
     
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">
@@ -211,3 +235,4 @@
         </div>
 </body>
 </html>
+
