@@ -26,7 +26,7 @@
                         </ul>
                     </li>
                     <li><a href="view-instructor.php">Dashboard</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="contact-us.php">Contact US</a></li>
                     <li><a href="#">My Account</a></li>
                     <li><a href="logout.php" class="logout-button">Logout</a>
                     </li>

@@ -1,4 +1,0 @@
-1- modify the sign up to accept only instructor and student
-2- time slot for daily and single booking
-
-
