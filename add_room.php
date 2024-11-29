@@ -68,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                 <h2>admin Name</h2>
             </div>
         <ul>
-            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="dashboard-admin.php">Dashboard</a></li>
             <li><a href="add_room.php">Add Room</a></li>
-           
             <li><a href="#">My Account</a></li>
+            <li><a href="contact-us.php">Contact Us</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="logout.php" class="logout-button">Logout</a></li>
         </ul>
@@ -95,14 +95,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             <label for="capacity">Capacity:</label>
             <input type="number" id="capacity" name="capacity" required>
 
-            <label for="lab">Lab Room:</label>
-            <input type="checkbox" id="lab" name="lab">
+            <label for="capacity">Features:</label>
+            <div class="container">
+            <div>
+                <input type="checkbox" id="lab" name="lab">
+                <label for="lab">Lab Room</label>
+            </div>
+            <div>
+                <input type="checkbox" id="smartboard" name="smartboard">
+                <label for="smartboard">Smartboard</label>
+            </div>
+            <div>
+                <input type="checkbox" id="datashow" name="datashow">
+                <label for="datashow">Datashow</label>
+            </div>
+        </div>
 
-            <label for="smartboard">Smartboard:</label>
-            <input type="checkbox" id="smartboard" name="smartboard">
 
-            <label for="datashow">Datashow:</label>
-            <input type="checkbox" id="datashow" name="datashow">
 
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image">

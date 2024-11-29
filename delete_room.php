@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['room_num'])) {
     $stmt->bindParam(':room_num', $room_num);
 
     if ($stmt->execute()) {
-        header("Location: dashboard.php");
+        header("Location: dashboard-admin.php");
         exit();
     } else {
         echo "Failed to delete room.";

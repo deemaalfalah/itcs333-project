@@ -17,7 +17,7 @@
             </div>
             <nav class="nav-menu">
                 <ul>
-                <li><a href="daily-booking-ID.php">Room Booking</a></li>
+                <li><a href="room-booking.php.php">Room Booking</a></li>
                     <li><a href="view-instructor.php">Dashboard</a></li>
                     <li><a href="contact-us.php">Contact US</a></li>
                     <li><a href="#">My Account</a></li>

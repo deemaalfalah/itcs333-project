@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute the update query and redirect
     if ($stmt->execute()) {
-        echo "<script>alert('Room updated successfully.'); window.location.href = 'dashboard.php';</script>";
+        echo "<script>alert('Room updated successfully.'); window.location.href = 'dashboard-admin.php';</script>";
         exit(); // Ensure the rest of the script doesn't run after the redirect
     } else {
         echo "<script>alert('Failed to update room.'); window.history.back();</script>";
