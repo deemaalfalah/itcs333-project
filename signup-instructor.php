@@ -51,7 +51,7 @@ if (isset($_POST["sbtn"])) {
     $userid = $_POST["userid"];
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $userType = "instructor"; // Default user type
+    $userType = "user"; // Default user type
 
     // Validate email format
     if (!preg_match('/^\d{9}@(stu\.uob\.edu\.bh|uob\.edu\.bh)$/', $email)) {
