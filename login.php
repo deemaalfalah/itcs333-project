@@ -53,7 +53,7 @@ $useridReg = "/\d{8,}/";
 
                 <div class="signup-container">
                     <p>Doesn't have an account?</p>
-                    <a onclick="location.href='signup-instructor.php'">
+                    <a onclick="location.href='signup-user.php'">
                         <button class="signup-button">Sign Up</button>
                     </a>
                 </div>
