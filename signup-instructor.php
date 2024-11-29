@@ -5,110 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/signup.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <title>Document</title>
+    <title>Sign Up</title>
 </head>
 <body>
 
-  <header>
+<header>
     <h1>Sign up</h1>
     <p>Create your account</p>
-  </header>
+</header>
 
 <div class="container">
-  <form method="post">
-
-    <div class="input-group">
-      <i class="fa-solid fa-user" id="userIcon"></i>
-      <input type="text" name="username" placeholder="User Name">
-    </div>
-  <br>
-
-    <div class="input-group">
-      <i class="fa-solid fa-id-card" id="userIcon"></i>
-      <input type="text" name="userid" placeholder="User ID">
-    </div>
-  <br>
-  
-
-  <div class="input-group">
-      <i class="fa-solid fa-lock" id="userIcon"></i>
-      <input type="password" name="password" placeholder="Password">
-    </div>
-  <br>
-
-
-  <div class="input-group">
-      <i class="fa-solid fa-envelope" id="userIcon"></i>
-      <input type="text" name="email" placeholder="Email">
-    </div>
-  <br>
-
-  <div class="input-group" hidden>
-  <i class="fa-solid fa-user-tie" id="userIcon"></i>
-      <input type="text" name="type" placeholder="User Type (Admin or Instructor)">
-    </div>
-  <br>
-    
-    <div class="button-container">
-        <button class="signup-button" name="sbtn">Sign Up</button>
-        <p class="login-text">
-            Already have an account? <a href="login.php">Login</a>
-        </p>
-    </div>
-    
+    <form method="post">
+        <div class="input-group">
+            <i class="fa-solid fa-user" id="userIcon"></i>
+            <input type="text" name="username" placeholder="User Name" required>
+        </div>
+        <br>
+        <div class="input-group">
+            <i class="fa-solid fa-id-card" id="userIcon"></i>
+            <input type="text" name="userid" placeholder="User ID" required>
+        </div>
+        <br>
+        <div class="input-group">
+            <i class="fa-solid fa-lock" id="userIcon"></i>
+            <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <br>
+        <div class="input-group">
+            <i class="fa-solid fa-envelope" id="userIcon"></i>
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <br>
+        <div class="button-container">
+            <button class="signup-button" name="sbtn">Sign Up</button>
+            <p class="login-text">
+                Already have an account? <a href="login.php">Login</a>
+            </p>
+        </div>
     </form>
-    </div>
-
-    
-</body>
-</html>
-
+</div>
 
 <?php
-
-if(isset($_POST["sbtn"])) {
+if (isset($_POST["sbtn"])) {
     $username = $_POST["username"];
     $userid = $_POST["userid"];
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $userType = "instructor";  // Default value for user type
+    $userType = "instructor"; // Default user type
 
-    // Check if any field is empty
-    if (empty($username) || empty($userid) || empty($email) || empty($password) || empty($userType)) {
-        echo "<script>alert('All fields are required.');</script>";
+    // Validate email format
+    if (!preg_match('/^\d{9}@(stu\.uob\.edu\.bh|uob\.edu\.bh)$/', $email)) {
+        echo "<script>alert('Invalid email format. Use: id_number@stu.uob.edu.bh or id_number@uob.edu.bh');</script>";
     } else {
-        // Validate email with regex for id_number@stu.uob.edu.bh
-        if (!preg_match('/^\d+@stu\.uob\.edu\.bh$/', $email)) {
-            echo "<script>alert('Email must be in the format: id_number@stu.uob.edu.bh');</script>";
-        } else {
-            try {
-                require("connection.php");
+        try {
+            require("connection.php");
 
-                // Prepare the query to insert the user into the database
-                $query = "INSERT INTO users (username, userid, password, email, type) VALUES (:username, :userid, :password, :email, :type)";
+            // Check for duplicate userid or email
+            $checkQuery = "SELECT * FROM users WHERE userid = :userid OR email = :email";
+            $checkStmt = $db->prepare($checkQuery);
+            $checkStmt->bindParam(":userid", $userid);
+            $checkStmt->bindParam(":email", $email);
+            $checkStmt->execute();
+
+            if ($checkStmt->rowCount() > 0) {
+                echo "<script>alert('User ID or Email already exists. Please use a different one.');</script>";
+            } else {
+                // Insert new user
+                $query = "INSERT INTO users (username, userid, password, email, usertype) VALUES (:username, :userid, :password, :email, :usertype)";
                 $stmt = $db->prepare($query);
 
                 // Hash the password
                 $hps = password_hash($password, PASSWORD_DEFAULT);
 
-                // Bind the parameters
+                // Bind parameters
                 $stmt->bindParam(":username", $username);
                 $stmt->bindParam(":userid", $userid);
                 $stmt->bindParam(":password", $hps);
                 $stmt->bindParam(":email", $email);
-                $stmt->bindParam(":type", $userType);
+                $stmt->bindParam(":usertype", $userType);
 
                 // Execute the query
                 if ($stmt->execute()) {
-                    echo "<script>document.getElementById('msg').innerHTML='Registered successfully, <a href=\'login.php\'>Login</a>'; </script>";
+                    echo "<script>alert('Registered successfully!'); window.location.href = 'login.php';</script>";
+                } else {
+                    echo "<script>alert('An error occurred. Please try again.');</script>";
                 }
-
-                $db = null;
-
-            } catch (PDOException $e) {
-                die("Error: " . $e->getMessage());
             }
+
+            $db = null; // Close the database connection
+
+        } catch (PDOException $e) {
+            echo "<script>alert('Database error: " . $e->getMessage() . "');</script>";
         }
     }
 }
 ?>
+
+</body>
+</html>
