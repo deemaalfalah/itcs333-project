@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,62 +28,51 @@
                 </ul>
             </nav>
         </div>
-
         
-        <div class="header-container">
-            <h1>Welcome</h1>
-        </div>
-        
-        <!-- Main Content Section -->
-        <div class="main-content">
-            <div class="rooms-container">
-                <!-- Repeat this block for each room -->
-                <div class="room">
-                <p><strong>itcs333</strong></p>
-                <p><strong>section :</section>:</strong> 01</p>
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>time:</strong> 9:00 to 9:50</p>
-                </div>
+<?php
+// Database connection
+require("connection.php");
 
-                <div class="room">
-                <p><strong>itcs333</strong></p>
-                <p><strong>section :</section>:</strong> 01</p>
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>time:</strong> 9:00 to 9:50</p>
-                </div>
-                <div class="room">
-                <p><strong>itcs333</strong></p>
-                <p><strong>section :</section>:</strong> 01</p>
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>time:</strong> 9:00 to 9:50</p>
-                </div>
+// Start session and verify the logged-in user
+session_start();
+if (!isset($_SESSION['currentUser'])) {
+    die("User not logged in. Please log in first.");
+}
+$logged_in_user_id = $_SESSION['currentUser'];
 
-                <div class="room">
-                <p><strong>itcs333</strong></p>
-                <p><strong>section :</section>:</strong> 01</p>
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>time:</strong> 9:00 to 9:50</p>
-                </div>
+try {
+    // Fetch the booked rooms for the logged-in user
+    $sql = "
+        SELECT r.room_num, r.department, t.start_time, t.end_time, t.days 
+        FROM transaction t
+        JOIN rooms r ON t.room_num = r.room_num
+        WHERE t.userid = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(1, $logged_in_user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch results as an associative array
+} catch (PDOException $e) {
+    die("Query failed: " . $e->getMessage());
+}
+?>
 
+<div class="main-content">
+    <div class="rooms-container">
+        <?php if (!empty($rooms)): ?>
+            <?php foreach ($rooms as $room): ?>
                 <div class="room">
-                <p><strong>itcs333</strong></p>
-                <p><strong>section :</section>:</strong> 01</p>
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>time:</strong> 9:00 to 9:50</p>
+                    <p><strong>Department:</strong> <?= htmlspecialchars($room['department']) ?></p>
+                    <p><strong>Room Number:</strong> <?= htmlspecialchars($room['room_num']) ?></p>
+                    <p><strong>Time:</strong> <?= htmlspecialchars($room['start_time']) ?> to <?= htmlspecialchars($room['end_time']) ?></p>
+                    <p><strong>Days:</strong> <?= htmlspecialchars($room['days']) ?></p>
                 </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No rooms booked.</p>
+        <?php endif; ?>
+    </div>
+</div>
 
-                <div class="room">
-                <p><strong>itcs333</strong></p>
-                <p><strong>section :</section>:</strong> 01</p>
-                    <p><strong>Room Number:</strong> 101</p>
-                    <p><strong>time:</strong> 9:00 to 9:50</p>
-                </div>
-                
-                
-            </div>
-        </div>
-
-        
 
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">
