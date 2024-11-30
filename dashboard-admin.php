@@ -114,6 +114,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
                 <li><a href="dashboard-admin.php">Dashboard</a></li>
                 <li><a href="add_room.php">Add Room</a></li>
                 <li><a href="#">My Account</a></li>
+                <li><a href="edit-profil.php">Edit Profile</a></li>
                 <li><a href="contact-us.php">Contact Us</a></li>
                 <li><a href="#">Setting</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
