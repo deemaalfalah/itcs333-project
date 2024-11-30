@@ -51,6 +51,7 @@ body {
     padding: 10px;
     background-color: #34495E;
     border-radius: 5px;
+    text-align: center;
 }
 
 .nav-menu a:hover {

@@ -112,22 +112,22 @@ $useridReg = "/\d{8,}/";
                       $_SESSION['userType'] = $row["usertype"];
   
                       if ($row["usertype"] == 'user') {
-                          header('Location: view-instructor.php');
+                          header('Location: dashboard-user.php');
                           exit();
                       } else if ($row["usertype"] == 'admin') {
-                          header('Location: dashboard.php');
+                          header('Location: dashboard-admin.php');
                           exit();
                       } 
                   } else {
-                      echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid1111';
+                      echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
                                      document.getElementById('messageBox').style.visibility = 'visible'</script>";
                   }
               } else {
-                  echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid2';
+                  echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
                                     document.getElementById('messageBox').style.visibility = 'visible';</script>";
               }
           } else {
-              echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid3';
+              echo "<script>document.getElementById('message').innerHTML='User ID or password is not valid';
                             document.getElementById('messageBox').style.visibility = 'visible';</script>";
           }
       }

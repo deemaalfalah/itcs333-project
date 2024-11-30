@@ -72,11 +72,14 @@ body {
 .form-container {
     margin: auto;
     padding: 20px;
-    width: 400px;
+    width: 500px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    align-items: left;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-container h2 {
@@ -87,15 +90,20 @@ label {
     display: block;
     text-align: left;
     margin: 10px 0 5px;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-family: serif;
 }
 
 input, select, button {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    background-color: #f9f9f9;
+    
 }
 
 button {
@@ -135,3 +143,41 @@ button:hover {
     cursor: pointer;
     border-radius: 5px;
 }
+
+
+/* Styling the labels */
+label {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+/* Styling the checkboxes */
+input[type="checkbox"] {
+    accent-color: #4CAF50; /* Modern browsers support this for coloring the checkbox */
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    vertical-align: middle; /* Aligns the checkbox with text */
+}
+
+/* Adding spacing between checkbox-label pairs */
+input[type="checkbox"] + label {
+    margin-right: 20px;
+}
+
+/* Optional: Wrap them in a container for alignment */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between items */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    justify-content: center;
+
+}
+
