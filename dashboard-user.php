@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor View</title>
     <link rel="stylesheet" href="styles/dashboard-user.css">
+    <link rel="stylesheet" href="styles/footers.css">
     <script src="scripts/sidebar-toggle.js" defer></script>
 </head>
 <body>
@@ -94,4 +95,25 @@ try {
         </div>
     </div>
 </body>
+
+<!-- <footer style="margin-top:0;">
+      <div class="left-footer">
+        <i class="fa-solid fa-circle-question"></i>
+        <a href="contact-us.php">contact us</a>
+      </div>
+      <div class="center">
+        <a href="">Terms & Conditions</a>
+        <p>|</p>
+        <p>@2024 mark</p>
+        <p>|</p>
+        
+        <a href="">Privacy & Policy</a>
+      </div>
+      <div class="right-footer">
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+    </footer> -->
+
+
+
 </html>
