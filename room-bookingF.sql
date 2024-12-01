@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2024 at 02:19 PM
+-- Generation Time: Dec 01, 2024 at 04:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -53,7 +53,7 @@ CREATE TABLE `transaction` (
   `end_date` date NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `days` varchar(50) NOT NULL
+  `days` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -67,7 +67,8 @@ CREATE TABLE `users` (
   `userid` int(9) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `usertype` varchar(20) NOT NULL
+  `usertype` varchar(20) NOT NULL,
+  `profile_image` longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

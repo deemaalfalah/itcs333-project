@@ -36,6 +36,11 @@
             <input type="email" name="email" placeholder="Email" required>
         </div>
         <br>
+        <div class="input-group">
+            <i class="fa-solid fa-image" id="userIcon"></i>
+            <input type="file" name="profile_image" accept="image/*" required>
+        </div>
+        <br>
         <div class="button-container">
             <button class="signup-button" name="sbtn">Sign Up</button>
             <p class="login-text">
@@ -52,6 +57,19 @@ if (isset($_POST["sbtn"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
     $userType = "user"; // Default user type
+
+    // Handle file upload
+    $profileImage = $_FILES["profile_image"]; // Initialize properly
+    $imageData = null; // Default image data
+
+    // Check if file was uploaded without errors
+if (isset($profileImage) && $profileImage['error'] === UPLOAD_ERR_OK) {
+    $imageData = file_get_contents($profileImage['tmp_name']); // Read file content
+} else {
+    echo "<script>alert('File upload error. Please try again.');</script>";
+}
+
+
 
     // Validate email format
     if (!preg_match('/^\d{9}@(stu\.uob\.edu\.bh|uob\.edu\.bh)$/', $email)) {
@@ -71,7 +89,8 @@ if (isset($_POST["sbtn"])) {
                 echo "<script>alert('User ID or Email already exists. Please use a different one.');</script>";
             } else {
                 // Insert new user
-                $query = "INSERT INTO users (username, userid, password, email, usertype) VALUES (:username, :userid, :password, :email, :usertype)";
+                $query = "INSERT INTO users (username, userid, password, email, usertype, profile_image) 
+                          VALUES (:username, :userid, :password, :email, :usertype, :profile_image)";
                 $stmt = $db->prepare($query);
 
                 // Hash the password
@@ -83,6 +102,7 @@ if (isset($_POST["sbtn"])) {
                 $stmt->bindParam(":password", $hps);
                 $stmt->bindParam(":email", $email);
                 $stmt->bindParam(":usertype", $userType);
+                $stmt->bindParam(":profile_image", $imageData, PDO::PARAM_LOB);
 
                 // Execute the query
                 if ($stmt->execute()) {
@@ -99,7 +119,18 @@ if (isset($_POST["sbtn"])) {
         }
     }
 }
+
+
+
+
+
+echo '<pre>';
+print_r($_FILES);
+echo '</pre>';
 ?>
+
 
 </body>
 </html>
+
+

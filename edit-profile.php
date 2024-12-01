@@ -16,13 +16,12 @@
         }
     </style>
     <script>
-        // Function to preview the uploaded profile picture
-        function previewProfilePicture(event) {
+        function previewProfileImage(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function() {
-                    const preview = document.getElementById('profile-picture-preview');
+                    const preview = document.getElementById('profile-image-preview');
                     preview.src = reader.result;
                 };
                 reader.readAsDataURL(file);
@@ -41,15 +40,18 @@
                         require('connection.php');
                         $sql = "SELECT * FROM users WHERE userid = ?";
                         $stmt = $db->prepare($sql);
-                        $stmt->bindParam(1, $userid);
+                        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
                         $stmt->execute();
-                        $user_profile = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch user data
-                        $db = null;
+                        $user_profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        if (!$user_profile) {
+                            die("User not found.");
+                        }
 
                         // Initialize variables with user data
                         $username = $user_profile['username'];
                         $email = $user_profile['email'];
-                        $profile_picture = $user_profile['profile_picture'];
+                        $profile_picture = $user_profile['profile_image'];
                     } catch (PDOException $e) {
                         die($e->getMessage());
                     }
@@ -60,51 +62,48 @@
                         require('connection.php');
                         $db->beginTransaction();
 
-                        // Form inputs
                         $newUsername = $_POST["username"];
                         $newEmail = $_POST["email"];
-                        $newProfilePicture = $_FILES["profile_picture"]; // File upload handling
+                        $newProfilePicture = $_FILES["profile_image"];
 
                         $counter = 0;
 
-                        // Update username if changed
-                        if ($newUsername != $username) {
+                        if ($newUsername !== $username) {
                             $sql = "UPDATE users SET username = ? WHERE userid = ?";
                             $stmt = $db->prepare($sql);
                             $stmt->execute([$newUsername, $userid]);
                             $counter++;
                         }
 
-                        // Update email if changed
-                        if ($newEmail != $email) {
+                        if ($newEmail !== $email) {
                             $sql = "UPDATE users SET email = ? WHERE userid = ?";
                             $stmt = $db->prepare($sql);
                             $stmt->execute([$newEmail, $userid]);
                             $counter++;
                         }
 
-                        // Update profile picture if a new file is uploaded
                         if ($newProfilePicture['size'] > 0) {
-                            $target_dir = "uploads/profile_pictures/";
-                            $target_file = $target_dir . basename($newProfilePicture["name"]);
-                            move_uploaded_file($newProfilePicture["tmp_name"], $target_file);
+                            $target_dir = "uploads/profile_image/";
+                            $filename = uniqid() . "_" . basename($newProfilePicture["name"]);
+                            $target_file = $target_dir . $filename;
 
-                            $sql = "UPDATE users SET profile_picture = ? WHERE userid = ?";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute([basename($newProfilePicture["name"]), $userid]);
-                            $counter++;
+                            if (move_uploaded_file($newProfilePicture["tmp_name"], $target_file)) {
+                                $sql = "UPDATE users SET profile_image = ? WHERE userid = ?";
+                                $stmt = $db->prepare($sql);
+                                $stmt->execute([$filename, $userid]);
+                                $counter++;
+                            }
                         }
 
-                        if ($counter != 0) {
+                        if ($counter > 0) {
                             $db->commit();
-                            $modalMessage = "Your information is updated";
-                            $showModal = true;
+                            $modalMessage = "Your information has been updated.";
+                        } else {
+                            $modalMessage = "No changes made.";
                         }
-                        $db = null;
                     } catch (PDOException $e) {
                         $db->rollBack();
-                        $modalMessage = "Error!";
-                        $showModal = true;
+                        $modalMessage = "Error updating information: " . $e->getMessage();
                     }
                 }
             ?>
@@ -113,35 +112,25 @@
                 <div class="modal-message"><?php echo htmlspecialchars($modalMessage); ?></div>
             <?php endif; ?>
 
-            <!-- Profile Picture Display and Upload -->
             <div class="form-group">
                 <img id="profile-picture-preview" 
-                     src="<?php 
-                         $default_pic = 'uploads/profile_pictures/default.png';
-                         $current_pic = !empty($profile_picture) 
-                             ? 'uploads/profile_pictures/' . htmlspecialchars($profile_picture) 
-                             : $default_pic;
-                         echo $current_pic;
-                     ?>" 
-                     alt="Profile Picture" class="profile-picture">
-                <input type="file" name="profile_picture" accept="image/jpeg,image/png,image/gif" onchange="previewProfilePicture(event)">
+                     src="<?php echo !empty($profile_picture) ? 'uploads/profile_image/' . htmlspecialchars($profile_picture) : 'uploads/profile_image/default.png'; ?>" 
+                     alt="user_profile" class="profile-picture">
+                <input type="file" name="user_profile" accept="image/*" onchange="previewProfilePicture(event)">
             </div>
 
-            <!-- Username -->
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" 
                        value="<?php echo htmlspecialchars($username ?? ''); ?>" placeholder="Username" required>
             </div>
 
-            <!-- Email -->
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" id="email" name="email" 
+                <input type="email" id="email" name="email" 
                        value="<?php echo htmlspecialchars($email ?? ''); ?>" placeholder="Email" required>
             </div>
 
-            <!-- Submit Button -->
             <div class="form-group">
                 <input type="submit" name="btn-submit" value="Update Profile" class="btn-submit">
             </div>
