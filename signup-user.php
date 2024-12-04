@@ -28,7 +28,10 @@
         <br>
         <div class="input-group">
             <i class="fa-solid fa-lock" id="userIcon"></i>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="password" placeholder="Password" 
+                   pattern="^(?=.[a-zA-Z])(?=.\d)(?=.*[?_!~]).{8,}$"
+                   title="Password must include at least 1 letter, 1 number, and 1 special character (?_!~), and be at least 8 characters long"
+                   required>
         </div>
         <br>
         <div class="input-group">
@@ -36,11 +39,6 @@
             <input type="email" name="email" placeholder="Email" required>
         </div>
         <br>
-        <!-- <div class="input-group">
-            <i class="fa-solid fa-image" id="userIcon"></i>
-            <input type="file" name="profile_image" accept="image/*" required>
-        </div>
-        <br> -->
         <div class="button-container">
             <button class="signup-button" name="sbtn">Sign Up</button>
             <p class="login-text">
@@ -58,16 +56,12 @@ if (isset($_POST["sbtn"])) {
     $password = $_POST["password"];
     $userType = "user"; // Default user type
 
-    // Handle file upload for image
-    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
-        $imageData = file_get_contents($_FILES['profile_image']['tmp_name']);
-    } else {
-        $imageData = null;
-    }
+    // Password validation on server side
+    $passwordRegex = '/^(?=.[a-zA-Z])(?=.\d)(?=.*[?_!~]).{8,}$/';
 
-
-    // Validate email format
-    if (!preg_match('/^\d{9}@(stu\.uob\.edu\.bh|uob\.edu\.bh)$/', $email)) {
+    if (!preg_match($passwordRegex, $password)) {
+        echo "<script>alert('Password must include at least 1 letter, 1 number, and 1 special character (?_!~), and be at least 8 characters long');</script>";
+    } elseif (!preg_match('/^\d{9}@(stu\.uob\.edu\.bh|uob\.edu\.bh)$/', $email)) {
         echo "<script>alert('Invalid email format. Use: id_number@stu.uob.edu.bh or id_number@uob.edu.bh');</script>";
     } else {
         try {
@@ -84,8 +78,8 @@ if (isset($_POST["sbtn"])) {
                 echo "<script>alert('User ID or Email already exists. Please use a different one.');</script>";
             } else {
                 // Insert new user
-                $query = "INSERT INTO users (username, userid, password, email, usertype, profile_image) 
-                          VALUES (:username, :userid, :password, :email, :usertype, :profile_image)";
+                $query = "INSERT INTO users (username, userid, password, email, usertype) 
+                          VALUES (:username, :userid, :password, :email, :usertype)";
                 $stmt = $db->prepare($query);
 
                 // Hash the password
@@ -97,7 +91,6 @@ if (isset($_POST["sbtn"])) {
                 $stmt->bindParam(":password", $hps);
                 $stmt->bindParam(":email", $email);
                 $stmt->bindParam(":usertype", $userType);
-                $stmt->bindParam(":profile_image", $imageData, PDO::PARAM_LOB);
 
                 // Execute the query
                 if ($stmt->execute()) {
@@ -107,8 +100,6 @@ if (isset($_POST["sbtn"])) {
                 }
             }
 
-            
-
             $db = null; // Close the database connection
 
         } catch (PDOException $e) {
@@ -116,9 +107,7 @@ if (isset($_POST["sbtn"])) {
         }
     }
 }
-
 ?>
-
 
 </body>
 </html>
