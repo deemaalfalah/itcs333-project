@@ -66,6 +66,7 @@ try {
                     <p><strong>Room Number:</strong> <?= htmlspecialchars($room['room_num']) ?></p>
                     <p><strong>Time:</strong> <?= htmlspecialchars($room['start_time']) ?> to <?= htmlspecialchars($room['end_time']) ?></p>
                     <p><strong>Days:</strong> <?= htmlspecialchars($room['days']) ?></p>
+                    <button class="cancel-button" onclick="showCancelPopup(<?= htmlspecialchars(json_encode($room)) ?>)">Cancel Reservation</button>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
@@ -73,6 +74,20 @@ try {
         <?php endif; ?>
     </div>
 </div>
+
+<!-- Cancel Reservation Popup -->
+<div id="cancel-popup" class="popup">
+    <div class="popup-content">
+        <h3>Cancel Reservation</h3>
+        <form id="cancel-form" method="POST" action="cancel-reservation.php">
+            <input type="hidden" name="room_num" id="room-num">
+            <div id="reservation-options"></div>
+            <button type="submit">Cancel</button>
+            <button type="button" onclick="closeCancelPopup()">Close</button>
+        </form>
+    </div>
+</div>
+
 
 
         <!-- Right Section: Search Bar and Map -->
@@ -96,24 +111,47 @@ try {
     </div>
 </body>
 
-<!-- <footer style="margin-top:0;">
-      <div class="left-footer">
-        <i class="fa-solid fa-circle-question"></i>
-        <a href="contact-us.php">contact us</a>
-      </div>
-      <div class="center">
-        <a href="">Terms & Conditions</a>
-        <p>|</p>
-        <p>@2024 mark</p>
-        <p>|</p>
-        
-        <a href="">Privacy & Policy</a>
-      </div>
-      <div class="right-footer">
-        <i class="fa-solid fa-circle-info"></i>
-      </div>
-    </footer> -->
 
+<script>
+function showCancelPopup(room) {
+    const popup = document.getElementById('cancel-popup');
+    const roomNumInput = document.getElementById('room-num');
+    const optionsContainer = document.getElementById('reservation-options');
+
+    // Fetch all transactions for the room
+    fetch(`get-reservations.php?room_num=${room.room_num}`)
+        .then(response => response.json())
+        .then(data => {
+            roomNumInput.value = room.room_num;
+            optionsContainer.innerHTML = '';
+
+            // Create checkboxes for each reservation
+            data.forEach(reservation => {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'radio';
+                checkbox.name = 'reservation_id';
+                checkbox.value = reservation.record_id;
+
+                label.appendChild(checkbox);
+                label.appendChild(
+                    document.createTextNode(
+                        `Date: ${reservation.start_date} - Time: ${reservation.start_time} to ${reservation.end_time}`
+                    )
+                );
+                optionsContainer.appendChild(label);
+            });
+
+            popup.style.display = 'block';
+        });
+}
+
+function closeCancelPopup() {
+    const popup = document.getElementById('cancel-popup');
+    popup.style.display = 'none';
+}
+
+</script>
 
 
 </html>
