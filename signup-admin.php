@@ -48,6 +48,12 @@
       <input type="text" name="type" placeholder="User Type (Admin or User)">
     </div>
   <br>
+
+  <div class="input-group">
+            <i class="fa-solid fa-image" id="userIcon"></i>
+            <input type="file" name="profile_image" accept="image/*" required>
+        </div>
+        <br>
     
     <div class="button-container">
         <button class="signup-button" name="sbtn">Sign Up</button>
@@ -73,13 +79,25 @@ if(isset($_POST["sbtn"]) ){
     $email=$_POST["email"];
     $password=$_POST["password"];
     $userType=$_POST["type"];
+    
+    $profileImage = $_FILES["profile_image"]; // Initialize properly
+    $imageData = null; // Default image data
+
+    // Check if file was uploaded without errors
+if (isset($profileImage) && $profileImage['error'] === UPLOAD_ERR_OK) {
+    $imageData = file_get_contents($profileImage['tmp_name']); // Read file content
+} else {
+    echo "<script>alert('File upload error. Please try again.');</script>";
+}
+
+
     if (empty($username) || empty($userid) || empty($email) || empty($password) || empty($userType)) {
       echo "<script>alert('All fields are required.');</script>";
   } else {
       try {
         require("connection.php");
 
-        $query="INSERT INTO users VALUES (:username,:userid,:password,:email,:type)";
+        $query="INSERT INTO users VALUES (:username,:userid,:password,:email,:type,:profile_image)";
         $stmt=$db->prepare($query);
 
         $hps=password_hash($password, PASSWORD_DEFAULT);
@@ -89,6 +107,7 @@ if(isset($_POST["sbtn"]) ){
         $stmt->bindParam(":password",$hps);
         $stmt->bindParam(":email",$email);
         $stmt->bindParam(":type",$userType);
+        $stmt->bindParam(":profile_image", $imageData, PDO::PARAM_LOB);
 
     
       if($stmt->execute()){

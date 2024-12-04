@@ -15,19 +15,7 @@
             margin-bottom: 20px;
         }
     </style>
-    <script>
-        function previewProfileImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function() {
-                    const preview = document.getElementById('profile-image-preview');
-                    preview.src = reader.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
+   
 </head>
 <body>
     <div class="profile-container">
@@ -80,19 +68,6 @@
                             $stmt = $db->prepare($sql);
                             $stmt->execute([$newEmail, $userid]);
                             $counter++;
-                        }
-
-                        if ($newProfilePicture['size'] > 0) {
-                            $target_dir = "uploads/profile_image/";
-                            $filename = uniqid() . "_" . basename($newProfilePicture["name"]);
-                            $target_file = $target_dir . $filename;
-
-                            if (move_uploaded_file($newProfilePicture["tmp_name"], $target_file)) {
-                                $sql = "UPDATE users SET profile_image = ? WHERE userid = ?";
-                                $stmt = $db->prepare($sql);
-                                $stmt->execute([$filename, $userid]);
-                                $counter++;
-                            }
                         }
 
                         if ($counter > 0) {
