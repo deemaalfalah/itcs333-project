@@ -99,23 +99,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 20px;
         }
     </style>
-    <script>
-        function previewProfileImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function() {
-                    const preview = document.getElementById('profile-image-preview');
-                    preview.src = reader.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
+   
 </head>
 <body>
     <div class="profile-container">
         <form method="POST" action="" enctype="multipart/form-data">
+<<<<<<< HEAD
+            <?php 
+                session_start();
+                if (isset($_SESSION['currentUser'])) {
+                    $userid = $_SESSION['currentUser'];
+                    try {
+                        require('connection.php');
+                        $sql = "SELECT * FROM users WHERE userid = ?";
+                        $stmt = $db->prepare($sql);
+                        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
+                        $stmt->execute();
+                        $user_profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                        if (!$user_profile) {
+                            die("User not found.");
+                        }
+
+                        // Initialize variables with user data
+                        $username = $user_profile['username'];
+                        $email = $user_profile['email'];
+                        $profile_picture = $user_profile['profile_image'];
+                    } catch (PDOException $e) {
+                        die($e->getMessage());
+                    }
+                }
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    try {
+                        require('connection.php');
+                        $db->beginTransaction();
+
+                        $newUsername = $_POST["username"];
+                        $newEmail = $_POST["email"];
+                        $newProfilePicture = $_FILES["profile_image"];
+
+                        $counter = 0;
+
+                        if ($newUsername !== $username) {
+                            $sql = "UPDATE users SET username = ? WHERE userid = ?";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute([$newUsername, $userid]);
+                            $counter++;
+                        }
+
+                        if ($newEmail !== $email) {
+                            $sql = "UPDATE users SET email = ? WHERE userid = ?";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute([$newEmail, $userid]);
+                            $counter++;
+                        }
+
+                        if ($counter > 0) {
+                            $db->commit();
+                            $modalMessage = "Your information has been updated.";
+                        } else {
+                            $modalMessage = "No changes made.";
+                        }
+                    } catch (PDOException $e) {
+                        $db->rollBack();
+                        $modalMessage = "Error updating information: " . $e->getMessage();
+                    }
+                }
+            ?>
+
+=======
+>>>>>>> db7a2589aa7bcc802b30bdedf625993cdcd75724
             <?php if (!empty($modalMessage)): ?>
                 <div class="modal-message"><?php echo htmlspecialchars($modalMessage); ?></div>
             <?php endif; ?>
