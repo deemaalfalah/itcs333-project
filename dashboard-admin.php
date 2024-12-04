@@ -104,13 +104,37 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
 </head>
 <body>
 <?php
-session_start(); // Start the session at the top
+
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
+
+
+if (isset($_SESSION['currentUser'])) {
+    $userid = $_SESSION['currentUser'];
+    try {
+        require('connection.php');
+        $sql = "SELECT username, profile_image FROM users WHERE userid = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $username = $user['username'] ?? '';
+        $profile_picture = $user['profile_image'] ?? 'default.png';
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+} else {
+    // Default values if no user is logged in
+    $username = "Guest";
+    $profile_picture = "default.png";
+}
 ?>
     <!-- Sidebar Section -->
     <div class="sidebar">
         <div class="profile">
-            <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
+        <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+             alt="Profile Picture" 
+             class="profile-pic">
             <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">

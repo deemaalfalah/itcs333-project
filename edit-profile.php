@@ -89,13 +89,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles/edit-profile.css">
+    <script>
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-image-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </head>
 <body>
-    
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="profile">
-            <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
+            <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+                 alt="Profile Picture" 
+                 class="profile-pic">
             <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">
