@@ -1,3 +1,33 @@
+
+<?php
+session_start();
+
+if (isset($_SESSION['success_message'])) {
+    echo "<div class='success-message'>" . htmlspecialchars($_SESSION['success_message']) . "</div>";
+    unset($_SESSION['success_message']); // Clear the message after displaying it
+}
+
+if (isset($_SESSION['error_message'])) {
+    echo "<div class='error-message'>" . htmlspecialchars($_SESSION['error_message']) . "</div>";
+    unset($_SESSION['error_message']); // Clear the message after displaying it
+}
+
+
+ if (isset($_SESSION['success_message']) || isset($_SESSION['error_message'])): ?>
+    <div class="message-overlay"></div> <!-- Overlay background -->
+    <div class="<?= isset($_SESSION['success_message']) ? 'success-message' : 'error-message' ?>">
+        <?= isset($_SESSION['success_message']) ? htmlspecialchars($_SESSION['success_message']) : htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php
+    unset($_SESSION['success_message']);
+    unset($_SESSION['error_message']);
+    ?>
+<?php endif;
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +90,6 @@ if (isset($_SESSION['currentUser'])) {
         require("connection.php");
 
         // Start session and verify the logged-in user
-        session_start();
         if (!isset($_SESSION['currentUser'])) {
             die("User not logged in. Please log in first.");
         }
@@ -83,21 +112,26 @@ if (isset($_SESSION['currentUser'])) {
         ?>
 
         <div class="main-content">
-            <div class="rooms-container">
-                <?php if (!empty($rooms)): ?>
-                    <?php foreach ($rooms as $room): ?>
-                        <div class="room">
-                            <p><strong>Department:</strong> <?= htmlspecialchars($room['department']) ?></p>
-                            <p><strong>Room Number:</strong> <?= htmlspecialchars($room['room_num']) ?></p>
-                            <p><strong>Time:</strong> <?= htmlspecialchars($room['start_time']) ?> to <?= htmlspecialchars($room['end_time']) ?></p>
-                            <p><strong>Days:</strong> <?= htmlspecialchars($room['days']) ?></p>
-                            <button class="cancel-button" onclick="showCancelPopup(<?= htmlspecialchars(json_encode($room)) ?>)">Cancel Reservation</button>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No rooms booked.</p>
-                <?php endif; ?>
+        <div class="rooms-container">
+    <?php if (!empty($rooms)): ?>
+        <?php foreach ($rooms as $room): ?>
+            <div class="room">
+                <p><strong>Department:</strong> <?= htmlspecialchars($room['department']) ?></p>
+                <p><strong>Room Number:</strong> <?= htmlspecialchars($room['room_num']) ?></p>
+                <p><strong>Time:</strong> <?= htmlspecialchars($room['start_time']) ?> to <?= htmlspecialchars($room['end_time']) ?></p>
+                <p><strong>Days:</strong> <?= htmlspecialchars($room['days']) ?></p>
+                <button 
+                    class="cancel-button" 
+                    onclick="showCancelPopup(<?= htmlspecialchars(json_encode($room)) ?>)">
+                    Cancel Reservation
+                </button>
             </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No rooms booked.</p>
+    <?php endif; ?>
+</div>
+
         </div>
 
         <!-- Cancel Reservation Popup -->
@@ -137,43 +171,49 @@ if (isset($_SESSION['currentUser'])) {
 
     <script>
     function showCancelPopup(room) {
-        const popup = document.getElementById('cancel-popup');
-        const overlay = document.getElementById('popup-overlay');
-        const roomNumInput = document.getElementById('room-num');
-        const optionsContainer = document.getElementById('reservation-options');
+    const popup = document.getElementById('cancel-popup');
+    const overlay = document.getElementById('popup-overlay');
+    const roomNumInput = document.getElementById('room-num');
+    const optionsContainer = document.getElementById('reservation-options');
 
-        // Show the overlay and popup
-        overlay.style.display = 'block';
-        popup.style.display = 'block';
+    // Show the overlay and popup
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
 
-        // Fetch all transactions for the room
-        fetch(`get-reservations.php?room_num=${room.room_num}`)
-            .then(response => response.json())
-            .then(data => {
-                roomNumInput.value = room.room_num;
-                optionsContainer.innerHTML = '';  // Clear any existing options
+    // Fetch reservations matching the logged-in user, room, and time
+    fetch(`get-user-reservations.php?room_num=${room.room_num}&start_time=${room.start_time}&end_time=${room.end_time}&days=${room.days}`)
+        .then(response => response.json())
+        .then(data => {
+            roomNumInput.value = room.room_num;
+            optionsContainer.innerHTML = ''; // Clear any existing options
 
-                // Create checkboxes for each reservation
-                data.forEach(reservation => {
-                    const label = document.createElement('label');
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'radio';
-                    checkbox.name = 'reservation_id';
-                    checkbox.value = reservation.record_id;
+            if (data.length === 0) {
+                optionsContainer.innerHTML = '<p>No reservations found for this selection.</p>';
+                return;
+            }
 
-                    label.appendChild(checkbox);
-                    label.appendChild(
-                        document.createTextNode(
-                            `Date: ${reservation.start_date} - Time: ${reservation.start_time} to ${reservation.end_time}`
-                        )
-                    );
-                    optionsContainer.appendChild(label);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching reservations:', error);
+            // Create radio buttons for each matching reservation
+            data.forEach(reservation => {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'reservation_id';
+                radio.value = reservation.record_id;
+
+                label.appendChild(radio);
+                label.appendChild(
+                    document.createTextNode(
+                        `Date: ${reservation.start_date} - Time: ${reservation.start_time} to ${reservation.end_time}`
+                    )
+                );
+                optionsContainer.appendChild(label);
             });
-    }
+        })
+        .catch(error => {
+            console.error('Error fetching reservations:', error);
+            optionsContainer.innerHTML = '<p>Error loading reservations. Please try again.</p>';
+        });
+}
 
     function closeCancelPopup() {
         const popup = document.getElementById('cancel-popup');
@@ -185,4 +225,6 @@ if (isset($_SESSION['currentUser'])) {
     }
     </script>
 </body>
+
+
 </html>

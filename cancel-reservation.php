@@ -12,10 +12,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reservation_id'])) {
         $stmt->bindValue(1, $reservation_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        echo "Reservation cancelled successfully.";
-        // Redirect or display a success message
+        // Set a success message in the session (optional)
+        session_start();
+        $_SESSION['success_message'] = "Reservation cancelled successfully.";
+
+        // Redirect to dashboard-user.php
+        header("Location: dashboard-user.php");
+        exit; // Ensure no further code is executed after the redirect
     } catch (PDOException $e) {
-        echo "Error cancelling reservation: " . $e->getMessage();
+        // Handle the error and redirect with an error message
+        session_start();
+        $_SESSION['error_message'] = "Error cancelling reservation: " . $e->getMessage();
+        header("Location: dashboard-user.php");
+        exit;
     }
 }
 ?>
