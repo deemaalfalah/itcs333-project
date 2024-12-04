@@ -49,11 +49,11 @@
     </div>
   <br>
 
-  <div class="input-group">
+  <!-- <div class="input-group">
             <i class="fa-solid fa-image" id="userIcon"></i>
             <input type="file" name="profile_image" accept="image/*" required>
         </div>
-        <br>
+        <br> -->
     
     <div class="button-container">
         <button class="signup-button" name="sbtn">Sign Up</button>
@@ -80,15 +80,12 @@ if(isset($_POST["sbtn"]) ){
     $password=$_POST["password"];
     $userType=$_POST["type"];
     
-    $profileImage = $_FILES["profile_image"]; // Initialize properly
-    $imageData = null; // Default image data
-
-    // Check if file was uploaded without errors
-if (isset($profileImage) && $profileImage['error'] === UPLOAD_ERR_OK) {
-    $imageData = file_get_contents($profileImage['tmp_name']); // Read file content
-} else {
-    echo "<script>alert('File upload error. Please try again.');</script>";
-}
+    // Handle file upload for image
+    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+      $imageData = file_get_contents($_FILES['profile_image']['tmp_name']);
+  } else {
+      $imageData = null;
+  }
 
 
     if (empty($username) || empty($userid) || empty($email) || empty($password) || empty($userType)) {
@@ -96,6 +93,17 @@ if (isset($profileImage) && $profileImage['error'] === UPLOAD_ERR_OK) {
   } else {
       try {
         require("connection.php");
+
+        // Check for duplicate userid or email
+        $checkQuery = "SELECT * FROM users WHERE userid = :userid OR email = :email";
+        $checkStmt = $db->prepare($checkQuery);
+        $checkStmt->bindParam(":userid", $userid);
+        $checkStmt->bindParam(":email", $email);
+        $checkStmt->execute();
+
+        if ($checkStmt->rowCount() > 0) {
+            echo "<script>alert('User ID or Email already exists. Please use a different one.');</script>";
+        } else {
 
         $query="INSERT INTO users VALUES (:username,:userid,:password,:email,:type,:profile_image)";
         $stmt=$db->prepare($query);
@@ -110,10 +118,13 @@ if (isset($profileImage) && $profileImage['error'] === UPLOAD_ERR_OK) {
         $stmt->bindParam(":profile_image", $imageData, PDO::PARAM_LOB);
 
     
-      if($stmt->execute()){
-        echo "<script>document.getElementById('msg').innerHTML='Registered successfully, <a href=\'login.php\'>Login</a>'; </script>";
-      }
-
+      // Execute the query
+      if ($stmt->execute()) {
+        echo "<script>alert('Registered successfully!'); window.location.href = 'login.php';</script>";
+    } else {
+        echo "<script>alert('An error occurred. Please try again.');</script>";
+    }
+    }
       $db=null;
 
       } 
