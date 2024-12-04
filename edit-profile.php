@@ -15,7 +15,6 @@ if (isset($_SESSION['currentUser'])) {
             die("User not found.");
         }
 
-        // Safely assign variables
         $username = $user_profile['username'] ?? '';
         $email = $user_profile['email'] ?? '';
         $profile_picture = $user_profile['profile_image'] ?? 'default.png';
@@ -52,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($newProfilePicture && $newProfilePicture['size'] > 0) {
             $target_dir = 'uploads/profile_image/';
             if (!is_dir($target_dir)) {
-                mkdir($target_dir, 0777, true); // Create the directory if it doesn't exist
+                mkdir($target_dir, 0777, true);
             }
 
             $filename = uniqid() . "_" . basename($newProfilePicture["name"]);
@@ -87,89 +86,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Edit Profile</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles/edit-profile.css">
-    <style>
-        .profile-picture {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-bottom: 20px;
-        }
-    </style>
-   
 </head>
 <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="profile">
+            <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
+            <h2><?php echo htmlspecialchars($username); ?></h2>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="dashboard-user.php">Dashboard</a></li>
+                <li><a href="room-booking.php">Room Booking</a></li>
+                <li><a href="edit-profile.php">My Account</a></li>
+                <li><a href="contact-us.php">Contact US</a></li>
+                <li><a href="logout.php" class="logout-button">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
     <div class="profile-container">
         <form method="POST" action="" enctype="multipart/form-data">
-<<<<<<< HEAD
-            <?php 
-                session_start();
-                if (isset($_SESSION['currentUser'])) {
-                    $userid = $_SESSION['currentUser'];
-                    try {
-                        require('connection.php');
-                        $sql = "SELECT * FROM users WHERE userid = ?";
-                        $stmt = $db->prepare($sql);
-                        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
-                        $stmt->execute();
-                        $user_profile = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        if (!$user_profile) {
-                            die("User not found.");
-                        }
-
-                        // Initialize variables with user data
-                        $username = $user_profile['username'];
-                        $email = $user_profile['email'];
-                        $profile_picture = $user_profile['profile_image'];
-                    } catch (PDOException $e) {
-                        die($e->getMessage());
-                    }
-                }
-
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    try {
-                        require('connection.php');
-                        $db->beginTransaction();
-
-                        $newUsername = $_POST["username"];
-                        $newEmail = $_POST["email"];
-                        $newProfilePicture = $_FILES["profile_image"];
-
-                        $counter = 0;
-
-                        if ($newUsername !== $username) {
-                            $sql = "UPDATE users SET username = ? WHERE userid = ?";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute([$newUsername, $userid]);
-                            $counter++;
-                        }
-
-                        if ($newEmail !== $email) {
-                            $sql = "UPDATE users SET email = ? WHERE userid = ?";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute([$newEmail, $userid]);
-                            $counter++;
-                        }
-
-                        if ($counter > 0) {
-                            $db->commit();
-                            $modalMessage = "Your information has been updated.";
-                        } else {
-                            $modalMessage = "No changes made.";
-                        }
-                    } catch (PDOException $e) {
-                        $db->rollBack();
-                        $modalMessage = "Error updating information: " . $e->getMessage();
-                    }
-                }
-            ?>
-
-=======
->>>>>>> db7a2589aa7bcc802b30bdedf625993cdcd75724
             <?php if (!empty($modalMessage)): ?>
                 <div class="modal-message"><?php echo htmlspecialchars($modalMessage); ?></div>
             <?php endif; ?>
