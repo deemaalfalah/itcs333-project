@@ -1,20 +1,22 @@
 <?php
-require("connection.php");
+// Fetch reservations for a given room
+require('connection.php');
 
 if (isset($_GET['room_num'])) {
-    $room_num = intval($_GET['room_num']);
-    $userid = $_SESSION['currentUser'];
-
-    $sql = "
-        SELECT record_id, start_date, end_date, start_time, end_time
-        FROM transaction
-        WHERE room_num = ? AND userid = ?";
-    $stmt = $db->prepare($sql);
-    $stmt->execute([$room_num, $userid]);
-
-    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($reservations);
+    $room_num = $_GET['room_num'];
+    
+    try {
+        $sql = "SELECT record_id, start_date, start_time, end_time FROM transaction WHERE room_num = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $room_num, PDO::PARAM_INT);
+        $stmt->execute();
+        $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        echo json_encode($reservations);  // Return reservations as JSON
+    } catch (PDOException $e) {
+        echo json_encode(['error' => 'Error fetching reservations: ' . $e->getMessage()]);
+    }
 } else {
-    echo json_encode([]);
+    echo json_encode(['error' => 'Room number not specified']);
 }
 ?>

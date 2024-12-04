@@ -61,11 +61,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <link rel="stylesheet" href="styles/add_room.css">
 </head>
 <body>
+<?php
+session_start(); // Start the session at the top
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
+?>
+
     <div class="sidebar">
     
         <div class="profile">
                 <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
-                <h2>admin Name</h2>
+                <h2><?php echo htmlspecialchars($username); ?></h2>
             </div>
         <ul>
             <li><a href="dashboard-admin.php">Dashboard</a></li>
