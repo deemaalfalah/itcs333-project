@@ -1,3 +1,87 @@
+<?php
+session_start();
+
+if (isset($_SESSION['currentUser'])) {
+    $userid = $_SESSION['currentUser'];
+    try {
+        require('connection.php');
+        $sql = "SELECT * FROM users WHERE userid = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
+        $stmt->execute();
+        $user_profile = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user_profile) {
+            die("User not found.");
+        }
+
+        // Safely assign variables
+        $username = $user_profile['username'] ?? '';
+        $email = $user_profile['email'] ?? '';
+        $profile_picture = $user_profile['profile_image'] ?? 'default.png';
+    } catch (PDOException $e) {
+        die($e->getMessage());
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    try {
+        require('connection.php');
+        $db->beginTransaction();
+
+        $newUsername = $_POST["username"] ?? '';
+        $newEmail = $_POST["email"] ?? '';
+        $newProfilePicture = $_FILES["profile_image"] ?? null;
+
+        $counter = 0;
+
+        if ($newUsername && $newUsername !== $username) {
+            $sql = "UPDATE users SET username = ? WHERE userid = ?";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$newUsername, $userid]);
+            $counter++;
+        }
+
+        if ($newEmail && $newEmail !== $email) {
+            $sql = "UPDATE users SET email = ? WHERE userid = ?";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$newEmail, $userid]);
+            $counter++;
+        }
+
+        if ($newProfilePicture && $newProfilePicture['size'] > 0) {
+            $target_dir = 'uploads/profile_image/';
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true); // Create the directory if it doesn't exist
+            }
+
+            $filename = uniqid() . "_" . basename($newProfilePicture["name"]);
+            $target_file = $target_dir . $filename;
+
+            if (move_uploaded_file($newProfilePicture["tmp_name"], $target_file)) {
+                $sql = "UPDATE users SET profile_image = ? WHERE userid = ?";
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$filename, $userid]);
+                $counter++;
+            } else {
+                throw new Exception("Failed to upload the file. Please check directory permissions.");
+            }
+        }
+
+        if ($counter > 0) {
+            $db->commit();
+            $modalMessage = "Your information has been updated.";
+        } else {
+            $modalMessage = "No changes made.";
+        }
+    } catch (PDOException $e) {
+        $db->rollBack();
+        $modalMessage = "Error updating information: " . $e->getMessage();
+    } catch (Exception $e) {
+        $modalMessage = $e->getMessage();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,103 +116,27 @@
 <body>
     <div class="profile-container">
         <form method="POST" action="" enctype="multipart/form-data">
-            <?php 
-                session_start();
-                if (isset($_SESSION['currentUser'])) {
-                    $userid = $_SESSION['currentUser'];
-                    try {
-                        require('connection.php');
-                        $sql = "SELECT * FROM users WHERE userid = ?";
-                        $stmt = $db->prepare($sql);
-                        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
-                        $stmt->execute();
-                        $user_profile = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                        if (!$user_profile) {
-                            die("User not found.");
-                        }
-
-                        // Initialize variables with user data
-                        $username = $user_profile['username'];
-                        $email = $user_profile['email'];
-                        $profile_picture = $user_profile['profile_image'];
-                    } catch (PDOException $e) {
-                        die($e->getMessage());
-                    }
-                }
-
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    try {
-                        require('connection.php');
-                        $db->beginTransaction();
-
-                        $newUsername = $_POST["username"];
-                        $newEmail = $_POST["email"];
-                        $newProfilePicture = $_FILES["profile_image"];
-
-                        $counter = 0;
-
-                        if ($newUsername !== $username) {
-                            $sql = "UPDATE users SET username = ? WHERE userid = ?";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute([$newUsername, $userid]);
-                            $counter++;
-                        }
-
-                        if ($newEmail !== $email) {
-                            $sql = "UPDATE users SET email = ? WHERE userid = ?";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute([$newEmail, $userid]);
-                            $counter++;
-                        }
-
-                        if ($newProfilePicture['size'] > 0) {
-                            $target_dir = "uploads/profile_image/";
-                            $filename = uniqid() . "_" . basename($newProfilePicture["name"]);
-                            $target_file = $target_dir . $filename;
-
-                            if (move_uploaded_file($newProfilePicture["tmp_name"], $target_file)) {
-                                $sql = "UPDATE users SET profile_image = ? WHERE userid = ?";
-                                $stmt = $db->prepare($sql);
-                                $stmt->execute([$filename, $userid]);
-                                $counter++;
-                            }
-                        }
-
-                        if ($counter > 0) {
-                            $db->commit();
-                            $modalMessage = "Your information has been updated.";
-                        } else {
-                            $modalMessage = "No changes made.";
-                        }
-                    } catch (PDOException $e) {
-                        $db->rollBack();
-                        $modalMessage = "Error updating information: " . $e->getMessage();
-                    }
-                }
-            ?>
-
             <?php if (!empty($modalMessage)): ?>
                 <div class="modal-message"><?php echo htmlspecialchars($modalMessage); ?></div>
             <?php endif; ?>
 
             <div class="form-group">
-                <img id="profile-picture-preview" 
-                     src="<?php echo !empty($profile_picture) ? 'uploads/profile_image/' . htmlspecialchars($profile_picture) : 'uploads/profile_image/default.png'; ?>" 
-                     alt="user_profile" class="profile-picture">
-                <input type="file" name="user_profile" accept="image/*" onchange="previewProfilePicture(event)">
+                <img id="profile-image-preview" 
+                     src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+                     alt="Profile Image" class="profile-picture">
+                <input type="file" name="profile_image" accept="image/*" onchange="previewProfileImage(event)">
             </div>
 
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" 
-                       value="<?php echo htmlspecialchars($username ?? ''); ?>" placeholder="Username" required>
+                       value="<?php echo htmlspecialchars($username); ?>" placeholder="Username" required>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" 
-                       value="<?php echo htmlspecialchars($email ?? ''); ?>" placeholder="Email" required>
+                       value="<?php echo htmlspecialchars($email); ?>" placeholder="Email" required>
             </div>
 
             <div class="form-group">
