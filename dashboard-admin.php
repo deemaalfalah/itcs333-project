@@ -113,10 +113,10 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
             <ul>
                 <li><a href="dashboard-admin.php">Dashboard</a></li>
                 <li><a href="add_room.php">Add Room</a></li>
-                <li><a href="#">My Account</a></li>
-                <li><a href="edit-profil.php">Edit Profile</a></li>
+                <li><a href="edit-profile.php">My Account</a></li>
+               
                 <li><a href="contact-us.php">Contact Us</a></li>
-                <li><a href="#">Setting</a></li>
+                
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
         </nav>
@@ -210,9 +210,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
         </div>
     </div>
 
-    <script>
-        // Your JS logic here
-    </script>
+    
     
         <!-- Right Section: Search Bar and Map -->
         <div class="right-section">

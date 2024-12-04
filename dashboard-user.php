@@ -24,7 +24,7 @@
                     <li><a href="room-booking.php">Room Booking</a></li>
                     <li><a href="edit-profile.php">My Account</a></li>
                     <li><a href="contact-us.php">Contact US</a></li>
-                    <li><a href="#">Setting</a></li>
+                
                     <li><a href="logout.php" class="logout-button">Logout</a></li>
                 </ul>
             </nav>

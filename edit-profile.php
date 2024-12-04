@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <img id="profile-image-preview" 
                      src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
-                     alt="Profile Image" class="profile-picture">
+                     class="profile-picture">
                 <input type="file" name="profile_image" accept="image/*" onchange="previewProfileImage(event)">
             </div>
 
