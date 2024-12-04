@@ -14,7 +14,23 @@
 <header>
     Contact Us
 </header>
-
+<!-- Sidebar Section -->
+<div class="sidebar">
+            <div class="profile">
+                <img src="picture/University_of_Bahrain_logo.png" alt="Instructor Picture" class="profile-pic">
+                <h2>User Name</h2>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                <li>
+                    <li><a href="dashboard-user.php">Dashboard</a></li>
+                    <li><a href="room-booking.php">Room Booking</a></li>
+                    <li><a href="edit-profile.php">My Account</a></li>
+                    <li><a href="contact-us.php">Contact US</a></li>
+                    <li><a href="logout.php" class="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
 <div class="container">
     <h1>We'd Love to Hear From You!</h1>
     <div class="contact-info">

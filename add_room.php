@@ -70,9 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         <ul>
             <li><a href="dashboard-admin.php">Dashboard</a></li>
             <li><a href="add_room.php">Add Room</a></li>
-            <li><a href="#">My Account</a></li>
-            <li><a href="contact-us.php">Contact Us</a></li>
-            <li><a href="#">Settings</a></li>
+            <li><a href="edit-profile.php">My Account</a></li>
             <li><a href="logout.php" class="logout-button">Logout</a></li>
         </ul>
     </div>
