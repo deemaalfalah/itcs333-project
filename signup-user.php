@@ -107,6 +107,8 @@ if (isset($_POST["sbtn"])) {
                 }
             }
 
+            
+
             $db = null; // Close the database connection
 
         } catch (PDOException $e) {

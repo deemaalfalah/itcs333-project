@@ -124,6 +124,7 @@ if(isset($_POST["sbtn"]) ){
     } else {
         echo "<script>alert('An error occurred. Please try again.');</script>";
     }
+    
     }
       $db=null;
 
