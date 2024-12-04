@@ -91,6 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="styles/edit-profile.css">
 </head>
 <body>
+    
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="profile">

@@ -32,7 +32,7 @@
   <div class="input-group">
       <i class="fa-solid fa-lock" id="userIcon"></i>
       <input type="password" name="password" placeholder="Password" 
-             pattern="^(?=.[a-zA-Z])(?=.\d)(?=.*[?_!~]).{8,}$" 
+             pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[?_!~])[a-zA-Z\d?_!~]{8,}$"
              title="Password must include at least 1 letter, 1 number, and 1 special character (?_!~), and be at least 8 characters long" 
              required>
     </div>

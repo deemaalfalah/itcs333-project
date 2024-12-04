@@ -103,11 +103,15 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     </script>
 </head>
 <body>
+<?php
+session_start(); // Start the session at the top
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
+?>
     <!-- Sidebar Section -->
     <div class="sidebar">
         <div class="profile">
             <img src="https://placehold.co/80x80/gray/white" alt="Instructor Picture" class="profile-pic">
-            <h2>Admin Name</h2>
+            <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">
             <ul>
