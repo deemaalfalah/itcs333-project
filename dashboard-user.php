@@ -42,7 +42,7 @@ if (isset($_SESSION['error_message'])) {
 <?php
  // Start the session at the top
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
-
+$profile_picture = $user['profile_image'] ?? 'default.png';
 
 if (isset($_SESSION['currentUser'])) {
     $userid = $_SESSION['currentUser'];
@@ -55,21 +55,20 @@ if (isset($_SESSION['currentUser'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $username = $user['username'] ?? '';
-        $profile_picture = $user['profile_image'] ?? 'default.png';
+        $profile_picture = $user['profile_image'] ?? 'picture\images.png';
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }
 } else {
     // Default values if no user is logged in
     $username = "Guest";
-    $profile_picture = "default.png";
+    $profile_picture = $user['profile_image'] ?? 'picture\images.png';
 }
 ?>
     <div class="container">
         <!-- Sidebar Section -->
         <div class="sidebar">
             <div class="profile">
-                
             <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
              alt="Profile Picture" 
              class="profile-pic">

@@ -63,11 +63,7 @@ $useridReg = "/\d{8,}/";
                         <a onclick="location.href='contact-us.php'" >Contact us</a> 
                         <span>|</span>
                         <a href="">About us</a>
-                        <span>|</span>
-                        <a href="help.php">Help</a>
-                        <span>|</span>
-                        <a href="logout.php" class="logout-button">Logout</a>
-
+                        
                     </p>
                 </div>
             </div>

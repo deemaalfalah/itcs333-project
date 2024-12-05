@@ -57,9 +57,7 @@ if (isset($_POST["sbtn"])) {
     $userType = "user"; // Default user type
 
     // Password validation on server side
-    // $passwordRegex = '/^(?=.[a-zA-Z])(?=.\d)(?=.*[?_!~]).{8,}$/';
     $passwordRegex = '/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[?_!~])[a-zA-Z\d?_!~]{8,}$/';
-
 
     if (!preg_match($passwordRegex, $password)) {
         echo "<script>alert('Password must include at least 1 letter, 1 number, and 1 special character (?_!~), and be at least 8 characters long');</script>";
@@ -79,9 +77,13 @@ if (isset($_POST["sbtn"])) {
             if ($checkStmt->rowCount() > 0) {
                 echo "<script>alert('User ID or Email already exists. Please use a different one.');</script>";
             } else {
+                // Load the default profile image
+                $defaultImage = file_get_contents('picture\images.png');
+                $encodedImage = base64_encode($defaultImage);
+
                 // Insert new user
-                $query = "INSERT INTO users (username, userid, password, email, usertype) 
-                          VALUES (:username, :userid, :password, :email, :usertype)";
+                $query = "INSERT INTO users (username, userid, password, email, usertype, profile_image) 
+                          VALUES (:username, :userid, :password, :email, :usertype, :profile_image)";
                 $stmt = $db->prepare($query);
 
                 // Hash the password
@@ -93,6 +95,7 @@ if (isset($_POST["sbtn"])) {
                 $stmt->bindParam(":password", $hps);
                 $stmt->bindParam(":email", $email);
                 $stmt->bindParam(":usertype", $userType);
+                $stmt->bindParam(":profile_image", $encodedImage);
 
                 // Execute the query
                 if ($stmt->execute()) {
@@ -109,6 +112,7 @@ if (isset($_POST["sbtn"])) {
         }
     }
 }
+
 ?>
 
 </body>
