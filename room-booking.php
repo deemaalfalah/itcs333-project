@@ -259,6 +259,10 @@ if (isset($_SESSION['currentUser'])) {
 
         // Attach toggle function to the hamburger button
         document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+
+    
+
+
     </script>
 
 
