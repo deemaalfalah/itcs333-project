@@ -83,6 +83,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="styles/change-password.css">
 </head>
 <body>
+<?php
+
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
+
+
+if (isset($_SESSION['currentUser'])) {
+    $userid = $_SESSION['currentUser'];
+    try {
+        require('connection.php');
+        $sql = "SELECT username, profile_image FROM users WHERE userid = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $username = $user['username'] ?? '';
+        $profile_picture = $user['profile_image'] ?? 'default.png';
+    } catch (PDOException $e) {
+        die("Error: " . $e->getMessage());
+    }
+} else {
+    // Default values if no user is logged in
+    $username = "Guest";
+    $profile_picture = "default.png";
+}
+?>
+
+<!-- Sidebar Section -->
+<div class="sidebar">
+            <div class="profile">
+            <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+             alt="Profile Picture" 
+             class="profile-pic">
+                <h2><?php echo htmlspecialchars($username); ?></h2>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                <li>
+                    <li><a href="dashboard-user.php">Dashboard</a></li>
+                    <li><a href="room-booking.php">Room Booking</a></li>
+                    <li><a href="edit-profile.php">My Account</a></li>
+                    <li><a href="change-password.php">Change password</a></li>
+                    <li><a href="contact-us.php">Contact US</a></li>
+                    <li><a href="logout.php" class="logout-button">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
     <div class="container">
         <form action="change-password.php" method="post" class="password-form">
             <h2>Change Password</h2>
