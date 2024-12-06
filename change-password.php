@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm New Password" required>
             </div>
             
-            <button type="submit" class="btn-submit">Change Password</button>
+            <button type="submit" name="Change Password" class="btn-submit">Change Password</button>
         </form>
     </div>
 </body>
