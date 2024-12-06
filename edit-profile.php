@@ -106,6 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
+        <!-- Hamburger button for mobile view -->
+<button class="hamburger">&#9776;</button>
+
         <div class="profile">
         <?php
             if($profile_picture == null) { ?>
@@ -164,5 +167,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     </div>
+
+
+    <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+    </script>
 </body>
 </html>

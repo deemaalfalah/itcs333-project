@@ -261,7 +261,106 @@ body {
 }
 
 
+/* General Layout for Responsive Design */
+body {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically for small screens */
+}
 
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    width: 100%;
+}
+
+/* Adjust Sidebar for Different Screens */
+@media (max-width: 1024px) { /* Tablet */
+    .sidebar {
+        position: absolute;
+        height: 100vh; /* Full height for sidebar */
+        z-index: 1000;
+        transform: translateX(-100%); /* Initially hidden */
+        transition: transform 0.3s ease-in-out; /* Slide-in effect */
+    }
+
+    .sidebar.open {
+        transform: translateX(0); /* Slide in */
+    }
+
+    .main-content, .right-section {
+        margin-left: 0; /* Remove fixed width adjustments */
+    }
+
+    .hamburger {
+        display: block; /* Visible on tablets */
+        font-size: 24px;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) { /* Phone */
+    .sidebar {
+        width: 70%; /* Adjust sidebar width for phones */
+    }
+
+    .room {
+        width: 100%; /* Full-width cards */
+    }
+
+    .right-section {
+        position: relative; /* Stack below the content */
+        width: 100%; /* Full-width */
+        margin: 20px 0;
+        padding: 10px; /* Adjust padding */
+    }
+
+    .search-bar-container {
+        margin-bottom: 10px; /* Adjust spacing for mobile */
+    }
+
+    .map-container iframe {
+        height: 300px; /* Reduce height for smaller screens */
+    }
+}
+
+/* Smaller Laptops */
+@media (min-width: 769px) and (max-width: 1280px) {
+    .sidebar {
+        width: 200px; /* Slightly smaller for medium screens */
+    }
+
+    .main-content {
+        margin-left: 220px; /* Adjust to match sidebar width */
+        margin-right: 220px; /* Adjust for right section */
+    }
+
+    .right-section {
+        width: 200px; /* Adjust width */
+    }
+
+    .room {
+        width: 30%; /* Fit more cards per row */
+    }
+}
+
+/* General Adjustments */
+@media (max-width: 480px) { /* Small Phones */
+    .profile-pic {
+        width: 50px; /* Reduce image size */
+        height: 50px;
+    }
+
+    .room {
+        width: 100%; /* Single column */
+        margin-bottom: 10px;
+
+    }
+
+    .popup-content {
+        width: 90%; /* Fit within smaller screen width */
+    }
+}
 
 
 
@@ -305,4 +404,3 @@ body {
         margin-left: 0;
     }
 }
-

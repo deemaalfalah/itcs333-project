@@ -303,4 +303,45 @@ body {
         }
     }
 
+    .sidebar .hamburger {
+        display: none;
+        font-size: 30px;
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+    }
+    /* Media Query for Responsive Design */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 0;
+            padding: 0;
+        }
+    
+        .sidebar.open {
+            width: 240px;
+            padding: 20px;
+        }
+    
+        .sidebar .profile, .sidebar .nav-menu {
+            display: none;
+        }
+    
+        .sidebar.open .profile, .sidebar.open .nav-menu {
+            display: block;
+        }
+    
+        .sidebar .hamburger {
+            display: block;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+    
+        .main-content {
+            margin-left: 0;
+        }
+    }
+
     
