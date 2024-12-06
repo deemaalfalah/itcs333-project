@@ -78,7 +78,7 @@ if (isset($_POST["sbtn"])) {
                 echo "<script>alert('User ID or Email already exists. Please use a different one.');</script>";
             } else {
                 // Load the default profile image
-                $defaultImage = file_get_contents('picture\images.png');
+                $defaultImage = file_get_contents('picture/images.png');
                 $encodedImage = base64_encode($defaultImage);
 
                 // Insert new user

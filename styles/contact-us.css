@@ -134,7 +134,14 @@
     color: #fff;
     padding: 20px;
     position: fixed;
+    top: 0;
+    left: 0; /* Make sure it sticks to the left */
     height: 100%;
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.container {
+    margin-left: 470px; /* Adjust to create space for the sidebar */
 }
 
 .profile {
