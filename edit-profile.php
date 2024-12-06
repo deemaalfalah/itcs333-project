@@ -116,6 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li><a href="dashboard-user.php">Dashboard</a></li>
                 <li><a href="room-booking.php">Room Booking</a></li>
                 <li><a href="edit-profile.php">My Account</a></li>
+                <li><a href="change-password.php">Change password</a></li>
                 <li><a href="contact-us.php">Contact US</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
