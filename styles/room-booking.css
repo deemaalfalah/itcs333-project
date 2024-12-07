@@ -130,7 +130,7 @@ html, body {
 .book-room-button {
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #3498db; /* Matches the search button's color */
+    background-color: #db7734; /* Matches the search button's color */
     color: white;
     border: none;
     border-radius: 5px;
@@ -382,13 +382,6 @@ html, body {
     #booking-form button:hover {
         background-color: #0056b3;
     }
-
-    
-    
-
-
-
-
 
 
     /* General Layout */
