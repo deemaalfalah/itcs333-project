@@ -5,21 +5,29 @@ body {
     display: flex;
     min-height: 100vh;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Full viewport height for sticky footer layout */
+    display: flex;
+    flex-direction: column; /* Ensures a vertical layout for the page */
+}
 
-.container {
+/*.container {
     display: flex;
     width: 100%;
     height: 100vh;
-}
+}*/
 
 /* Sidebar Styling */
 .sidebar {
-    width: 240px;
+    width: 210px;
     background-color: #2C3E50;
     color: #fff;
     padding: 20px;
     position: fixed;
     height: 100%;
+    z-index: 1100;
 }
 
 .profile {
@@ -72,20 +80,105 @@ body {
     background-color: #1ABC9C;
 }
 
-/* Main Content Styling */
-.main-content {
-    flex: 1;
-    margin-left: 260px; /* Adjusts for the sidebar width */
-    margin-right: 260px; /* Adjusts for the right section */
+#rooms-container {
+    flex: 1; /* Allows the rooms container to take up remaining space */
+    display: flex;
+    flex-wrap: wrap; /* Ensures cards wrap as needed */
+    gap: 20px; /* Adds spacing between room cards */
+    justify-content: center; /* Centers the cards horizontally */
+    margin-top: 40px; /* Pushes content below the navbar */
+    margin-left: 140px; /* Leaves space for the sidebar */
+    margin-right: 160px; /* Leaves space for the right section */
     padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    box-sizing: border-box; /* Includes padding in total width/height */
+    /* overflow: auto;  */
 }
 
-.rooms-container {
+.room {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: calc(33.333% - 20px); /* Ensures 3 cards per row with spacing */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Room Image */
+.room img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px; /* Slight rounding for the image */
+    margin-bottom: 10px;
+}
+
+/* Room Details */
+.room p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #2C3E50; /* Matches the sidebar's color scheme */
+}
+
+/* Book Room Button */
+.book-room-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #3498db; /* Matches the search button's color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-room-button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #rooms-container {
+        margin-left: 0; /* Adjusts for collapsed sidebar */
+        margin-right: 0; /* Adjusts for collapsed right section */
+    }
+
+    .room {
+        width: calc(50% - 20px); /* Two cards per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .room {
+        width: 100%; /* Single card per row on very small screens */
+    }
+}
+
+
+/* Main Content Styling */
+/*.main-content {
+    flex: 1;
+    margin-left: 240px; 
+    margin-right: 260px; 
+    margin-top: 60px;
+}*/
+
+/*.rooms-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-}
+    margin-top: 60px; 
+    margin-left: 240px; 
+    margin-right: 260px; 
+    padding: 20px; 
 
 .room {
     width: 22%;
@@ -100,14 +193,14 @@ body {
     height: auto;
 }
 /* Room image styles */
-.room .room-image {
-    width: 100%; /* Matches container width */
-    height: 150px; /* Ensures uniform height for all images */
-    object-fit: cover; /* Maintains aspect ratio while filling the specified dimensions */
-    object-position: center; /* Centers the image within the container */
-    border-bottom: 2px solid #f0f0f0; /* Adds a border below the image */
-    margin-bottom: 10px; /* Adds space below the image */
-}
+/*.room .room-image {
+    width: 100%; 
+    height: 150px; 
+    object-fit: cover; 
+    object-position: center; 
+    border-bottom: 2px solid #f0f0f0; 
+    margin-bottom: 10px; 
+}*/
 
 /* Right Section Styling */
 .right-section {
@@ -116,15 +209,13 @@ body {
     padding: 20px;
     position: fixed;
     right: 0;
-    top: 0;
-    height: 100%;
+    top: 60px;
+    height: calc(100% - 60px);
     overflow-y: auto;
 }
 
-.search-bar {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
+.right-section h2{
+    color: #2C3E50;
 }
 
 .map-container {
@@ -151,7 +242,7 @@ body {
     background-color: white;
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    z-index: 1200;
 }
 
 .room-table table {
@@ -219,13 +310,14 @@ body {
         position: fixed;
         top: 0;
         left: 0;
+        right: 0;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 1000;
+        z-index: 1200;
     }
 
     /* Modal Content Box */
@@ -303,4 +395,221 @@ body {
         }
     }
 
+    /* Navbar Styling */
+    .navbar {
+        width: 100%; /* Adjusts for sidebar and right section widths */
+        position: fixed;
+        top: 0;
+        left: 0; /* Aligns with the sidebar */
+        height: 60px;
+        background-color: #2C3E50; /* Matches the sidebar background color */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 1000;
+        color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for depth */
+    }
     
+    .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-grow: 1; /* Ensures the search bar takes up available space */
+        margin: 0 20px;
+    }
+
+    #search-form {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Spacing between form elements */
+    }
+
+    #room-number {
+        padding: 6px 100px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        flex: 1; /* Makes the input take up available space */
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+    
+    .search-button {
+        padding: 10px 20px;
+        background-color: #4caf87; /* Blue for search button */
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .search-button:hover {
+        background-color: #2d9070; /* Darker blue on hover */
+    }
+    
+    
+    /* The Modal (background) */
+.modal2 {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content */
+.modal2-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Adjust the width as necessary */
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+/* The Close Button */
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 15px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style the filter button */
+.filter-button {
+    padding: 10px 20px;
+    background-color: #4caf87;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.filter-button:hover {
+    background-color: #45a049;
+}
+
+.footer {
+    background-color: #2C3E50;
+    color: white;
+    text-align: center;
+    padding: 0 20px !important;
+    font-size: 14px;
+    width: 100%;
+    height: 400px; 
+    box-sizing: border-box;
+    position: relative;
+    margin-top: auto;
+}
+
+
+.container2 {
+    margin-left: 210px; /* Ensure content doesn't hide behind the sidebar */
+    padding: 0 20px;
+    max-width: calc(100% - 210px); /* Adjust content width */
+}
+
+  
+  .footer ul{
+    list-style: none;
+  }
+  
+  .row{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  .footerCol{
+    width: 25%;
+    padding: 0 15px;
+    box-sizing: border-box;
+    text-align: left;
+    margin-right: 15px;
+  }
+  
+  .footerCol h4{ /*footer headers*/
+    font-size: 15px;
+    color: #ffffff;
+    text-transform: capitalize;
+    margin-bottom: 30px;
+    position: relative;
+    text-align: left;
+  }
+
+  .footerCol ul {
+    padding-left: 0; /* Remove default left padding from the list */
+    text-align: left; /* Align text to the left */
+}
+  
+  .footerCol h4::before{ /*insert line under headers*/
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    height: 2px;
+    box-sizing: border-box;
+    background-color: #3498db;
+    width: 50px;
+  }
+  
+  .footerCol ul li:not(:last-child){
+    margin-bottom: 10px;
+  }
+  
+  .footerCol ul li a{ /*styling for linked contents*/
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 300;
+    display: block;
+    color: #bbbbbb;
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+  
+  .footerCol ul li a:hover{ /*hover effect when clicking on linked contents*/
+    color: #4caf87;
+    padding-left: 10px;
+  }
+  
+  .footerCol ul li { /*design for non linked contents*/
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 300;
+    display: block;
+    color: #bbbbbb;
+  }
+  
