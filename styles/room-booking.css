@@ -423,6 +423,12 @@ body {
     height: 100%;
     overflow-y: auto;
 }
+@media (max-width: 1300px) {
+    .room {
+        width: 50%; /* Adjust room width for tablets */
+    }
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {
@@ -437,7 +443,7 @@ body {
         display: none; /* Hides right section for tablets */
     }
     .room {
-        width: 30%; /* Adjust room width for tablets */
+        width: 50%; /* Adjust room width for tablets */
     }
 }
 
