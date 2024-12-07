@@ -291,7 +291,6 @@ if (isset($_SESSION['currentUser'])) {
                 </iframe>
             </div>
         </div>
-<<<<<<< HEAD
     
         <!-- Footer -->
     <footer class="footer">
@@ -329,7 +328,6 @@ if (isset($_SESSION['currentUser'])) {
                 </div>
         <p>&copy; 2024 UOB Class Booking. All rights reserved.</p>
     </footer>
-=======
 
         <script>
         // Toggle sidebar visibility
@@ -346,7 +344,6 @@ if (isset($_SESSION['currentUser'])) {
 
     </script>
 
->>>>>>> a9cbe8d5f553be4c5fd9bbb0d5052ca83214a381
 
 </body>
 </html>
