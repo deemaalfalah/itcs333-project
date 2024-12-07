@@ -236,3 +236,163 @@
         margin-left: 0;
     }
 }
+
+
+
+@media (max-width: 1024px) {
+    .contact-form input, .contact-form textarea, .contact-form button {
+        width: 300px; /* Set to 80% width */
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .container {
+       margin-left: 250px;
+    }
+}
+
+
+
+/* Media Query for Tablet (768px and below) */
+@media (max-width: 768px) {
+    /* Sidebar Adjustments */
+    .sidebar {
+        width: 0; /* Collapses sidebar */
+        padding: 0;
+    }
+
+    .sidebar.open {
+        width: 240px;
+        padding: 20px;
+    }
+
+    .sidebar .profile, .sidebar .nav-menu {
+        display: none;
+    }
+
+    .sidebar.open .profile, .sidebar.open .nav-menu {
+        display: block;
+    }
+
+    .sidebar .hamburger {
+        display: block;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+
+    .container {
+        margin-left: 100px; /* Remove sidebar space */
+        padding: 10px; /* Add padding to container for better spacing */
+    }
+
+    /* Contact Form Input Fields */
+    .contact-form input, .contact-form textarea, .contact-form button {
+        width: 100px /* Make input fields full width on smaller screens */
+       
+    }
+
+    /* Reduce the container width */
+    .container {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    /* Adjust the font sizes for smaller screens */
+    h1 {
+        font-size: 24px;
+    }
+
+    .contact-info ul li {
+        font-size: 16px;
+    }
+
+    .contact-info ul li i {
+        font-size: 20px;
+    }
+}
+
+/* Media Query for Phones (480px and below) */
+@media (max-width: 480px) {
+    /* Adjust profile image size in sidebar */
+    .profile-pic {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Adjust container layout */
+    .container {
+        padding: 10px;
+        max-width: 400px;
+        margin-left: 0px;
+    }
+
+    .contact-form input, .contact-form textarea, .contact-form button {
+        width: 200px; 
+        padding: 12px;
+        margin: 8px 0;
+    }
+
+    .contact-info{
+        width: 50px;
+    }
+
+    .contact-info ul li {
+        font-size: 14px;
+    }
+
+    .contact-info ul li i {
+        font-size: 20px;
+    }
+
+    /* Adjust footer font size */
+    footer {
+        font-size: 12px;
+    }
+
+    /* Make header font size smaller */
+    header {
+        font-size: 20px;
+    }
+}
+
+
+
+/* Media Query for Larger Screens (Laptop/Desktop) */
+@media (min-width: 1024px) {
+    /* Sidebar Adjustment */
+    .sidebar {
+        width: 240px;
+        padding: 20px;
+    }
+
+    .container {
+        margin-left: 500px; /* Make space for sidebar */
+    }
+
+    /* Make sure the input fields are not too wide */
+    .contact-form input, .contact-form textarea, .contact-form button {
+        width: 500px; /* Set to 80% width */
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    /* Adjust header font size */
+    header {
+        font-size: 28px;
+    }
+
+    /* Keep larger font sizes for main content */
+    .contact-info ul li {
+        font-size: 18px;
+    }
+
+    .contact-info ul li i {
+        font-size: 24px;
+    }
+
+    footer {
+        font-size: 14px;
+    }
+}

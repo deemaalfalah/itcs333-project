@@ -156,6 +156,124 @@ body {
     color: #000000;
     cursor: pointer;
 }
+
+
+
+
+
+
+
+/* Media Query for Responsive Design */
+
+/* For Tablets */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .profile-container {
+        margin-left: 500px;
+        padding: 10px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+}
+
+/* For Mobile Devices */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        padding: 0;
+    }
+
+    .sidebar.open {
+        width: 240px;
+        padding: 20px;
+    }
+
+    .sidebar .profile, .sidebar .nav-menu {
+        display: none;
+    }
+
+    .sidebar.open .profile, .sidebar.open .nav-menu {
+        display: block;
+    }
+
+    .sidebar .hamburger {
+        display: block;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+
+    .profile-container {
+        margin-left: 300px;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    .form-group input {
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        font-size: 14px;
+    }
+}
+
+/* For Small Mobile Devices (Phones) */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 0;
+        padding: 0;
+    }
+
+    .sidebar.open {
+        width: 200px;
+    }
+
+    .profile-container {
+        padding: 10px;
+    }
+
+    .profile-picture {
+        width: 90px;
+        height: 90px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        font-size: 14px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Media Query for Responsive Design */
 @media (max-width: 768px) {
     .sidebar {
