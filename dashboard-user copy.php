@@ -68,12 +68,6 @@ if (isset($_SESSION['currentUser'])) {
     <div class="container">
         <!-- Sidebar Section -->
         <div class="sidebar">
-
-
-<!-- Hamburger button for mobile view -->
-<button class="hamburger">&#9776;</button>
-
-
             <div class="profile">
             <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
              alt="Profile Picture" 
@@ -230,21 +224,6 @@ if (isset($_SESSION['currentUser'])) {
         popup.style.display = 'none';
     }
     </script>
-
-
-<script>
-        // Toggle sidebar visibility
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('open');
-        }
-
-        // Attach toggle function to the hamburger button
-        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
-    </script>
-
-
-
 </body>
 
 

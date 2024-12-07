@@ -1,4 +1,4 @@
-<?php
+ <?php
 session_start();
 
 if (isset($_SESSION['currentUser'])) {
@@ -101,14 +101,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     </script>
+
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
+        <!-- Hamburger button for mobile view -->
+<button class="hamburger">&#9776;</button>
+
         <div class="profile">
-            <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+        <?php
+            if($profile_picture == null) { ?>
+                <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
                  alt="Profile Picture" 
                  class="profile-pic">
+            <?php 
+            }
+            else { ?>
+                <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+                 alt="Profile Picture" 
+                 class="profile-pic">
+        <?php } ?>
             <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">
@@ -116,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li><a href="dashboard-user.php">Dashboard</a></li>
                 <li><a href="room-booking.php">Room Booking</a></li>
                 <li><a href="edit-profile.php">My Account</a></li>
+                <li><a href="change-password.php">Change password</a></li>
                 <li><a href="contact-us.php">Contact US</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
@@ -153,5 +167,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     </div>
+
+
+    <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+    </script>
 </body>
 </html>

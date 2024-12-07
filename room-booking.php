@@ -132,6 +132,8 @@ if (isset($_SESSION['currentUser'])) {
 ?>
     <!-- Sidebar Section -->
     <div class="sidebar">
+        <!-- Hamburger button for mobile view -->
+<button class="hamburger">&#9776;</button>
         <div class="profile">
         <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
              alt="Profile Picture" 
@@ -143,6 +145,7 @@ if (isset($_SESSION['currentUser'])) {
                 <li><a href="dashboard-user.php">Dashboard</a></li>
                 <li><a href="room-booking.php">Room Booking</a></li>
                 <li><a href="edit-profile.php">My Account</a></li>
+                <li><a href="change-password.php">Change password</a></li>
                 <li><a href="contact-us.php">Contact US</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
@@ -288,6 +291,7 @@ if (isset($_SESSION['currentUser'])) {
                 </iframe>
             </div>
         </div>
+<<<<<<< HEAD
     
         <!-- Footer -->
     <footer class="footer">
@@ -325,6 +329,24 @@ if (isset($_SESSION['currentUser'])) {
                 </div>
         <p>&copy; 2024 UOB Class Booking. All rights reserved.</p>
     </footer>
+=======
+
+        <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+
+    
+
+
+    </script>
+
+>>>>>>> a9cbe8d5f553be4c5fd9bbb0d5052ca83214a381
 
 </body>
 </html>

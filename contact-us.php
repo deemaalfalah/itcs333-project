@@ -43,6 +43,10 @@ if (isset($_SESSION['currentUser'])) {
 
 <!-- Sidebar Section -->
 <div class="sidebar">
+
+<!-- Hamburger button for mobile view -->
+<button class="hamburger">&#9776;</button>
+
             <div class="profile">
             <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
              alt="Profile Picture" 
@@ -55,6 +59,7 @@ if (isset($_SESSION['currentUser'])) {
                     <li><a href="dashboard-user.php">Dashboard</a></li>
                     <li><a href="room-booking.php">Room Booking</a></li>
                     <li><a href="edit-profile.php">My Account</a></li>
+                    <li><a href="change-password.php">Change password</a></li>
                     <li><a href="contact-us.php">Contact US</a></li>
                     <li><a href="logout.php" class="logout-button">Logout</a></li>
                 </ul>
@@ -86,6 +91,17 @@ if (isset($_SESSION['currentUser'])) {
 <footer>
     &copy; 2024 Class Booking. All rights reserved.
 </footer>
+
+<script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+    </script>
 
 </body>
 </html>
