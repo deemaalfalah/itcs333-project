@@ -158,11 +158,6 @@ body {
 }
 
 
-
-
-
-
-
 /* Media Query for Responsive Design */
 
 /* For Tablets */
@@ -260,20 +255,6 @@ body {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Media Query for Responsive Design */
 @media (max-width: 768px) {
     .sidebar {
@@ -305,4 +286,19 @@ body {
     .main-content {
         margin-left: 0;
     }
+}
+
+.btn-delete {
+    width: 100%;
+    padding: 12px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
 }
