@@ -124,14 +124,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 <body>
-   <!-- Sidebar -->
-   <div class="sidebar">
+<div class="top-line"></div>
+    <!-- Sidebar -->
+    <div class="sidebar">
         <!-- Hamburger button for mobile view -->
 <button class="hamburger">&#9776;</button>
 
         <div class="profile">
         <?php
-            if($isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
+            if(isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
                 <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
                  alt="Profile Picture" 
                  class="profile-pic">
@@ -142,18 +143,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  alt="Profile Picture" 
                  class="profile-pic">
         <?php } ?>
+        
             <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">
             <ul>
-            <li><a href="dashboard-admin.php">Dashboard</a></li>
-                <li><a href="add_room.php">Add Room</a></li>
-                <li><a href="edit-profile-admin.php">My Account</a></li>
-                <li><a href="change-password-admin.php">Change Password</a></li>
+                <li><a href="dashboard-user.php">Dashboard</a></li>
+                <li><a href="room-booking.php">Room Booking</a></li>
+                <li><a href="edit-profile.php">My Account</a></li>
+                <li><a href="change-password.php">Change password</a></li>
+                <li><a href="contact-us.php">Contact US</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
         </nav>
-        </div>
+    </div>
+
+
+    <div class="blue-line">
+
+    </div>
+
 
     <!-- Main Content -->
     <div class="profile-container">
