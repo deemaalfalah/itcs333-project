@@ -150,7 +150,7 @@ if (isset($_SESSION['currentUser'])) {
     <!-- Sidebar Section -->
     <div class="sidebar">
         <!-- Hamburger button for mobile view -->
-<button class="hamburger">&#9776;</button>
+        <button class="hamburger">&#9776;</button>
         <div class="profile">
         <?php
             if($profile_picture == null) { ?>

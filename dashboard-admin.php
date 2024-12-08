@@ -17,7 +17,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
     <link rel="stylesheet" href="styles/dashboard-admin.css">
-    <link rel="stylesheet" href="styles/dashboard-admin.css?v=1.1">
+    <link rel="stylesheet" href="styles/dashboard-admin.css">
     <script>
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
@@ -133,6 +133,8 @@ if (isset($_SESSION['currentUser'])) {
 
     <!-- Sidebar Section -->
     <div class="sidebar">
+        <!-- Hamburger button for mobile view -->
+        <button class="hamburger">&#9776;</button>
         <div class="profile">
         <?php
             if($profile_picture == null) { ?>
@@ -210,9 +212,9 @@ if (isset($_SESSION['currentUser'])) {
                     <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
 
                     <!-- Remove Room Button -->
-                    <form action="delete_room.php" method="POST" style="display:inline-block;">
+                    <form action="delete_room.php" class="remove-form" method="POST" style="display:inline-block;width: 100%;">
                         <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                        <button type="submit" class="book-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
                     </form>
                     
                 </div>
@@ -254,9 +256,9 @@ if (isset($_SESSION['currentUser'])) {
                     <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
                     
                     <!-- Remove Room Button -->
-                    <form action="delete_room.php" method="POST" style="display:inline-block;">
+                    <form action="delete_room.php" class="remove-form" method="POST" style="display:inline-block;width: 100%;">
                         <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                        <button type="submit" class="book-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
                     </form>
             </div>
             
@@ -327,6 +329,18 @@ if (isset($_SESSION['currentUser'])) {
                 </iframe>
             </div>
         </div>
+
+        <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+
+    </script>
 </body>
 </html>
 

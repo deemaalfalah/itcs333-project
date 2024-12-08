@@ -26,6 +26,7 @@ html, body {
     color: #fff;
     padding: 20px;
     position: fixed;
+    top: 60px !important;
     height: 100%;
     z-index: 1100;
 }
@@ -84,7 +85,7 @@ html, body {
 .main-content {
     flex: 1;
     margin-left: 260px; /* Adjusts for the sidebar width */
-    margin-right: 260px; /* Adjusts for the right section */
+    margin-right: 81px; /* Adjusts for the right section */
     padding: 20px;
     /*margin-top: 60px;*/
 }
@@ -376,7 +377,7 @@ body {
 }
 
 #room-number {
-    padding: 6px 100px;
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
@@ -386,7 +387,7 @@ body {
 }
 
 .search-button {
-    padding: 10px 20px;
+    padding: 8px;
     background-color: #4caf87; 
     color: white;
     border: none;
@@ -426,7 +427,7 @@ body {
     }
 }
 
-@media (max-width: 768px) { /* Phone */
+@media (max-width: 1024px) { /* Phone */
     .sidebar {
         width: 70%; /* Adjust sidebar width for phones */
     }
@@ -441,24 +442,19 @@ body {
         margin: 20px 0;
         padding: 10px; /* Adjust padding */
     }
-
-    .search-bar-container {
-        margin-bottom: 10px; /* Adjust spacing for mobile */
-    }
-
     .map-container iframe {
         height: 300px; /* Reduce height for smaller screens */
     }
 }
 
 /* Smaller Laptops */
-@media (min-width: 769px) and (max-width: 1280px) {
+@media (min-width: 769px) and (max-width: 1302px) {
     .sidebar {
         width: 200px; /* Slightly smaller for medium screens */
     }
 
     .main-content {
-        margin-left: 220px; /* Adjust to match sidebar width */
+        margin-left: 220px ; /* Adjust to match sidebar width */
         margin-right: 220px; /* Adjust for right section */
     }
 
@@ -496,11 +492,11 @@ body {
     font-size: 30px;
     background: none;
     border: none;
-    color: #000000;
+    color: #2980b9;
     cursor: pointer;
 }
 /* Media Query for Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .sidebar {
         width: 0;
         padding: 0;
@@ -529,5 +525,86 @@ body {
 
     .main-content {
         margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        height: 50px; /* Slightly smaller height */
+        padding: 0 10px; /* Reduce padding */
+    }
+
+    .search-bar-container {
+        margin: 0 10px; /* Adjust margin */
+    }
+
+    #search-form {
+        gap: 5px; /* Reduce gap between elements */
+    }
+
+    #room-number {
+        width: auto; /* Keep input width dynamic */
+        font-size: 14px; /* Smaller font size */
+        padding: 5px; /* Adjust padding */
+    }
+
+    .search-button {
+        font-size: 14px; /* Smaller font size */
+        padding: 5px 10px; /* Adjust padding */
+    }
+}
+
+/* Medium devices (min-width: 601px and max-width: 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .navbar {
+        height: 60px; /* Maintain original height */
+        padding: 0 15px; /* Adjust padding */
+    }
+
+    .search-bar-container {
+        margin: 0 15px;
+        flex-grow: 1;
+    }
+
+    #search-form {
+        gap: 15px;
+    }
+
+    #room-number {
+        font-size: 16px; /* Medium font size */
+        padding: 6px; /* Slight padding adjustment */
+    }
+
+    .search-button {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+}
+
+/* Large devices (min-width: 1025px) */
+@media (min-width: 1025px) {
+    .navbar {
+        height: 70px; /* Slightly larger height */
+        padding: 0 30px; /* Increase padding */
+    }
+
+    .search-bar-container {
+        margin: 0 30px;
+        flex-grow: 2; /* Expand the search bar area */
+    }
+
+    #search-form {
+        gap: 20px;
+    }
+
+    #room-number {
+        font-size: 18px; /* Larger font size */
+        padding: 8px; /* Adjust padding for a larger field */
+    }
+
+    .search-button {
+        font-size: 18px; /* Larger font size */
+        padding: 8px 16px; /* Adjust padding */
     }
 }
