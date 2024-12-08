@@ -49,7 +49,7 @@ if (isset($_SESSION['currentUser'])) {
 
             <div class="profile">
             <?php
-            if($profile_picture == null) { ?>
+            if(isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
                 <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
                  alt="Profile Picture" 
                  class="profile-pic">

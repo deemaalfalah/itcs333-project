@@ -84,8 +84,8 @@ html, body {
 /* Main Content Styling */
 .main-content {
     flex: 1;
-    margin-left: 260px; /* Adjusts for the sidebar width */
-    margin-right: 81px; /* Adjusts for the right section */
+    margin-left: 100px; /* Adjusts for the sidebar width */
+    margin-right: 80px; /* Adjusts for the right section */
     padding: 20px;
     /*margin-top: 60px;*/
 }
@@ -98,7 +98,7 @@ html, body {
     justify-content: center; /* Centers the cards horizontally */
     /*margin-top: 20px; /* Pushes content below the navbar */
     /*margin-left: 10px; /* Leaves space for the sidebar */
-    margin-right: 0px; /* Leaves space for the right section */
+    margin-right: 40px; /* Leaves space for the right section */
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
@@ -107,7 +107,7 @@ html, body {
 }
 
 .room {
-    margin-top: 100px;
+    margin-top: 50px;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
