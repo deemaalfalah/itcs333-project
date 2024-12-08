@@ -273,6 +273,70 @@ body {
     width: 100%;
 }
 
+/* Navbar Styling */
+.navbar {
+    width: 100%; /* Adjusts for sidebar and right section widths */
+    position: fixed;
+    top: 0;
+    left: 0; /* Aligns with the sidebar */
+    height: 60px;
+    background-color: #2C3E50; /* Matches the sidebar background color */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for depth */
+}
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-grow: 1; /* Ensures the search bar takes up available space */
+    margin: 0 20px;
+}
+
+#search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Spacing between form elements */
+}
+
+#room-number {
+    padding: 6px 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    flex: 1; /* Makes the input take up available space */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #4caf87; /* Blue for search button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #2d9070; /* Darker blue on hover */
+}
+
 /* Adjust Sidebar for Different Screens */
 @media (max-width: 1024px) { /* Tablet */
     .sidebar {

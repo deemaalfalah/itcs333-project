@@ -129,6 +129,7 @@ if (isset($_SESSION['currentUser'])) {
     $profile_picture = "default.png";
 }
 ?>
+
     <!-- Sidebar Section -->
     <div class="sidebar">
         <div class="profile">

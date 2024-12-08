@@ -135,10 +135,9 @@ if (isset($_SESSION['currentUser'])) {
 <nav class="navbar">
         <div class="navbar-container">
             <div class="search-bar-container">
-                <form id="search-form" method="POST" action="room-booking-deema.php" enctype="multipart/form-data">
+                <form id="search-form" method="POST" action="room-booking.php" enctype="multipart/form-data">
                     <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
                     <button class = search-button type="submit">Search</button>
-                    <!--<button class="filter-button" id="filterButton" method="POST" action="room-booking.php" enctype="multipart/form-data">Filters</button>-->
                 </form>
                 
             </div>

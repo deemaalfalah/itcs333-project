@@ -35,7 +35,7 @@ if (isset($_SESSION['error_message'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor View</title>
     <link rel="stylesheet" href="styles/dashboard-user.css">
-    <link rel="stylesheet" href="styles/footers.css">
+    <link rel="stylesheet" href="styles/dashboard-user.css?v=1.1">
     <script src="scripts/sidebar-toggle.js" defer></script>
 </head>
 <body>
@@ -70,6 +70,18 @@ if (isset($_SESSION['currentUser'])) {
         <div class="sidebar">
 
 
+        <nav class="navbar">
+        <div class="navbar-container">
+            <div class="search-bar-container">
+                <form id="search-form" method="POST" action="room-booking.php" enctype="multipart/form-data">
+                    <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
+                    <button class = search-button type="submit">Search</button>
+                </form>
+                
+            </div>
+        </div>
+    </nav>
+
 <!-- Hamburger button for mobile view -->
 <button class="hamburger">&#9776;</button>
 
@@ -93,29 +105,54 @@ if (isset($_SESSION['currentUser'])) {
 
         <?php
         // Database connection
-        require("connection.php");
-
-        // Start session and verify the logged-in user
         if (!isset($_SESSION['currentUser'])) {
             die("User not logged in. Please log in first.");
         }
         $logged_in_user_id = $_SESSION['currentUser'];
-
+        
         try {
-            // Fetch the booked rooms for the logged-in user
-            $sql = "
-                SELECT r.room_num, r.department, t.start_time, t.end_time, t.days 
-                FROM transaction t
-                JOIN rooms r ON t.room_num = r.room_num
-                WHERE t.userid = ?";
-            $stmt = $db->prepare($sql);
-            $stmt->bindValue(1, $logged_in_user_id, PDO::PARAM_INT);
+            // Check if a search query was submitted
+            $searchQuery = isset($_POST['room-number']) ? trim($_POST['room-number']) : null;
+        
+            if ($searchQuery) {
+                // Fetch rooms matching the search query for the logged-in user
+                $sql = "
+                    SELECT r.room_num, r.department, t.start_time, t.end_time, t.days 
+                    FROM transaction t
+                    JOIN rooms r ON t.room_num = r.room_num
+                    WHERE t.userid = ? AND r.room_num = ?";
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(1, $logged_in_user_id, PDO::PARAM_INT);
+                $stmt->bindValue(2, $searchQuery, PDO::PARAM_STR);
+            } else {
+                // Fetch all rooms for the logged-in user
+                $sql = "
+                    SELECT r.room_num, r.department, t.start_time, t.end_time, t.days 
+                    FROM transaction t
+                    JOIN rooms r ON t.room_num = r.room_num
+                    WHERE t.userid = ?";
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(1, $logged_in_user_id, PDO::PARAM_INT);
+            }
+        
             $stmt->execute();
             $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch results as an associative array
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
         ?>
+
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="search-bar-container">
+                    <form id="search-form" method="POST" action="dashboard-user.php" enctype="multipart/form-data">
+                    <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
+                    <button class = search-button type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        
 
         <div class="main-content">
         <div class="rooms-container">
@@ -132,13 +169,15 @@ if (isset($_SESSION['currentUser'])) {
                     Cancel Reservation
                 </button>
             </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
     <?php else: ?>
-        <p>No rooms booked.</p>
+        <?php if (!empty($searchQuery)): ?>
+            <p>No rooms found for Room Number <?= htmlspecialchars($searchQuery) ?>.</p>
+        <?php else: ?>
+            <p>No rooms booked.</p>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
-
-        </div>
 
         <!-- Cancel Reservation Popup -->
         <div id="popup-overlay" class="popup-overlay" onclick="closeCancelPopup()"></div>
