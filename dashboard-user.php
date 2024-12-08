@@ -188,17 +188,14 @@ if (isset($_SESSION['currentUser'])) {
                 <form id="cancel-form" method="POST" action="cancel-reservation.php">
                     <input type="hidden" name="room_num" id="room-num">
                     <div id="reservation-options"></div>
-                    <button type="submit">Cancel</button>
-                    <button type="button" onclick="closeCancelPopup()">Close</button>
+                    <button id="cancel-button"type="submit">Cancel</button>
+                    <button id="close-button" type="button" onclick="closeCancelPopup()">Close</button>
                 </form>
             </div>
         </div>
 
-        <!-- Right Section: Search Bar and Map -->
+        <!-- Right Section: Map -->
         <div class="right-section">
-            <div class="search-bar-container">
-                <input type="text" class="search-bar" placeholder="Search rooms...">
-            </div>
             <div class="map-container">
                 <h2>College Map</h2>
                 <iframe 
