@@ -136,7 +136,7 @@ if (isset($_SESSION['currentUser'])) {
         <div class="navbar-container">
             <div class="search-bar-container">
                 <form id="search-form" method="POST" action="room-booking-deema.php" enctype="multipart/form-data">
-                    <input type="text" id="room-number" name="room-number" placeholder="Enter Room Number" required>
+                    <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
                     <button class = search-button type="submit">Search</button>
                     <!--<button class="filter-button" id="filterButton" method="POST" action="room-booking.php" enctype="multipart/form-data">Filters</button>-->
                 </form>
@@ -290,7 +290,7 @@ if (isset($_SESSION['currentUser'])) {
         // Your JS logic here
     </script>
     
-        <!-- Right Section: Search Bar and Map -->
+        <!-- Right Section: Map -->
         <div class="right-section">
     
             <div class="map-container">
