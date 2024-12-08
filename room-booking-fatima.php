@@ -135,9 +135,18 @@ if (isset($_SESSION['currentUser'])) {
         <!-- Hamburger button for mobile view -->
 <button class="hamburger">&#9776;</button>
         <div class="profile">
-        <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
-             alt="Profile Picture" 
-             class="profile-pic">
+        <?php
+            if($profile_picture == null) { ?>
+                <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
+                 alt="Profile Picture" 
+                 class="profile-pic">
+            <?php 
+            }
+            else { ?>
+                <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+                 alt="Profile Picture" 
+                 class="profile-pic">
+        <?php } ?>
             <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">
