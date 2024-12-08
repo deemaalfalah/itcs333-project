@@ -131,6 +131,17 @@ if (isset($_SESSION['currentUser'])) {
 }
 ?>
 
+<nav class="navbar">
+        <div class="navbar-container">
+            <div class="search-bar-container">
+                <form id="search-form" method="POST" action="dashboard-admin.php" enctype="multipart/form-data">
+                <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
+                <button class = search-button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
     <!-- Sidebar Section -->
     <div class="sidebar">
         <!-- Hamburger button for mobile view -->
@@ -161,16 +172,7 @@ if (isset($_SESSION['currentUser'])) {
         </nav>
     </div>
 
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="search-bar-container">
-                <form id="search-form" method="POST" action="dashboard-admin.php" enctype="multipart/form-data">
-                <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
-                <button class = search-button type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
+    
 
     <div class="container">
         <div class="main-content">

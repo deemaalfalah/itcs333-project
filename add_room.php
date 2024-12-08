@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <link rel="stylesheet" href="styles/add_room.css">
 </head>
 <body>
+<div class="top-line"></div>
 <?php
 session_start(); // Start the session at the top
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
@@ -89,7 +90,10 @@ if (isset($_SESSION['currentUser'])) {
 ?>
 
     <div class="sidebar">
-    
+
+<!-- Ensure this is present -->
+<button class="hamburger">&#9776;</button>
+
         <div class="profile">
         <?php
             if($profile_picture == null) { ?>
@@ -172,5 +176,19 @@ if (isset($_SESSION['currentUser'])) {
             </div>
         <?php endif; ?>
     </div>
+
+    <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+
+  
+    </script>
+
 </body>
 </html>

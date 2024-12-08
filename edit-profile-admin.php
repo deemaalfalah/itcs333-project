@@ -124,6 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 <body>
+<div class="top-line"></div>
    <!-- Sidebar -->
    <div class="sidebar">
         <!-- Hamburger button for mobile view -->

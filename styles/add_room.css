@@ -23,24 +23,30 @@ body {
 /* Sidebar */
 
 .sidebar {
-    width: 250px;
+    position: fixed;
+    
+    top: 0;
+    width: 280px;
+    height: 100vh;
     background-color: #2c3e50;
     color: white;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
+    
+    
     align-items: center;
+    box-sizing: border-box;
     text-align: center; 
+    padding-top: 80px;
+    transition: left 0.3s ease-in-out; /* Smooth slide-in and slide-out effect */
 }
 
 .elem-inside{
-    margin-top: 60px;
+    margin-top: 50px;
 }
 
 .sidebar h2 {
     margin: 0 0 20px;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .sidebar ul {
@@ -52,6 +58,8 @@ body {
     margin: 15px 0;
     background-color: #34495e;
     border-radius: 5px;
+    width: 85%;
+    margin-left: 21px;
 }
 
 .sidebar ul li a {
@@ -80,6 +88,8 @@ body {
     align-items: left;
     display: flex;
     flex-direction: column;
+    margin-top: 90px;
+    margin-left: 600px;
 }
 
 .form-container h2 {
@@ -180,4 +190,80 @@ input[type="checkbox"] + label {
     justify-content: center;
 
 }
+
+/* Top line at the very top of the page */
+.top-line {
+    position: fixed; /* Keeps it at the top while scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Adjust thickness */
+    background-color: #2C3E50; /* Adjust color */
+    z-index: 9999; /* Ensures it is on top of all elements */
+}   
+
+
+
+
+
+
+
+
+
+
+/* When the "open" class is added, move the sidebar into view */
+.sidebar.open {
+    left: 0; /* Sidebar becomes visible */
+}
+
+/* Hamburger button styling */
+.hamburger {
+    width: 50px;
+    display: none; /* Hidden by default */
+    position: fixed;
+    margin-top: 10px;
+    left: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    z-index: 10; /* Ensure it stays on top */
+}
+
+.hamburger:hover {
+    color: #aaa;
+}
+
+
+@media (max-width: 1024px) {
+    .form-container{
+        margin-left: 400px;
+    }
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block; /* Show hamburger on smaller screens */
+    }
+
+    .sidebar {
+        left: -280px; /* Sidebar hidden on small screens */
+    }
+    .form-container{
+        margin-left: 150px;
+    }
+}
+
+@media (max-width: 650px) {
+    .form-container{
+        margin-left: 100px;
+    }
+}
+
+
+
+
 
