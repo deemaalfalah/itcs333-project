@@ -5,21 +5,24 @@ body {
     display: flex;
     min-height: 100vh;
 }
-
-.container {
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Full viewport height for sticky footer layout */
     display: flex;
-    width: 100%;
-    height: 100vh;
+    flex-direction: column; /* Ensures a vertical layout for the page */
 }
+
 
 /* Sidebar Styling */
 .sidebar {
-    width: 240px;
+    width: 210px;
     background-color: #2C3E50;
     color: #fff;
     padding: 20px;
     position: fixed;
     height: 100%;
+    z-index: 1100;
 }
 
 .profile {
@@ -72,43 +75,115 @@ body {
     background-color: #1ABC9C;
 }
 
-/* Main Content Styling */
-.main-content {
-    flex: 1;
-    margin-left: 260px; /* Adjusts for the sidebar width */
-    margin-right: 260px; /* Adjusts for the right section */
-    padding: 20px;
-}
-
-.rooms-container {
+#rooms-container {
+    flex: 1; /* Allows the rooms container to take up remaining space */
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-wrap: wrap; /* Ensures cards wrap as needed */
+    gap: 20px; /* Adds spacing between room cards */
+    justify-content: center; /* Centers the cards horizontally */
+    margin-top: 40px; /* Pushes content below the navbar */
+    margin-left: 140px; /* Leaves space for the sidebar */
+    margin-right: 160px; /* Leaves space for the right section */
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 8px;
+    box-sizing: border-box; /* Includes padding in total width/height */
+    /* overflow: auto;  */
 }
 
 .room {
-    width: 22%;
-    border: 1px solid #ccc;
-    padding: 10px;
+    margin-top: 100px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: calc(33.333% - 20px); /* Ensures 3 cards per row with spacing */
     text-align: center;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+
+/* Room Image */
 .room img {
-    width: 100%;
-    height: auto;
-}
-
-/* Room image styles */
-.room .room-image {
-    width: 100%;
+    width: 150px;
     height: 150px;
     object-fit: cover;
-    object-position: center;
-    border-bottom: 2px solid #f0f0f0;
+    border-radius: 8px; /* Slight rounding for the image */
     margin-bottom: 10px;
 }
+
+/* Room Details */
+.room p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #2C3E50; /* Matches the sidebar's color scheme */
+}
+
+
+.remove-room-button {
+    margin-top: 10px;
+    padding: 10px 69px;
+    background-color: #2980b9; /* Matches the search button's color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-room-button{
+    margin-top: 10px;
+    padding: 10px 80px;
+    background-color: #2980b9; /* Matches the search button's color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.edit-room-button{
+    margin-top: 10px;
+    padding: 10px 83px;
+    background-color: #2980b9; /* Matches the search button's color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;   
+}
+
+.book-room-button:hover, 
+.edit-room-button:hover, 
+.remove-room-button:hover{
+    background-color: #0a5383;  /* Darker blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #rooms-container {
+        margin-left: 0; /* Adjusts for collapsed sidebar */
+        margin-right: 0; /* Adjusts for collapsed right section */
+    }
+
+    .room {
+        width: calc(50% - 20px); /* Two cards per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .room {
+        width: 100%; /* Single card per row on very small screens */
+    }
+}
+
 
 /* Right Section Styling */
 .right-section {
@@ -117,45 +192,56 @@ body {
     padding: 20px;
     position: fixed;
     right: 0;
-    top: 0;
-    height: 100%;
+    top: 60px;
+    height: calc(100% - 60px);
     overflow-y: auto;
 }
 
-.search-bar {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
+.right-section h2{
+    color: #2C3E50;
 }
 
 .map-container {
-    margin-top: 20px;
+    margin-top: 100px;
 }
 
-/* Button Styling */
-.book-room-button, 
-.edit-room-button, 
-.remove-room-button {
+.logout-button {
     display: inline-block;
-    padding: 10px 15px;
-    background-color: #6c6f71ff; /* Matches the Book button */
+    padding: 10px 20px;
+    background-color: #f05454;
     color: white;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
     text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s;
 }
 
-/* Hover Effect */
-.book-room-button:hover, 
-.edit-room-button:hover, 
-.remove-room-button:hover {
-    background-color: #6c6f71;
+
+.room-table {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1200;
 }
 
-/* Table Styling */
+.room-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.room-table th, .room-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.room:hover + .room-table {
+    display: block;
+}
 .room-table {
     display: none;
     position: absolute;
@@ -189,6 +275,7 @@ body {
 
 /* Styling for the room divs */
 .room {
+    margin-top: 100px;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
@@ -201,145 +288,227 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Modal Background */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+
+    /* Modal Background */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1200;
+    }
+
+    /* Modal Content Box */
+    .modal-content {
+        background-color: #ffffff;
+        border-radius: 10px;
+        width: 400px;
+        max-width: 90%;
+        padding: 20px 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: left;
+        position: relative;
+    }
+
+    /* Close Button */
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #999;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .close-button:hover {
+        color: #333;
+    }
+
+    /* Form Styling */
+    #booking-form label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        color: #333;
+    }
+
+    #booking-form input {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    #booking-form button {
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+
+    #booking-form button:hover {
+        background-color: #0056b3;
+    }
+
+
+    /* General Layout */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    flex-direction: column; /* Adjusts layout for smaller screens */
+    min-height: 100vh;
 }
 
-/* Modal Content Box */
-.modal-content {
-    background-color: #ffffff;
-    border-radius: 10px;
-    width: 400px;
-    max-width: 90%;
-    padding: 20px 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: left;
-    position: relative;
+.container {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
 }
 
-/* Close Button */
-.close-button {
+/* Sidebar Styling */
+.sidebar {
+    width: 240px;
+    background-color: #2C3E50;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    z-index: 1000; /* Ensures the sidebar stays on top */
+    transition: transform 0.3s ease; /* Smooth slide-in for mobile */
+}
+
+.sidebar.closed {
+    transform: translateX(-100%); /* Hides sidebar for mobile */
+}
+
+.sidebar.open {
+    transform: translateX(0); /* Shows sidebar for mobile */
+}
+
+.hamburger {
+    display: none; /* Shown only in mobile view */
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #000000;
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #999;
+    top: 20px;
+    left: 20px;
     cursor: pointer;
-    transition: color 0.3s ease;
 }
 
-.close-button:hover {
-    color: #333;
+/* Adjust for Sidebar */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* Adjusts for the sidebar width */
+    margin-right: 260px; /* Adjusts for the right section */
+    padding: 20px;
 }
 
-/* Form Styling */
-#booking-form label {
-    font-weight: bold;
-    margin-top: 10px;
-    display: block;
-    color: #333;
+.rooms-container {
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
-#booking-form input {
-    width: 100%;
-    padding: 8px 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
+.room {
+    width: 22%;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    padding: 10px;
+    text-align: center;
     box-sizing: border-box;
 }
 
-#booking-form button {
-    background-color: #6c6f71;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s ease;
-}
-
-#booking-form button:hover {
-    background-color: #6c6f71;
-}
-
-/* Navbar Styling */
-.navbar {
-    width: 100%; /* Adjusts for sidebar and right section widths */
+/* Right Section Styling */
+.right-section {
+    width: 260px;
+    background-color: #f7f7f7;
+    padding: 20px;
     position: fixed;
+    right: 0;
     top: 0;
-    left: 0; /* Aligns with the sidebar */
-    height: 60px;
-    background-color: #2C3E50; /* Matches the sidebar background color */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 1000;
-    color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for depth */
+    height: 100%;
+    overflow-y: auto;
+}
+@media (max-width: 1300px) {
+    .room {
+        width: 50%; /* Adjust room width for tablets */
+    }
 }
 
-.navbar-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+    .main-content {
+        margin-left: 200px; /* Adjusts for smaller sidebar */
+        margin-right: 0; /* Removes right section */
+    }
+    .right-section {
+        display: none; /* Hides right section for tablets */
+    }
+    .room {
+        width: 50%; /* Adjust room width for tablets */
+    }
 }
 
-.search-bar-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    flex-grow: 1; /* Ensures the search bar takes up available space */
-    margin: 0 20px;
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        width: 0;
+        padding: 0;
+        z-index: 1000;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+        width: 240px;
+        padding: 20px;
+    }
+    .hamburger {
+        display: block;
+    }
+    .main-content {
+        margin: 0;
+        width: 100%;
+    }
+    .right-section {
+        display: none;
+    }
+    .room {
+        width: 45%; /* Adjust room width for phones */
+    }
 }
 
-#search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Spacing between form elements */
-}
-
-#room-number {
-    padding: 6px 100px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    flex: 1; /* Makes the input take up available space */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-.search-button {
-    padding: 10px 20px;
-    background-color: #4caf87; /* Blue for search button */
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.search-button:hover {
-    background-color: #2d9070; /* Darker blue on hover */
+@media (max-width: 500px) {
+    .room {
+        width: 100%; /* Single column layout for phones */
+    }
+    .modal-content {
+        width: 90%; /* Adjust modal width for small screens */
+    }
 }
 
 
@@ -349,8 +518,342 @@ body {
         padding: 15px 20px;
     }
 
-    #booking-form button {
+    /* Responsive Design */
+    @media (max-width: 500px) {
+        .modal-content {
+            padding: 15px 20px;
+        }
+    }
+
+        #booking-form button {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+    }
+
+    /* Navbar Styling */
+    .navbar {
+        width: 100%; /* Adjusts for sidebar and right section widths */
+        position: fixed;
+        top: 0;
+        left: 0; /* Aligns with the sidebar */
+        height: 60px;
+        background-color: #2C3E50; /* Matches the sidebar background color */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 1000;
+        color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for depth */
+    }
+    
+    .navbar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-grow: 1; /* Ensures the search bar takes up available space */
+        margin: 0 20px;
+    }
+
+    #search-form {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Spacing between form elements */
+    }
+
+    #room-number {
+        padding: 6px 100px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        flex: 1; /* Makes the input take up available space */
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+    
+    .search-button {
+        padding: 10px 20px;
+        background-color: #4caf87; /* Blue for search button */
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .search-button:hover {
+        background-color: #2d9070; /* Darker blue on hover */
+    }
+    
+    
+    /* The Modal (background) */
+.modal2 {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content */
+.modal2-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Adjust the width as necessary */
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+/* The Close Button */
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 15px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style the filter button */
+.filter-button {
+    padding: 10px 20px;
+    background-color: #4caf87;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.filter-button:hover {
+    background-color: #45a049;
+}
+
+.footer {
+    background-color: #2C3E50;
+    color: white;
+    text-align: center;
+    padding: 0 20px !important;
+    font-size: 14px;
+    width: 100%;
+    height: 400px; 
+    box-sizing: border-box;
+    position: relative;
+    margin-top: auto;
+}
+
+
+.container2 {
+    margin-left: 210px; /* Ensure content doesn't hide behind the sidebar */
+    padding: 0 20px;
+    max-width: calc(100% - 210px); /* Adjust content width */
+}
+
+  
+  .footer ul{
+    list-style: none;
+  }
+  
+  .row{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  .footerCol{
+    width: 25%;
+    padding: 0 15px;
+    box-sizing: border-box;
+    text-align: left;
+    margin-right: 15px;
+  }
+  
+  .footerCol h4{ /*footer headers*/
+    font-size: 15px;
+    color: #ffffff;
+    text-transform: capitalize;
+    margin-bottom: 30px;
+    position: relative;
+    text-align: left;
+  }
+
+  .footerCol ul {
+    padding-left: 0; /* Remove default left padding from the list */
+    text-align: left; /* Align text to the left */
+}
+  
+  .footerCol h4::before{ /*insert line under headers*/
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    height: 2px;
+    box-sizing: border-box;
+    background-color: #3498db;
+    width: 50px;
+  }
+  
+  .footerCol ul li:not(:last-child){
+    margin-bottom: 10px;
+  }
+  
+  .footerCol ul li a{ /*styling for linked contents*/
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 300;
+    display: block;
+    color: #bbbbbb;
+    transition: all 0.3s ease;
+    text-align: left;
+  }
+  
+  .footerCol ul li a:hover{ /*hover effect when clicking on linked contents*/
+    color: #4caf87;
+    padding-left: 10px;
+  }
+  
+  .footerCol ul li { /*design for non linked contents*/
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 300;
+    display: block;
+    color: #bbbbbb;
+  }
+
+
+
+
+
+
+
+
+
+  /* Media Query for Responsive Design */
+@media (max-width: 1024px) {
+    /* For tablets */
+    .sidebar {
+        width: 200px;
+    }
+
+    .container {
+        margin-left: 220px; /* Adjust for smaller screens */
+    }
+
+    /* Center the form */
+    .container form {
+        padding: 20px;
+    }
+
+    .profile-pic {
+        width: 70px;
+        height: 70px;
+    }
+
+    .nav-menu a {
         font-size: 14px;
-        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* For smaller tablets and mobile devices in portrait mode */
+    .sidebar {
+        width: 0;
+        padding: 0;
+    }
+
+    .sidebar.open {
+        width: 240px;
+        padding: 20px;
+    }
+
+    .sidebar .profile, .sidebar .nav-menu {
+        display: none;
+    }
+
+    .sidebar.open .profile, .sidebar.open .nav-menu {
+        display: block;
+    }
+
+    .container {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Stack the form inputs */
+    .container form {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .profile-pic {
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Show hamburger for mobile */
+    .sidebar .hamburger {
+        display: block;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+}
+
+@media (max-width: 480px) {
+    /* For phones */
+    .container {
+        padding: 15px;
+    }
+
+    .form-group input {
+        padding: 8px;
+    }
+
+    .btn-submit {
+        padding: 10px;
+    }
+
+    .profile-pic {
+        width: 50px;
+        height: 50px;
+    }
+
+    .nav-menu a {
+        font-size: 12px;
+    }
+
+    /* Ensure the profile image and text are centered */
+    .profile {
+        margin-bottom: 10px;
     }
 }

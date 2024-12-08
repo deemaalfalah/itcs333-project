@@ -193,19 +193,20 @@ if (isset($_SESSION['currentUser'])) {
                     <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
                     <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
                     <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
-                </div>
 
-                <!-- Book Room Button -->
-                <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
-                
-                <!-- Edit Room Button -->
-                <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
-                
-                <!-- Remove Room Button -->
-                <form action="delete_room.php" method="POST" style="display:inline-block;">
-                    <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                    <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
-                </form>
+                    <!-- Book Room Button -->
+                    <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
+                    
+                    <!-- Edit Room Button -->
+                    <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
+
+                    <!-- Remove Room Button -->
+                    <form action="delete_room.php" method="POST" style="display:inline-block;">
+                        <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
+                        <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                    </form>
+                    
+                </div>
                 
                 <?php
                     }
@@ -236,18 +237,20 @@ if (isset($_SESSION['currentUser'])) {
                 <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
                 <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
                 <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+
+                <!-- Book Room Button -->
+                    <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
+                    
+                    <!-- Edit Room Button -->
+                    <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
+                    
+                    <!-- Remove Room Button -->
+                    <form action="delete_room.php" method="POST" style="display:inline-block;">
+                        <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
+                        <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                    </form>
             </div>
-            <!-- Book Room Button -->
-            <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
             
-            <!-- Edit Room Button -->
-            <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
-            
-            <!-- Remove Room Button -->
-            <form action="delete_room.php" method="POST" style="display:inline-block;">
-                <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
-            </form>
             <?php
                     }
                 } else {
