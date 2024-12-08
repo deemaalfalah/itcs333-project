@@ -104,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </head>
 <body>
+<div class="top-line"></div>
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Hamburger button for mobile view -->
@@ -135,6 +136,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </ul>
         </nav>
     </div>
+
+
+    <div class="blue-line">
+
+    </div>
+
 
     <!-- Main Content -->
     <div class="profile-container">

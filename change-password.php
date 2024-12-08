@@ -83,6 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="styles/change-password.css">
 </head>
 <body>
+<div class="top-line"></div>
+
 <?php
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
@@ -143,6 +145,12 @@ if (isset($_SESSION['currentUser'])) {
                 </ul>
             </nav>
         </div>
+
+
+        
+
+
+
     <div class="container">
         <form action="change-password.php" method="post" class="password-form">
             <h2>Change Password</h2>

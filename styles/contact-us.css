@@ -1,6 +1,6 @@
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -138,6 +138,7 @@
     left: 0; /* Make sure it sticks to the left */
     height: 100%;
     z-index: 1000; /* Ensure it stays above other content */
+    padding-top: 80px;
 }
 
 .container {
@@ -364,7 +365,7 @@
     /* Sidebar Adjustment */
     .sidebar {
         width: 240px;
-        padding: 20px;
+        
     }
 
     .container {
