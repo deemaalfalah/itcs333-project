@@ -159,11 +159,6 @@ body {
 }
 
 
-
-
-
-
-
 /* Media Query for Responsive Design */
 
 /* For Tablets */
@@ -262,13 +257,6 @@ body {
 }
 
 
-
-
-
-
-
-
-
 /* Media Query for Responsive Design */
 @media (max-width: 768px) {
     .sidebar {
@@ -302,6 +290,7 @@ body {
     }
 }
 
+
 /* Top line at the very top of the page */
 .top-line {
     position: fixed; /* Keeps it at the top while scrolling */
@@ -311,4 +300,20 @@ body {
     height: 70px; /* Adjust thickness */
     background-color: #2C3E50; /* Adjust color */
     z-index: 9999; /* Ensures it is on top of all elements */
+}
+
+.btn-delete {
+    width: 100%;
+    padding: 12px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+
 }

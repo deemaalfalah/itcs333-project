@@ -1,4 +1,4 @@
- <?php
+<?php
 session_start();
 
 if (isset($_SESSION['currentUser'])) {
@@ -67,10 +67,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
+        if (isset($_POST['delete_profile_image'])) {
+            // Remove profile picture
+            $sql = "UPDATE users SET profile_image = NULL WHERE userid = ?";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([$userid]);
+
+            // Optionally delete the old file (if not default.png)
+            if (!empty($profile_picture) && $profile_picture !== 'default.png') {
+                $file_to_delete = 'uploads/profile_image/' . $profile_picture;
+                if (file_exists($file_to_delete)) {
+                    unlink($file_to_delete);
+                }
+            }
+
+            $profile_picture = 'default.png'; // Reset to default
+            $modalMessage = "Profile picture removed successfully.";
+        }
+
         if ($counter > 0) {
             $db->commit();
             $modalMessage = "Your information has been updated.";
         } else {
+            $db->commit();
             $modalMessage = "No changes made.";
         }
     } catch (PDOException $e) {
@@ -81,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="profile">
         <?php
-            if($profile_picture == null) { ?>
+            if(isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
                 <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
                  alt="Profile Picture" 
                  class="profile-pic">
@@ -123,6 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  alt="Profile Picture" 
                  class="profile-pic">
         <?php } ?>
+        
             <h2><?php echo htmlspecialchars($username); ?></h2>
         </div>
         <nav class="nav-menu">
@@ -171,6 +192,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="form-group">
                 <input type="submit" name="btn-submit" value="Update Profile" class="btn-submit">
+            </div>
+            <div class="form-group">
+            <button type="submit" name="delete_profile_image" class="btn-delete">Delete Profile Picture</button>
             </div>
         </form>
     </div>
