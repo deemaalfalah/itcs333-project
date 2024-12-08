@@ -21,6 +21,7 @@ html, body {
     color: #fff;
     padding: 20px;
     position: fixed;
+    top: 50px !important;
     height: 100%;
     z-index: 1100;
 }
@@ -165,25 +166,6 @@ html, body {
 .remove-room-button:hover{
     background-color: #0a5383;  /* Darker blue on hover */
 }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    #rooms-container {
-        margin-left: 0; /* Adjusts for collapsed sidebar */
-        margin-right: 0; /* Adjusts for collapsed right section */
-    }
-
-    .room {
-        width: calc(50% - 20px); /* Two cards per row on smaller screens */
-    }
-}
-
-@media (max-width: 480px) {
-    .room {
-        width: 100%; /* Single card per row on very small screens */
-    }
-}
-
 
 /* Right Section Styling */
 .right-section {
@@ -408,7 +390,7 @@ body {
     font-size: 30px;
     background: none;
     border: none;
-    color: #000000;
+    color: #2980b9;
     position: absolute;
     top: 20px;
     left: 20px;
@@ -450,86 +432,6 @@ body {
     height: 100%;
     overflow-y: auto;
 }
-@media (max-width: 1300px) {
-    .room {
-        width: 50%; /* Adjust room width for tablets */
-    }
-}
-
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .sidebar {
-        width: 200px;
-    }
-    .main-content {
-        margin-left: 200px; /* Adjusts for smaller sidebar */
-        margin-right: 0; /* Removes right section */
-    }
-    .right-section {
-        display: none; /* Hides right section for tablets */
-    }
-    .room {
-        width: 50%; /* Adjust room width for tablets */
-    }
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        transform: translateX(-100%);
-        width: 0;
-        padding: 0;
-        z-index: 1000;
-    }
-    .sidebar.open {
-        transform: translateX(0);
-        width: 240px;
-        padding: 20px;
-    }
-    .hamburger {
-        display: block;
-    }
-    .main-content {
-        margin: 0;
-        width: 100%;
-    }
-    .right-section {
-        display: none;
-    }
-    .room {
-        width: 45%; /* Adjust room width for phones */
-    }
-}
-
-@media (max-width: 500px) {
-    .room {
-        width: 100%; /* Single column layout for phones */
-    }
-    .modal-content {
-        width: 90%; /* Adjust modal width for small screens */
-    }
-}
-
-
-/* Responsive Design */
-@media (max-width: 500px) {
-    .modal-content {
-        padding: 15px 20px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 500px) {
-        .modal-content {
-            padding: 15px 20px;
-        }
-    }
-
-        #booking-form button {
-            font-size: 14px;
-            padding: 8px 10px;
-        }
-    }
 
     /* Navbar Styling */
     .navbar {
@@ -571,7 +473,7 @@ body {
     }
 
     #room-number {
-        padding: 6px 100px;
+        padding: 8px;
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 16px;
@@ -581,7 +483,7 @@ body {
     }
     
     .search-button {
-        padding: 10px 20px;
+        padding: 8px;
         background-color: #4caf87; /* Blue for search button */
         color: white;
         border: none;
@@ -637,21 +539,6 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
-
-/* Style the filter button */
-.filter-button {
-    padding: 10px 20px;
-    background-color: #4caf87;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.filter-button:hover {
-    background-color: #45a049;
 }
 
 .footer {
@@ -749,16 +636,218 @@ body {
     color: #bbbbbb;
   }
 
+  @media (max-width: 1300px) {
+    .room {
+        width: 50%; 
+    }
+}
 
 
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+    .main-content {
+        margin-left: 0; /* Adjusts for smaller sidebar */
+        margin-right: 0; /* Removes right section */
+    }
+    .right-section {
+        display: none; /* Hides right section for tablets */
+    }
+    .room {
+        width: 50%; /* Adjust room width for tablets */
+    }
+}
+
+/* Devices with width 1024px or less */
+@media (max-width: 1024px) {
+    .right-section {
+        position: relative; /* Change position to relative */
+        width: 100%; /* Full width under the rooms */
+        top: auto; /* Remove fixed top positioning */
+        margin-top: 20px; /* Add space between rooms and the right section */
+        height: auto; /* Let height adjust dynamically */
+    }
+
+    .map-container {
+        margin-top: 0; /* Remove extra margin to align with new layout */
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        width: 0;
+        padding: 0;
+        z-index: 1000;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+        width: 240px;
+        padding: 20px;
+    }
+    .hamburger {
+        display: block;
+    }
+    .main-content {
+        margin: 0;
+        width: 100%;
+    }
+    .right-section {
+        display: none;
+    }
+    .room {
+        width: 45%; /* Adjust room width for phones */
+    }
+}
+
+@media (max-width: 600px) {
+    .room {
+        width: 100%; /* Single column layout for phones */
+    }
+    .modal-content {
+        width: 90%; /* Adjust modal width for small screens */
+    }
+}
 
 
+/* Responsive Design */
+@media (max-width: 500px) {
+    .modal-content {
+        padding: 15px 20px;
+    }
 
+    /* Responsive Design */
+    @media (max-width: 500px) {
+        .modal-content {
+            padding: 15px 20px;
+        }
+    }
+
+        #booking-form button {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+    }
+
+/* Small devices (max-width: 600px) */
+@media (max-width: 600px) {
+    .navbar {
+        height: 50px; /* Slightly smaller height */
+        padding: 0 10px; /* Reduce padding */
+    }
+
+    .search-bar-container {
+        margin: 0 10px; /* Adjust margin */
+    }
+
+    #search-form {
+        gap: 5px; /* Reduce gap between elements */
+    }
+
+    #room-number {
+        width: auto; /* Keep input width dynamic */
+        font-size: 14px; /* Smaller font size */
+        padding: 5px; /* Adjust padding */
+    }
+
+    .search-button {
+        font-size: 14px; /* Smaller font size */
+        padding: 5px 10px; /* Adjust padding */
+    }
+}
+
+/* Medium devices (min-width: 601px and max-width: 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .navbar {
+        height: 60px; /* Maintain original height */
+        padding: 0 15px; /* Adjust padding */
+    }
+
+    .search-bar-container {
+        margin: 0 15px;
+        flex-grow: 1;
+    }
+
+    #search-form {
+        gap: 15px;
+    }
+
+    #room-number {
+        font-size: 16px; /* Medium font size */
+        padding: 6px; /* Slight padding adjustment */
+    }
+
+    .search-button {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+}
+
+/* Large devices (min-width: 1025px) */
+@media (min-width: 1025px) {
+    .navbar {
+        height: 70px; /* Slightly larger height */
+        padding: 0 30px; /* Increase padding */
+    }
+
+    .search-bar-container {
+        margin: 0 30px;
+        flex-grow: 2; /* Expand the search bar area */
+    }
+
+    #search-form {
+        gap: 20px;
+    }
+
+    #room-number {
+        font-size: 18px; /* Larger font size */
+        padding: 8px; /* Adjust padding for a larger field */
+    }
+
+    .search-button {
+        font-size: 18px; /* Larger font size */
+        padding: 8px 16px; /* Adjust padding */
+    }
+}
+
+/* Small Devices (max-width: 600px) */
+@media (max-width: 600px) {
+    .room {
+        width: 100%; /* Full width for each card */
+        margin-top: 20px; /* Adjust top margin for spacing */
+        margin-right: 40px;
+    }
+
+    #rooms-container {
+        width:100%;
+        margin: 0; /* Remove sidebar margins */
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+}
+
+/* Medium Devices (601px to 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .room {
+        width: calc(50% - 20px); /* Two cards per row, with spacing */
+        margin-top: 30px; /* Adjust top margin */
+    }
+
+    #rooms-container {
+        margin: 0; /* Remove sidebar margins */
+        width: 100%;
+        padding: 15px; /* Adjust padding */
+        margin-left:0px;
+    margin-right: 0px;
+    }
+}
 
 
 
   /* Media Query for Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1025px) {
     /* For tablets */
     .sidebar {
         width: 200px;
@@ -783,7 +872,7 @@ body {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     /* For smaller tablets and mobile devices in portrait mode */
     .sidebar {
         width: 0;
@@ -824,7 +913,7 @@ body {
         display: block;
         position: absolute;
         top: 20px;
-        left: 20px;
+        left: 40px;
         z-index: 1001;
     }
 }

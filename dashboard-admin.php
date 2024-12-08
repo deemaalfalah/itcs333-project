@@ -17,7 +17,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
     <link rel="stylesheet" href="styles/dashboard-admin.css">
-    <link rel="stylesheet" href="styles/dashboard-admin.css?v=1.1">
+    <link rel="stylesheet" href="styles/dashboard-admin.css">
     <script>
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
@@ -133,6 +133,8 @@ if (isset($_SESSION['currentUser'])) {
 
     <!-- Sidebar Section -->
     <div class="sidebar">
+        <!-- Hamburger button for mobile view -->
+        <button class="hamburger">&#9776;</button>
         <div class="profile">
         <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
              alt="Profile Picture" 
@@ -318,6 +320,18 @@ if (isset($_SESSION['currentUser'])) {
                 </iframe>
             </div>
         </div>
+
+        <script>
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Attach toggle function to the hamburger button
+        document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
+
+    </script>
 </body>
 </html>
 
