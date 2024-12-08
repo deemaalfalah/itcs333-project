@@ -212,9 +212,9 @@ if (isset($_SESSION['currentUser'])) {
                     <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
 
                     <!-- Remove Room Button -->
-                    <form action="delete_room.php" method="POST" style="display:inline-block;">
+                    <form action="delete_room.php" class="remove-form" method="POST" style="display:inline-block;width: 100%;">
                         <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                        <button type="submit" class="book-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
                     </form>
                     
                 </div>
@@ -256,9 +256,9 @@ if (isset($_SESSION['currentUser'])) {
                     <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
                     
                     <!-- Remove Room Button -->
-                    <form action="delete_room.php" method="POST" style="display:inline-block;">
+                    <form action="delete_room.php" class="remove-form" method="POST" style="display:inline-block;width: 100%;">
                         <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                        <button type="submit" class="book-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
                     </form>
             </div>
             

@@ -125,8 +125,9 @@ html, body {
 
 
 .remove-room-button {
+    width: 100%;
     margin-top: 10px;
-    padding: 8px 69px;
+    padding: 8px 0px;
     background-color: #2980b9; /* Matches the search button's color */
     color: white;
     border: none;
@@ -137,8 +138,9 @@ html, body {
 }
 
 .book-room-button{
+    width: 100%;
     margin-top: 10px;
-    padding: 8.5px 80px;
+    padding: 8.5px 0px;
     background-color: #2980b9; /* Matches the search button's color */
     color: white;
     border: none;
@@ -148,10 +150,14 @@ html, body {
     transition: background-color 0.3s ease;
 }
 
+.remove-form {
+    width: 100%;
+}
 
 .edit-room-button{
+    width: 100%;
     margin-top: 10px;
-    padding: 8.5px 83px;
+    padding: 8.5px 0px;
     background-color: #2980b9; /* Matches the search button's color */
     color: white;
     border: none;
