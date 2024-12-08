@@ -17,6 +17,7 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
     <link rel="stylesheet" href="styles/dashboard-admin.css">
+    <link rel="stylesheet" href="styles/dashboard-admin.css?v=1.1">
     <script>
         async function fetchTransactionData(roomNum) {
             const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
@@ -149,53 +150,113 @@ if (isset($_SESSION['currentUser'])) {
         </nav>
     </div>
 
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="search-bar-container">
+                <form id="search-form" method="POST" action="dashboard-admin.php" enctype="multipart/form-data">
+                <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
+                <button class = search-button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="main-content">
-        <div class="rooms-container">
-    <?php
-    require("connection.php");
+            <div class="rooms-container">
+                <?php
+                require("connection.php");
 
-    // Fetch room data from the database
-    $sql = "SELECT * FROM rooms";
-    $stmt = $db->prepare($sql);
-    $stmt->execute();
-    $rooms = $stmt->fetchAll();
+                //Check if the search form was submitted
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['room-number'])) {
+                // Get the room number from the form input
+                $roomNumber = $_POST['room-number'];
 
-    if (count($rooms) > 0) {
-        foreach ($rooms as $row) {
-            $imageSrc = $row['image'] 
-                ? "data:image/jpeg;base64," . base64_encode($row['image']) 
-                : "https://placehold.co/150x150/gray/white";
-    ?>
-    <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
-        <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
-        <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
-        <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
-        <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
-        <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
-        <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
-        <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
-        
-        <!-- Book Room Button -->
-        <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
-        
-        <!-- Edit Room Button -->
-        <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
-        
-        <!-- Remove Room Button -->
-        <form action="delete_room.php" method="POST" style="display:inline-block;">
-            <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-            <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
-        </form>
-    </div>
-    <?php
-        }
-    } else {
-        echo "<p>No rooms available.</p>";
-    }
-    ?>
-</div>
+                // Fetch room data from the database
+                $sql = "SELECT * FROM rooms WHERE room_num = ?";
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$roomNumber]);
+                $rooms = $stmt->fetchAll();
 
+
+                if (count($rooms) > 0) {
+                    foreach ($rooms as $row) {
+                        $imageSrc = $row['image'] 
+                            ? "data:image/jpeg;base64," . base64_encode($row['image']) 
+                            : "https://placehold.co/150x150/gray/white";
+                ?>
+                <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
+                    <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
+                    <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
+                    <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
+                    <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
+                    <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
+                    <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
+                    <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+                </div>
+
+                <!-- Book Room Button -->
+                <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
+                
+                <!-- Edit Room Button -->
+                <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
+                
+                <!-- Remove Room Button -->
+                <form action="delete_room.php" method="POST" style="display:inline-block;">
+                    <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
+                    <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+                </form>
+                
+                <?php
+                    }
+                } else {
+                    echo "<p>No rooms available.</p>";
+                }
+
+            } else {
+                // Fetch all rooms if no search is performed
+                $sql = "SELECT * FROM rooms";
+                $stmt = $db->prepare($sql);
+                $stmt->execute();
+                $rooms = $stmt->fetchAll();
+
+                if (count($rooms) > 0) {
+                    foreach ($rooms as $row) {
+                        $imageSrc = $row['image'] 
+                            ? "data:image/jpeg;base64," . base64_encode($row['image']) 
+                            : "https://placehold.co/150x150/gray/white";
+
+                ?>
+
+                <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
+                <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
+                <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
+                <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
+                <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
+                <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
+                <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
+                <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
+            </div>
+            <!-- Book Room Button -->
+            <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
+            
+            <!-- Edit Room Button -->
+            <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
+            
+            <!-- Remove Room Button -->
+            <form action="delete_room.php" method="POST" style="display:inline-block;">
+                <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
+                <button type="submit" class="remove-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
+            </form>
+            <?php
+                    }
+                } else {
+                    echo "<p>No rooms available.</p>";
+                }
+            }
+            ?>
+
+            </div>
             <div id="room-table-container" class="room-table"></div>
         </div>
     </div>
@@ -239,11 +300,8 @@ if (isset($_SESSION['currentUser'])) {
 
     
     
-        <!-- Right Section: Search Bar and Map -->
+        <!-- Right Section: Map -->
         <div class="right-section">
-            <div class="search-bar-container">
-                <input type="text" class="search-bar" placeholder="Search rooms...">
-            </div>
             <div class="map-container">
                 <h2>College Map</h2>
                 <iframe 

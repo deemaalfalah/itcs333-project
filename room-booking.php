@@ -139,7 +139,6 @@ if (isset($_SESSION['currentUser'])) {
                     <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
                     <button class = search-button type="submit">Search</button>
                 </form>
-                
             </div>
         </div>
     </nav>
