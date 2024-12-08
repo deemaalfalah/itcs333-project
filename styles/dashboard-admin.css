@@ -125,7 +125,7 @@ html, body {
 
 .remove-room-button {
     margin-top: 10px;
-    padding: 10px 69px;
+    padding: 8px 69px;
     background-color: #2980b9; /* Matches the search button's color */
     color: white;
     border: none;
@@ -137,7 +137,7 @@ html, body {
 
 .book-room-button{
     margin-top: 10px;
-    padding: 10px 80px;
+    padding: 8.5px 80px;
     background-color: #2980b9; /* Matches the search button's color */
     color: white;
     border: none;
@@ -150,7 +150,7 @@ html, body {
 
 .edit-room-button{
     margin-top: 10px;
-    padding: 10px 83px;
+    padding: 8.5px 83px;
     background-color: #2980b9; /* Matches the search button's color */
     color: white;
     border: none;
