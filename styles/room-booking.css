@@ -271,6 +271,7 @@ html, body {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         text-align: left;
         position: relative;
+        z-index: 9999;
     }
 
     /* Close Button */
@@ -1017,9 +1018,10 @@ body {
     padding: 10px;
     font-family: Arial, sans-serif;
     position: relative; /* Change to fixed if you want it to stay visible at all times */
-    z-index: 9999; /* A high z-index to ensure it appears above other elements */
-    width: 100%; /* Full width for the footer */
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.5); /* Optional shadow for better visibility */
+    z-index: 99; /* A high z-index to ensure it appears above other elements */
+    width: 99%; /* Full width for the footer */
+    height: 30px;
+   
   }
   
   
