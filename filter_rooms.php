@@ -1,50 +1,34 @@
 <?php
-require("connection.php");
+require('connection.php');
 
-// Retrieve filter values from GET parameters
-$department = isset($_GET['department']) ? $_GET['department'] : '';
-$capacity = isset($_GET['capacity']) ? (int) $_GET['capacity'] : 0;
-$lab = isset($_GET['lab']) ? (int) $_GET['lab'] : -1; // -1 means no filter
-$smartboard = isset($_GET['smartboard']) ? (int) $_GET['smartboard'] : -1; // -1 means no filter
+// Get filter inputs
+$startDate = $_POST['start_date'];
+$endDate = $_POST['end_date'];
+$startTime = $_POST['start_time'];
+$endTime = $_POST['end_time'];
 
-// Build the SQL query dynamically based on filters
-$sql = "SELECT * FROM rooms WHERE 1=1";
-
-// Apply filters to the query
-if ($department) {
-    $sql .= " AND department = :department";
-}
-if ($capacity > 0) {
-    $sql .= " AND capacity >= :capacity";
-}
-if ($lab != -1) {
-    $sql .= " AND lab = :lab";
-}
-if ($smartboard != -1) {
-    $sql .= " AND smartboard = :smartboard";
-}
-
+// Query to find rooms that do not clash with the given times
+$sql = "
+    SELECT *
+    FROM rooms
+    WHERE room_num NOT IN (
+        SELECT room_num
+        FROM transaction
+        WHERE (
+            (start_date <= :end_date AND end_date >= :start_date) AND
+            (start_time < :end_time AND end_time > :start_time)
+        )
+    )
+";
 $stmt = $db->prepare($sql);
-
-// Bind parameters if they exist
-if ($department) {
-    $stmt->bindParam(':department', $department);
-}
-if ($capacity > 0) {
-    $stmt->bindParam(':capacity', $capacity);
-}
-if ($lab != -1) {
-    $stmt->bindParam(':lab', $lab);
-}
-if ($smartboard != -1) {
-    $stmt->bindParam(':smartboard', $smartboard);
-}
-
-$stmt->execute();
-
-// Fetch filtered rooms
+$stmt->execute([
+    ':start_date' => $startDate,
+    ':end_date' => $endDate,
+    ':start_time' => $startTime,
+    ':end_time' => $endTime,
+]);
 $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Return the results as a JSON object
-echo json_encode(['rooms' => $rooms]);
+// Return the filtered rooms as JSON
+echo json_encode($rooms);
 ?>

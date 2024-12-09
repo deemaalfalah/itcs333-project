@@ -614,9 +614,6 @@ body {
 body {
     margin-bottom: 100px; /* Adjust based on footer height if position: fixed is used */
   }
-<<<<<<< HEAD
-
-=======
  
  
  
@@ -638,7 +635,6 @@ body {
  
  
  
->>>>>>> 613a2577262aef11a824eaf9c7bdc4201179cab4
   /* General Footer Styling */
   .university-footer {
     position: fixed; /* Keeps it at the top while scrolling */
@@ -697,12 +693,11 @@ body {
     margin-top: 5px;
     opacity: 0.4;
     padding: 5;
-<<<<<<< HEAD
+
     color: #ffff;
 
-=======
+
  
->>>>>>> 613a2577262aef11a824eaf9c7bdc4201179cab4
   }
   /* Responsive Design */
   @media (max-width: 768px) {

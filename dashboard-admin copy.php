@@ -13,7 +13,8 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Information</title>
@@ -102,58 +103,6 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
                 alert(result.message || 'Room booking failed due to a clash.');
             }
         }
-
-
-
-        function openFilterModal() {
-    document.getElementById('filter-modal').style.display = 'block';
-}
-
-function closeFilterModal() {
-    document.getElementById('filter-modal').style.display = 'none';
-}
-
-async function handleFilter(event) {
-    event.preventDefault();
-    const formData = new FormData(document.getElementById('filter-form'));
-
-    // Send filter data to the backend to fetch filtered rooms
-    const response = await fetch('filter_rooms.php', {
-        method: 'POST',
-        body: formData,
-    });
-
-    const filteredRooms = await response.json();
-
-    // Update the rooms container with the filtered rooms
-    const roomsContainer = document.querySelector('.rooms-container');
-    roomsContainer.innerHTML = '';
-
-    if (filteredRooms.length > 0) {
-        filteredRooms.forEach(room => {
-            const roomDiv = document.createElement('div');
-            roomDiv.classList.add('room');
-            roomDiv.innerHTML = `
-                <img src="${room.image || 'https://placehold.co/150x150/gray/white'}" alt="Room ${room.room_num}" class="room-image">
-                <p><strong>Room Number:</strong> ${room.room_num}</p>
-                <p><strong>Department:</strong> ${room.department}</p>
-                <p><strong>Capacity:</strong> ${room.capacity} people</p>
-                <p><strong>Lab:</strong> ${room.lab ? 'Yes' : 'No'}</p>
-                <p><strong>Smartboard:</strong> ${room.smartboard ? 'Yes' : 'No'}</p>
-                <p><strong>Datashow:</strong> ${room.datashow ? 'Yes' : 'No'}</p>
-                <button class="book-room-button" onclick="openBookingForm('${room.room_num}')">Book</button>
-
-            `;
-            roomsContainer.appendChild(roomDiv);
-        });
-    } else {
-        roomsContainer.innerHTML = '<p>No rooms available matching the criteria.</p>';
-    }
-
-    closeFilterModal();
-}
-
-
     </script>
 </head>
 <body>
@@ -191,7 +140,6 @@ if (isset($_SESSION['currentUser'])) {
                 <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
                 <button class = search-button type="submit">Search</button>
                 </form>
-                <button id="filter-button" onclick="openFilterModal()">Filter</button>
             </div>
         </div>
     </nav>
@@ -369,32 +317,6 @@ if (isset($_SESSION['currentUser'])) {
     </div>
 
     
-<!-- Filter Modal -->
-    <div id="filter-modal" class="modal-filter" style="display:none;">
-    <div class="modal-content-filter">
-        <span class="close-button" onclick="closeFilterModal()">&times;</span>
-        <h3>Filter Rooms</h3>
-        <form id="filter-form" onsubmit="handleFilter(event)">
-            <label for="filter-start-date">Start Date:</label>
-            <input type="date" id="filter-start-date" name="start_date" required>
-
-            <label for="filter-end-date">End Date:</label>
-            <input type="date" id="filter-end-date" name="end_date" required>
-
-            <label for="filter-start-time">Start Time:</label>
-            <input type="time" id="filter-start-time" name="start_time" required>
-
-            <label for="filter-end-time">End Time:</label>
-            <input type="time" id="filter-end-time" name="end_time" required>
-
-            <button type="submit">Filter</button>
-        </form>
-    </div>
-</div>
-
-
-
-
     
         <!-- Right Section: Map -->
         <div class="right-section">
@@ -422,12 +344,7 @@ if (isset($_SESSION['currentUser'])) {
         // Attach toggle function to the hamburger button
         document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
 
-
-
     </script>
-
-
-
     <footer class="university-footer">
   <div class="footer-content">
     
