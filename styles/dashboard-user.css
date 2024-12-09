@@ -12,13 +12,13 @@ html, body {
     display: flex;
     flex-direction: column; /* Ensures a vertical layout for the page */
 }
-
+ 
 .container {
     display: flex;
     flex: 1;
     flex-wrap: wrap; /* Allows wrapping for smaller screens */
 }
-
+ 
 /* Sidebar Styling */
 .sidebar {
     width: 240px;
@@ -30,28 +30,28 @@ html, body {
     height: 100%;
     z-index: 1100;
 }
-
+ 
 .profile {
     text-align: center;
     margin-bottom: 20px;
 }
-
+ 
 .profile-pic {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     margin-bottom: 10px;
 }
-
+ 
 .nav-menu ul {
     list-style-type: none;
     padding: 0;
 }
-
+ 
 .nav-menu li {
     margin-bottom: 15px;
 }
-
+ 
 .nav-menu a {
     color: #fff;
     text-decoration: none;
@@ -62,36 +62,36 @@ html, body {
     border-radius: 5px;
     text-align: center;
 }
-
+ 
 .nav-menu a:hover {
     background-color: #1ABC9C;
 }
-
+ 
 .submenu {
     list-style-type: none;
     padding-left: 20px;
 }
-
+ 
 .submenu a {
     background-color: #2C3E50;
     padding: 5px 10px;
 }
-
+ 
 .submenu a:hover {
     background-color: #1ABC9C;
 }
-
-
-
+ 
+ 
+ 
 /* Main Content Styling */
 .main-content {
     flex: 1;
-    margin-left: 100px; /* Adjusts for the sidebar width */
+    margin-left: 80px; /* Adjusts for the sidebar width */
     margin-right: 80px; /* Adjusts for the right section */
     padding: 20px;
     /*margin-top: 60px;*/
 }
-
+ 
 .rooms-container {
     flex: 1; /* Allows the rooms container to take up remaining space */
     display: flex;
@@ -99,15 +99,15 @@ html, body {
     gap: 20px; /* Adds spacing between room cards */
     justify-content: center; /* Centers the cards horizontally */
     /*margin-top: 20px; /* Pushes content below the navbar */
-    /*margin-left: 10px; /* Leaves space for the sidebar */
-    margin-right: 40px; /* Leaves space for the right section */
-    padding: 20px;
+    margin-left: 100px; /* Leaves space for the sidebar*/
+    margin-right: 120px; /* Leaves space for the right section */
+    padding: 10px;
     background-color: #ffffff;
     border-radius: 8px;
     box-sizing: border-box;
     margin-top: 50px;
 }
-
+ 
 .room {
     margin-top: 50px;
     background-color: #ffffff;
@@ -120,22 +120,22 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+ 
 .room:hover {
     transform: translateY(-10px); /* Moves the card up on hover */
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1); /* Increases shadow size on hover */
 }
-
+ 
 /* Room Details */
 .room p {
     margin: 5px 0;
     font-size: 15px;
     color: #2C3E50; /* Matches the sidebar's color scheme */
 }
-
-
+ 
+ 
 .room img {
     width: 100%;
     height: auto;
@@ -149,7 +149,7 @@ html, body {
     border-bottom: 2px solid #f0f0f0; /* Adds a border below the image */
     margin-bottom: 10px; /* Adds space below the image */
 }
-
+ 
 /* Right Section Styling */
 .right-section {
     width: 260px;
@@ -161,15 +161,15 @@ html, body {
     height: calc(100% - 60px);
     overflow-y: auto;
 }
-
+ 
 .right-section h2{
     color: #2C3E50;
 }
-
+ 
 .map-container {
     margin-top: 100px;
 }
-
+ 
 .logout-button {
     display: inline-block;
     padding: 10px 20px;
@@ -180,28 +180,28 @@ html, body {
     font-size: 14px;
     transition: background-color 0.3s;
 }
-
+ 
 .logout-button:hover {
     background-color: #d43d3d;
 }
-
+ 
 /* Center Header */
 .header-container {
     text-align: center;
     margin-top: 20px; /* Adjust spacing from the top */
     margin-bottom: 20px; /* Spacing before main content */
     font-size: 2rem; /* Adjust font size */
-    color: #333; 
+    color: #333;
 }
-
+ 
 /* Optional: Add a subtle border below the header */
 .header-container h1 {
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
     display: inline-block; /* To shrink the underline to the text width */
 }
-
-
+ 
+ 
 .popup {
     display: none;
     position: fixed;
@@ -226,11 +226,11 @@ html, body {
     flex-direction: column;
     gap: 10px;
 }
-
+ 
 #cancel-button {
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #2980b9; 
+    background-color: #2980b9;
     color: white;
     border: none;
     border-radius: 5px;
@@ -238,15 +238,15 @@ html, body {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+ 
 #cancel-button:hover {
-    background-color: #f05454; 
+    background-color: #f05454;
 }
-
+ 
 #close-button{
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #4caf87; 
+    background-color: #4caf87;
     color: white;
     border: none;
     border-radius: 5px;
@@ -254,15 +254,15 @@ html, body {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+ 
 #close-button:hover {
     background-color: #2d9070; /* Darker blue on hover */
 }
-
+ 
 .cancel-button {
     margin-top: 10px;
     padding: 15px 45px;
-    background-color: #2980b9; 
+    background-color: #2980b9;
     color: white;
     border: none;
     border-radius: 5px;
@@ -270,11 +270,11 @@ html, body {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+ 
 .cancel-button:hover {
-    background-color: #0a5383; 
+    background-color: #0a5383;
 }
-
+ 
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -301,21 +301,21 @@ html, body {
     font-size: 16px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-
+ 
 /* Success message styles */
 .success-message {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
-
+ 
 /* Error message styles */
 .error-message {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
-
+ 
 /* Overlay background to dim the rest of the page */
 .message-overlay {
     position: fixed;
@@ -326,20 +326,20 @@ html, body {
     background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     z-index: 999; /* Ensure it's behind the message but above other elements */
 }
-
-
+ 
+ 
 /* General Layout for Responsive Design */
 body {
     display: flex;
     flex-direction: column; /* Stack elements vertically for small screens */
 }
-
+ 
 .container {
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap on smaller screens */
     width: 100%;
 }
-
+ 
 /* Navbar Styling */
 .navbar {
     width: 100%; /* Adjusts for sidebar and right section widths */
@@ -356,14 +356,14 @@ body {
     color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow for depth */
 }
-
+ 
 .navbar-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
-
+ 
 .search-bar-container {
     display: flex;
     align-items: center;
@@ -372,13 +372,13 @@ body {
     flex-grow: 1; /* Ensures the search bar takes up available space */
     margin: 0 20px;
 }
-
+ 
 #search-form {
     display: flex;
     align-items: center;
     gap: 10px; /* Spacing between form elements */
 }
-
+ 
 #room-number {
     padding: 8px;
     border: 1px solid #ccc;
@@ -388,10 +388,10 @@ body {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
-
+ 
 .search-button {
     padding: 8px;
-    background-color: #4caf87; 
+    background-color: #4caf87;
     color: white;
     border: none;
     cursor: pointer;
@@ -399,11 +399,11 @@ body {
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
-
+ 
 .search-button:hover {
     background-color: #2d9070; /* Darker blue on hover */
 }
-
+ 
 /* Adjust Sidebar for Different Screens */
 @media (max-width: 1024px) { /* Tablet */
     .sidebar {
@@ -413,15 +413,15 @@ body {
         transform: translateX(-100%); /* Initially hidden */
         transition: transform 0.3s ease-in-out; /* Slide-in effect */
     }
-
+ 
     .sidebar.open {
         transform: translateX(0); /* Slide in */
     }
-
+ 
     .main-content, .right-section {
         margin-left: 0; /* Remove fixed width adjustments */
     }
-
+ 
     .hamburger {
         display: block; /* Visible on tablets */
         font-size: 24px;
@@ -429,16 +429,16 @@ body {
         margin-top: 10px;
     }
 }
-
+ 
 @media (max-width: 1024px) { /* Phone */
     .sidebar {
         width: 70%; /* Adjust sidebar width for phones */
     }
-
+ 
     .room {
         width: 100%; /* Full-width cards */
     }
-
+ 
     .right-section {
         position: relative; /* Stack below the content */
         width: 100%; /* Full-width */
@@ -449,47 +449,47 @@ body {
         height: 300px; /* Reduce height for smaller screens */
     }
 }
-
+ 
 /* Smaller Laptops */
 @media (min-width: 769px) and (max-width: 1302px) {
     .sidebar {
         width: 200px; /* Slightly smaller for medium screens */
     }
-
+ 
     .main-content {
         margin-left: 220px ; /* Adjust to match sidebar width */
         margin-right: 220px; /* Adjust for right section */
     }
-
+ 
     .right-section {
         width: 200px; /* Adjust width */
     }
-
+ 
     .room {
         width: 30%; /* Fit more cards per row */
     }
 }
-
+ 
 /* General Adjustments */
 @media (max-width: 480px) { /* Small Phones */
     .profile-pic {
         width: 50px; /* Reduce image size */
         height: 50px;
     }
-
+ 
     .room {
         width: 100%; /* Single column */
         margin-bottom: 10px;
-
+ 
     }
-
+ 
     .popup-content {
         width: 90%; /* Fit within smaller screen width */
     }
 }
-
-
-
+ 
+ 
+ 
 .sidebar .hamburger {
     display: none;
     font-size: 30px;
@@ -504,20 +504,20 @@ body {
         width: 0;
         padding: 0;
     }
-
+ 
     .sidebar.open {
         width: 240px;
         padding: 20px;
     }
-
+ 
     .sidebar .profile, .sidebar .nav-menu {
         display: none;
     }
-
+ 
     .sidebar.open .profile, .sidebar.open .nav-menu {
         display: block;
     }
-
+ 
     .sidebar .hamburger {
         display: block;
         position: absolute;
@@ -525,87 +525,87 @@ body {
         left: 20px;
         z-index: 1001;
     }
-
+ 
     .main-content {
         margin-left: 0;
         margin-right: 0;
     }
 }
-
+ 
 @media (max-width: 600px) {
     .navbar {
         height: 50px; /* Slightly smaller height */
         padding: 0 10px; /* Reduce padding */
     }
-
+ 
     .search-bar-container {
         margin: 0 10px; /* Adjust margin */
     }
-
+ 
     #search-form {
         gap: 5px; /* Reduce gap between elements */
     }
-
+ 
     #room-number {
         width: auto; /* Keep input width dynamic */
         font-size: 14px; /* Smaller font size */
         padding: 5px; /* Adjust padding */
     }
-
+ 
     .search-button {
         font-size: 14px; /* Smaller font size */
         padding: 5px 10px; /* Adjust padding */
     }
 }
-
+ 
 /* Medium devices (min-width: 601px and max-width: 1024px) */
 @media (min-width: 601px) and (max-width: 1024px) {
     .navbar {
         height: 60px; /* Maintain original height */
         padding: 0 15px; /* Adjust padding */
     }
-
+ 
     .search-bar-container {
         margin: 0 15px;
         flex-grow: 1;
     }
-
+ 
     #search-form {
         gap: 15px;
     }
-
+ 
     #room-number {
         font-size: 16px; /* Medium font size */
         padding: 6px; /* Slight padding adjustment */
     }
-
+ 
     .search-button {
         font-size: 16px;
         padding: 6px 12px;
     }
 }
-
+ 
 /* Large devices (min-width: 1025px) */
 @media (min-width: 1025px) {
     .navbar {
         height: 70px; /* Slightly larger height */
         padding: 0 30px; /* Increase padding */
     }
-
+ 
     .search-bar-container {
         margin: 0 30px;
         flex-grow: 2; /* Expand the search bar area */
     }
-
+ 
     #search-form {
         gap: 20px;
     }
-
+ 
     #room-number {
         font-size: 18px; /* Larger font size */
         padding: 8px; /* Adjust padding for a larger field */
     }
-
+ 
     .search-button {
         font-size: 18px; /* Larger font size */
         padding: 8px 16px; /* Adjust padding */
@@ -614,7 +614,31 @@ body {
 body {
     margin-bottom: 100px; /* Adjust based on footer height if position: fixed is used */
   }
+<<<<<<< HEAD
 
+=======
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+>>>>>>> 613a2577262aef11a824eaf9c7bdc4201179cab4
   /* General Footer Styling */
   .university-footer {
     position: fixed; /* Keeps it at the top while scrolling */
@@ -625,29 +649,29 @@ body {
     background-color: #2C3E50; /* Adjust color */
     z-index: 9999; /* Ensures it is on top of all elements */
   }
-  
-  
+ 
+ 
   .footer-content {
     display: flex;
     justify-content:center;
     align-items:center;
     flex-wrap: wrap;
-
+ 
   }
-  
+ 
   /* Right Section - Social Media Icons */
   .footer-right {
     display: flex;
     gap: 10px;
    margin: 5px;
   }
-  
+ 
   .footer-item {
     margin: 5px;
     align-items: center;
  
   }
-  
+ 
   .footer-item a {
     color: white;
     text-decoration: none;
@@ -656,16 +680,16 @@ body {
     align-items: center;
    
   }
-  
+ 
   .footer-item a:hover {
     color: #1e90ff; /* Light blue on hover */
   }
-  
+ 
   .social-icon i {
     font-size: 18px;
     margin-right: 8px;
   }
-  
+ 
   /* Copyright Section */
   .footer-copyright {
     text-align: center;
@@ -673,8 +697,12 @@ body {
     margin-top: 5px;
     opacity: 0.4;
     padding: 5;
+<<<<<<< HEAD
     color: #ffff;
 
+=======
+ 
+>>>>>>> 613a2577262aef11a824eaf9c7bdc4201179cab4
   }
   /* Responsive Design */
   @media (max-width: 768px) {
@@ -682,14 +710,15 @@ body {
       flex-direction: column;
       align-items: center;
     }
-  
+ 
     .footer-right {
       justify-content: center;
       align-items: center;
       display: flex;
     }
-  
+ 
     .footer-item {
       margin: 10px 10;
     }
   }
+ 
