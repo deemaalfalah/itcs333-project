@@ -76,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Change Password</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600" rel="stylesheet">
@@ -145,11 +147,6 @@ if (isset($_SESSION['currentUser'])) {
                 </ul>
             </nav>
         </div>
-
-
-        
-
-
 
     <div class="container">
         <form action="change-password.php" method="post" class="password-form">
