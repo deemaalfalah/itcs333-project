@@ -31,6 +31,7 @@ if (isset($_SESSION['error_message'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instructor View</title>
@@ -278,9 +279,51 @@ if (isset($_SESSION['currentUser'])) {
         document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
     </script>
 
+<footer class="university-footer">
+  <div class="footer-content">   
+    <!-- Right Section (Social Media Icons) -->
+    <div class="footer-right">
+      <div class="footer-item">
+        <a href="https://www.instagram.com/uobedubh/?hl=en" target="_blank" class="social-icon">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+      </div>
+      <div class="footer-item">
+        <a href="https://x.com/i/flow/login?redirect_after_login=%2Fuobitcollege" target="_blank" class="social-icon">
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+      </div>
 
+    <!-- Copyright -->
+    <div class="footer-copyright">
+      ©️ 2024 University of Bahrain.all right reserved.
+    </div>
+    </footer>
 
 </body>
 
+<<<<<<< HEAD
+=======
+<!-- <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
 
+    // Check if elements exist to avoid errors
+    if (dropdownToggle && dropdownMenu) {
+        dropdownToggle.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close the dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                dropdownMenu.style.display = 'none';
+            }
+        });
+    }
+});
+</script> -->
+>>>>>>> 7da08e099be7cf1f41a3a09da93529397234500e
 </html>
