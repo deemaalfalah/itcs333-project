@@ -40,6 +40,60 @@ if (isset($_SESSION['error_message'])) {
     <script src="scripts/sidebar-toggle.js" defer></script>
 </head>
 <body>
+
+<script>
+
+
+function hideTransactionTable() {
+            const tableContainer = document.getElementById('room-table-container');
+            tableContainer.style.display = 'none';
+        }
+
+
+        function showTransactionTable(roomDiv, roomNum) {
+            const tableContainer = document.getElementById('room-table-container');
+            tableContainer.style.display = 'block';
+            tableContainer.style.top = `${roomDiv.offsetTop + roomDiv.offsetHeight}px`;
+            tableContainer.style.left = `${roomDiv.offsetLeft}px`;
+
+            fetchTransactionData(roomNum).then(data => {
+                let tableContent = `<table>
+                    <thead>
+                        <h3>The room is booked at:</h3>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Semester</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Days</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                if (data.length > 0) {
+                    data.forEach(record => {
+                        tableContent += `
+                            <tr>
+                                <td>${record.userid}</td>
+                                <td>${record.semester}</td>
+                                <td>${record.start_date}</td>
+                                <td>${record.end_date}</td>
+                                <td>${record.start_time}</td>
+                                <td>${record.end_time}</td>
+                                <td>${record.days}</td>
+                            </tr>`;
+                    });
+                } else {
+                    tableContent += '<tr><td colspan="8">No records found</td></tr>';
+                }
+
+                tableContent += '</tbody></table>';
+                tableContainer.innerHTML = tableContent;
+            });
+        }
+    </script>
 <?php
  // Start the session at the top
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
@@ -158,7 +212,7 @@ if (isset($_SESSION['currentUser'])) {
         <div class="rooms-container">
     <?php if (!empty($rooms)): ?>
         <?php foreach ($rooms as $room): ?>
-            <div class="room">
+            <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
                 <p><strong>Department:</strong> <?= htmlspecialchars($room['department']) ?></p>
                 <p><strong>Room Number:</strong> <?= htmlspecialchars($room['room_num']) ?></p>
                 <p><strong>Time:</strong> <?= htmlspecialchars($room['start_time']) ?> to <?= htmlspecialchars($room['end_time']) ?></p>
@@ -212,6 +266,7 @@ if (isset($_SESSION['currentUser'])) {
     </div>
 
     <script>
+
     function showCancelPopup(room) {
     const popup = document.getElementById('cancel-popup');
     const overlay = document.getElementById('popup-overlay');
@@ -302,28 +357,4 @@ if (isset($_SESSION['currentUser'])) {
 
 </body>
 
-<<<<<<< HEAD
-=======
-<!-- <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-
-    // Check if elements exist to avoid errors
-    if (dropdownToggle && dropdownMenu) {
-        dropdownToggle.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default link behavior
-            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Close the dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.dropdown')) {
-                dropdownMenu.style.display = 'none';
-            }
-        });
-    }
-});
-</script> -->
->>>>>>> 7da08e099be7cf1f41a3a09da93529397234500e
 </html>
