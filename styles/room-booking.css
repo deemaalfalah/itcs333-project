@@ -960,7 +960,7 @@ body {
 .modal-content {
     background-color: #fff;
     margin:  auto;
-    padding: 10px;
+    padding: 40px;
     border-radius: 10px;
     width: 80%;
     max-width: 500px;
@@ -997,6 +997,15 @@ select, input[type="text"], input[type="range"] {
     margin-top: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+#capacity-display {
+    display: inline-block;
+    width: 40px; /* Adjust width as needed */
+    text-align: center;
+    font-size: 16px; /* Adjust font size if needed */
+    margin-left: 240px; /* Adjust spacing if necessary */
+    vertical-align: middle; /* Align it vertically with the slider */
 }
 
 /* Hide elements when filtered */

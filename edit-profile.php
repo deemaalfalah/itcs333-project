@@ -172,9 +172,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <div class="form-group">
-                <img id="profile-image-preview" 
-                     src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
-                     class="profile-picture">
+            <?php
+            if(isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
+                <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
+                 alt="Profile Picture" 
+                 class="profile-picture">
+            <?php 
+            }
+            else { ?>
+                <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+                 alt="Profile Picture" 
+                 class="profile-picture">
+        <?php } ?>
+
                 <input type="file" name="profile_image" accept="image/*" onchange="previewProfileImage(event)">
             </div>
 

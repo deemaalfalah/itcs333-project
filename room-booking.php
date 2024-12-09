@@ -106,98 +106,65 @@ $userId = $_SESSION['currentUser'];
 <body>
     
 <?php
- // Start the session at the top
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
+// Include session handler
+require('session-handler.php');
+require('connection.php');
 
+// Fetch user details
+$userId = $_SESSION['currentUser'];
+$username = "Guest";
+$profile_picture = "default.png";
 
-if (isset($_SESSION['currentUser'])) {
-    $userid = $_SESSION['currentUser'];
-    try {
-        require('connection.php');
-        $sql = "SELECT username, profile_image FROM users WHERE userid = ?";
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(1, $userid, PDO::PARAM_INT);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $username = $user['username'] ?? '';
-        $profile_picture = $user['profile_image'] ?? 'default.png';
-    } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
-    }
-} else {
-    // Default values if no user is logged in
-    $username = "Guest";
-    $profile_picture = "default.png";
-
-
-    require('connection.php');
-
-    $department = $_GET['departmen'] ?? '';
-    $lab = $_GET['lab'] ?? '';
-    $datashow = $_GET['datashow'] ?? '';
-    $smartboard = $_GET['smartboard'] ?? '';
-    $capacity = $_GET['capacity'] ?? '';
-    
-    // Start building the SQL query
-    $sql = "SELECT * FROM rooms WHERE 1";
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $department = $_POST['department'] ?? '';
-        $lab = $_POST['lab'] ?? '';
-        $datashow = $_POST['datashow'] ?? '';
-        $smartboard = $_POST['smartboard'] ?? '';
-        $capacity = $_POST['capacity'] ?? '';
-    
-        // Start building the SQL query
-        $sql = "SELECT * FROM rooms WHERE 1";
-    
-        // Add conditions to the SQL query based on filter parameters
-        if (!empty($department)) {
-            $sql .= " AND department LIKE :department";
-        }
-        if ($lab !== '') {
-            $sql .= " AND lab = :lab";
-        }
-        if ($datashow !== '') {
-            $sql .= " AND datashow = :datashow";
-        }
-        if ($smartboard !== '') {
-            $sql .= " AND smartboard = :smartboard";
-        }
-        if ($capacity !== '') {
-            $sql .= " AND capacity >= :capacity";
-        }
-    
-        $stmt = $db->prepare($sql);
-    
-        // Bind parameters for the SQL query
-        if (!empty($department)) {
-            $stmt->bindValue(':department', '%' . $department . '%', PDO::PARAM_STR);
-        }
-        if ($lab !== '') {
-            $stmt->bindValue(':lab', $lab, PDO::PARAM_INT);
-        }
-        if ($datashow !== '') {
-            $stmt->bindValue(':datashow', $datashow, PDO::PARAM_INT);
-        }
-        if ($smartboard !== '') {
-            $stmt->bindValue(':smartboard', $smartboard, PDO::PARAM_INT);
-        }
-        if ($capacity !== '') {
-            $stmt->bindValue(':capacity', $capacity, PDO::PARAM_INT);
-        }
-    
-        $stmt->execute();
-        $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Return filtered rooms as JSON
-        echo json_encode($rooms);
-        exit();
-    }
+try {
+    $sql = "SELECT username, profile_image FROM users WHERE userid = ?";
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $username = $user['username'] ?? $username;
+    $profile_picture = $user['profile_image'] ?? $profile_picture;
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
 }
 
+// Fetch rooms based on filters or search
+$rooms = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $filterQuery = "WHERE 1";
+    $params = [];
 
+    if (!empty($_POST['room-number'])) {
+        $filterQuery .= " AND room_num = ?";
+        $params[] = $_POST['room-number'];
+    } else {
+        if (!empty($_POST['department'])) {
+            $filterQuery .= " AND department LIKE ?";
+            $params[] = "%" . $_POST['department'] . "%";
+        }
+        if (isset($_POST['lab']) && $_POST['lab'] !== '') {
+            $filterQuery .= " AND lab = ?";
+            $params[] = $_POST['lab'];
+        }
+        if (isset($_POST['datashow']) && $_POST['datashow'] !== '') {
+            $filterQuery .= " AND datashow = ?";
+            $params[] = $_POST['datashow'];
+        }
+        if (isset($_POST['smartboard']) && $_POST['smartboard'] !== '') {
+            $filterQuery .= " AND smartboard = ?";
+            $params[] = $_POST['smartboard'];
+        }
+        if (!empty($_POST['capacity'])) {
+            $filterQuery .= " AND capacity >= ?";
+            $params[] = $_POST['capacity'];
+        }
+    }
+
+    $stmt = $db->prepare("SELECT * FROM rooms $filterQuery");
+    $stmt->execute($params);
+    $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $stmt = $db->query("SELECT * FROM rooms");
+    $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
 
 
@@ -402,7 +369,7 @@ if (isset($_SESSION['currentUser'])) {
                 <label for="capacity">Capacity:</label>
                 <input type="range" id="capacity" name="capacity" min="0" max="100" oninput="document.getElementById('capacity-display').innerText = this.value">
                 <span id="capacity-display">50</span>
-
+<br/>
                 <button type="submit">Apply Filter</button>
             </form>
         </div>
