@@ -302,4 +302,28 @@ if (isset($_SESSION['currentUser'])) {
 
 </body>
 
+<<<<<<< HEAD
+=======
+<!-- <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+
+    // Check if elements exist to avoid errors
+    if (dropdownToggle && dropdownMenu) {
+        dropdownToggle.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close the dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                dropdownMenu.style.display = 'none';
+            }
+        });
+    }
+});
+</script> -->
+>>>>>>> 7da08e099be7cf1f41a3a09da93529397234500e
 </html>

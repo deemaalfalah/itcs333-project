@@ -923,6 +923,9 @@ body {
         margin-bottom: 10px;
     }
 }
+
+
+
 body {
     margin-bottom: 90px; /* Adjust based on footer height if position: fixed is used */
   }
