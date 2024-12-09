@@ -926,9 +926,6 @@ body {
 }
 
 
-
-<<<<<<< HEAD
-
 #room-list {
     list-style-type: none;
     padding: 0;
@@ -962,8 +959,8 @@ body {
 
 .modal-content {
     background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
+    margin:  auto;
+    padding: 10px;
     border-radius: 10px;
     width: 80%;
     max-width: 500px;
@@ -1006,22 +1003,20 @@ select, input[type="text"], input[type="range"] {
 .hidden {
     display: none;
 }
-=======
+
 body {
     margin-bottom: 90px; /* Adjust based on footer height if position: fixed is used */
   }
 
   /* General Footer Styling */
   .university-footer {
-    background-color: #2C3E50 ;
-    color: white;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-    position: relative; /* Change to fixed if you want it to stay visible at all times */
-    z-index: 99; /* A high z-index to ensure it appears above other elements */
-    width: 99%; /* Full width for the footer */
-    height: 30px;
-   
+    position: fixed; /* Keeps it at the top while scrolling */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Adjust thickness */
+    background-color: #2C3E50; /* Adjust color */
+    z-index: 9999; /* Ensures it is on top of all elements */
   }
   
   
@@ -1070,6 +1065,7 @@ body {
     margin-top: 5px;
     opacity: 0.4;
     padding: 5;
+    color: #ffff;
 
   }
 
@@ -1091,4 +1087,4 @@ body {
       margin: 10px 0;
     }
   }
->>>>>>> 223615e229312d5446186bc60d8dff586f31e5df
+

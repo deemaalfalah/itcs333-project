@@ -198,6 +198,27 @@ if (isset($_SESSION['currentUser'])) {
         document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
     </script>
 
+<footer class="university-footer">
+  <div class="footer-content">
+    
+    <!-- Right Section (Social Media Icons) -->
+    <div class="footer-right">
+      <div class="footer-item">
+        <a href="https://www.instagram.com/uobedubh/?hl=en" target="_blank" class="social-icon">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
+      </div>
+      <div class="footer-item">
+        <a href="https://x.com/i/flow/login?redirect_after_login=%2Fuobitcollege" target="_blank" class="social-icon">
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+      </div>
+
+    <!-- Copyright -->
+    <div class="footer-copyright">
+      ©️ 2024 University of Bahrain.all right reserved.
+    </div>
+    </footer>
 
 </body>
 </html>
