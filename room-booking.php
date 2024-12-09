@@ -128,7 +128,75 @@ if (isset($_SESSION['currentUser'])) {
     // Default values if no user is logged in
     $username = "Guest";
     $profile_picture = "default.png";
+
+
+    require('connection.php');
+
+    $department = $_GET['departmen'] ?? '';
+    $lab = $_GET['lab'] ?? '';
+    $datashow = $_GET['datashow'] ?? '';
+    $smartboard = $_GET['smartboard'] ?? '';
+    $capacity = $_GET['capacity'] ?? '';
+    
+    // Start building the SQL query
+    $sql = "SELECT * FROM rooms WHERE 1";
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $department = $_POST['department'] ?? '';
+        $lab = $_POST['lab'] ?? '';
+        $datashow = $_POST['datashow'] ?? '';
+        $smartboard = $_POST['smartboard'] ?? '';
+        $capacity = $_POST['capacity'] ?? '';
+    
+        // Start building the SQL query
+        $sql = "SELECT * FROM rooms WHERE 1";
+    
+        // Add conditions to the SQL query based on filter parameters
+        if (!empty($department)) {
+            $sql .= " AND department LIKE :department";
+        }
+        if ($lab !== '') {
+            $sql .= " AND lab = :lab";
+        }
+        if ($datashow !== '') {
+            $sql .= " AND datashow = :datashow";
+        }
+        if ($smartboard !== '') {
+            $sql .= " AND smartboard = :smartboard";
+        }
+        if ($capacity !== '') {
+            $sql .= " AND capacity >= :capacity";
+        }
+    
+        $stmt = $db->prepare($sql);
+    
+        // Bind parameters for the SQL query
+        if (!empty($department)) {
+            $stmt->bindValue(':department', '%' . $department . '%', PDO::PARAM_STR);
+        }
+        if ($lab !== '') {
+            $stmt->bindValue(':lab', $lab, PDO::PARAM_INT);
+        }
+        if ($datashow !== '') {
+            $stmt->bindValue(':datashow', $datashow, PDO::PARAM_INT);
+        }
+        if ($smartboard !== '') {
+            $stmt->bindValue(':smartboard', $smartboard, PDO::PARAM_INT);
+        }
+        if ($capacity !== '') {
+            $stmt->bindValue(':capacity', $capacity, PDO::PARAM_INT);
+        }
+    
+        $stmt->execute();
+        $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Return filtered rooms as JSON
+        echo json_encode($rooms);
+        exit();
+    }
 }
+
+
 ?>
 
 
@@ -138,6 +206,7 @@ if (isset($_SESSION['currentUser'])) {
                 <form id="search-form" method="POST" action="room-booking.php" enctype="multipart/form-data">
                     <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
                     <button class = search-button type="submit">Search</button>
+                    <button onclick="openFilterModal()">Filter Rooms</button>
                 </form>
             </div>
         </div>
@@ -292,10 +361,53 @@ if (isset($_SESSION['currentUser'])) {
             </form>
         </div>
     </div>
+       
 
-    <script>
-        // Your JS logic here
-    </script>
+    <!-- Filter Modal -->
+    
+    <div id="filter-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeFilterModal()">&times;</span>
+            <h3>Filter Rooms</h3>
+            <form id="filter-form" onsubmit="applyFilter(event)">
+                
+                
+
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" placeholder="e.g., Computer Science">
+
+
+                <label for="lab">Lab:</label>
+                <select id="lab" name="lab">
+                    <option value="">Any</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="datashow">Datashow:</label>
+                <select id="datashow" name="datashow">
+                    <option value="">Any</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="smartboard">Smartboard:</label>
+                <select id="smartboard" name="smartboard">
+                    <option value="">Any</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="capacity">Capacity:</label>
+                <input type="range" id="capacity" name="capacity" min="0" max="100" oninput="document.getElementById('capacity-display').innerText = this.value">
+                <span id="capacity-display">50</span>
+
+                <button type="submit">Apply Filter</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
     
         <!-- Right Section: Map -->
         <div class="right-section">
