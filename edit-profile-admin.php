@@ -125,8 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <div class="top-line"></div>
-
-   <!-- Sidebar Section -->
+    <!-- Sidebar Section -->
     <div class="sidebar">
         <!-- Hamburger button for mobile view -->
         <button class="hamburger">&#9776;</button>
@@ -160,6 +159,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </div>
 
+    <div class="blue-line">
+
+    </div>
+
 
     <!-- Main Content -->
     <div class="profile-container">
@@ -169,9 +172,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
 
             <div class="form-group">
-                <img id="profile-image-preview" 
-                     src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
-                     class="profile-picture">
+            <?php
+            if(isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
+                <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
+                 alt="Profile Picture" 
+                 class="profile-picture">
+            <?php 
+            }
+            else { ?>
+                <img src="<?php echo 'uploads/profile_image/' . htmlspecialchars($profile_picture); ?>" 
+                 alt="Profile Picture" 
+                 class="profile-picture">
+        <?php } ?>
+
                 <input type="file" name="profile_image" accept="image/*" onchange="previewProfileImage(event)">
             </div>
 
@@ -207,7 +220,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Attach toggle function to the hamburger button
         document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
     </script>
-
 
 <footer class="university-footer">
   <div class="footer-content">
