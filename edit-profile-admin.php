@@ -153,11 +153,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
         </nav>
-    </div>
+    </div>
 
-    <div class="blue-line">
-
-    </div>
 
     <div class="blue-line">
 
