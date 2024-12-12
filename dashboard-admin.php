@@ -1,30 +1,54 @@
+
 <?php
 session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['currentUser'])) {
-    header('Location: login.php'); // Redirect to login page if not logged in
-    exit();
+if (isset($_SESSION['success_message'])) {
+    echo "<div class='success-message'>" . htmlspecialchars($_SESSION['success_message']) . "</div>";
+    unset($_SESSION['success_message']); // Clear the message after displaying it
 }
 
-$userId = $_SESSION['currentUser'];  // Get user ID from the session
+if (isset($_SESSION['error_message'])) {
+    echo "<div class='error-message'>" . htmlspecialchars($_SESSION['error_message']) . "</div>";
+    unset($_SESSION['error_message']); // Clear the message after displaying it
+}
+
+
+ if (isset($_SESSION['success_message']) || isset($_SESSION['error_message'])): ?>
+    <div class="message-overlay"></div> <!-- Overlay background -->
+    <div class="<?= isset($_SESSION['success_message']) ? 'success-message' : 'error-message' ?>">
+        <?= isset($_SESSION['success_message']) ? htmlspecialchars($_SESSION['success_message']) : htmlspecialchars($_SESSION['error_message']) ?>
+    </div>
+    <?php
+    unset($_SESSION['success_message']);
+    unset($_SESSION['error_message']);
+    ?>
+<?php endif;
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Information</title>
-    <link rel="stylesheet" href="styles/dashboard-admin.css">
-    <link rel="stylesheet" href="styles/dashboard-admin.css">
-    <script>
-        async function fetchTransactionData(roomNum) {
-            const response = await fetch(`fetch_transactions.php?room_num=${roomNum}`);
-            const data = await response.json();
-            return data;
+    <title>Instructor View</title>
+    <link rel="stylesheet" href="styles/dashboard-user.css">
+    <link rel="stylesheet" href="styles/dashboard-user.css?v=1.1">
+    <script src="scripts/sidebar-toggle.js" defer></script>
+</head>
+<body>
+
+<script>
+
+
+function hideTransactionTable() {
+            const tableContainer = document.getElementById('room-table-container');
+            tableContainer.style.display = 'none';
         }
+
 
         function showTransactionTable(roomDiv, roomNum) {
             const tableContainer = document.getElementById('room-table-container');
@@ -69,98 +93,11 @@ $userId = $_SESSION['currentUser'];  // Get user ID from the session
                 tableContainer.innerHTML = tableContent;
             });
         }
-
-        function hideTransactionTable() {
-            const tableContainer = document.getElementById('room-table-container');
-            tableContainer.style.display = 'none';
-        }
-
-        function openBookingForm(roomNum) {
-            const userId = <?php echo json_encode($userId); ?>; // Fetch user ID from PHP session
-            document.getElementById('user-id').value = userId;
-            document.getElementById('room-num').value = roomNum;
-            document.getElementById('booking-form-modal').style.display = 'block';
-        }
-
-        function closeBookingForm() {
-            document.getElementById('booking-form-modal').style.display = 'none';
-        }
-
-        async function handleBooking(event) {
-            event.preventDefault();
-            const formData = new FormData(document.getElementById('booking-form'));
-            const response = await fetch('process_booking.php', {
-                method: 'POST',
-                body: formData,
-            });
-            const result = await response.json();
-
-            if (result.success) {
-                alert('Room booked successfully!');
-                closeBookingForm();
-            } else {
-                alert(result.message || 'Room booking failed due to a clash.');
-            }
-        }
-
-
-
-        function openFilterModal() {
-    document.getElementById('filter-modal').style.display = 'block';
-}
-
-function closeFilterModal() {
-    document.getElementById('filter-modal').style.display = 'none';
-}
-
-async function handleFilter(event) {
-    event.preventDefault();
-    const formData = new FormData(document.getElementById('filter-form'));
-
-    // Send filter data to the backend to fetch filtered rooms
-    const response = await fetch('filter_rooms.php', {
-        method: 'POST',
-        body: formData,
-    });
-
-    const filteredRooms = await response.json();
-
-    // Update the rooms container with the filtered rooms
-    const roomsContainer = document.querySelector('.rooms-container');
-    roomsContainer.innerHTML = '';
-
-    if (filteredRooms.length > 0) {
-        filteredRooms.forEach(room => {
-            const roomDiv = document.createElement('div');
-            roomDiv.classList.add('room');
-            roomDiv.innerHTML = `
-                <img src="${room.image || 'https://placehold.co/150x150/gray/white'}" alt="Room ${room.room_num}" class="room-image">
-                <p><strong>Room Number:</strong> ${room.room_num}</p>
-                <p><strong>Department:</strong> ${room.department}</p>
-                <p><strong>Capacity:</strong> ${room.capacity} people</p>
-                <p><strong>Lab:</strong> ${room.lab ? 'Yes' : 'No'}</p>
-                <p><strong>Smartboard:</strong> ${room.smartboard ? 'Yes' : 'No'}</p>
-                <p><strong>Datashow:</strong> ${room.datashow ? 'Yes' : 'No'}</p>
-                <button class="book-room-button" onclick="openBookingForm('${room.room_num}')">Book</button>
-
-            `;
-            roomsContainer.appendChild(roomDiv);
-        });
-    } else {
-        roomsContainer.innerHTML = '<p>No rooms available matching the criteria.</p>';
-    }
-
-    closeFilterModal();
-}
-
-
     </script>
-</head>
-<body>
 <?php
-
+ // Start the session at the top
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest'; // Use 'Guest' if not logged in
-
+$profile_picture = $user['profile_image'] ?? 'default.png';
 
 if (isset($_SESSION['currentUser'])) {
     $userid = $_SESSION['currentUser'];
@@ -173,35 +110,29 @@ if (isset($_SESSION['currentUser'])) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $username = $user['username'] ?? '';
-        $profile_picture = $user['profile_image'] ?? 'default.png';
+        $profile_picture = $user['profile_image'] ?? 'picture\images.png';
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
     }
 } else {
     // Default values if no user is logged in
     $username = "Guest";
-    $profile_picture = "default.png";
+    $profile_picture = $user['profile_image'] ?? 'picture\images.png';
 }
 ?>
+    <div class="container">
+        <!-- Sidebar Section -->
+        <div class="sidebar">
 
-<nav class="navbar">
-        <div class="navbar-container">
-            <div class="search-bar-container">
-                <form id="search-form" method="POST" action="dashboard-admin.php" enctype="multipart/form-data">
-                <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
-                <button class = search-button type="submit">Search</button>
-                </form>
-                <button id="filter-button" onclick="openFilterModal()">Filter</button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Sidebar Section -->
-    <div class="sidebar">
-        <!-- Hamburger button for mobile view -->
-        <button class="hamburger">&#9776;</button>
-        <div class="profile">
-        <?php
+        
+
+<!-- Hamburger button for mobile view -->
+<button class="hamburger">&#9776;</button>
+
+
+            <div class="profile">
+            <?php
             if(isset($_POST['delete_profile_image']) || $profile_picture == null) { ?>
                 <img src="<?php echo 'upload/profile_image/aa.jpeg'?>" 
                  alt="Profile Picture" 
@@ -213,189 +144,110 @@ if (isset($_SESSION['currentUser'])) {
                  alt="Profile Picture" 
                  class="profile-pic">
         <?php } ?>
-            <h2><?php echo htmlspecialchars($username); ?></h2>
-        </div>
-        <nav class="nav-menu">
+                <h2><?php echo htmlspecialchars($username); ?></h2>            </div>
+                <nav class="nav-menu">
             <ul>
                 <li><a href="dashboard-admin.php">Dashboard</a></li>
+                <li><a href="ManageRooms.php">Manage Rooms</a></li>
                 <li><a href="add_room.php">Add Room</a></li>
                 <li><a href="edit-profile-admin.php">My Account</a></li>
                 <li><a href="change-password-admin.php">Change Password</a></li>
                 <li><a href="logout.php" class="logout-button">Logout</a></li>
             </ul>
         </nav>
-    </div>
+        </div>
 
-    
-
-    <div class="container">
-        <div class="main-content">
-            <div class="rooms-container">
-                <?php
-                require("connection.php");
-
-                //Check if the search form was submitted
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['room-number'])) {
-                // Get the room number from the form input
-                $roomNumber = $_POST['room-number'];
-
-                // Fetch room data from the database
-                $sql = "SELECT * FROM rooms WHERE room_num = ?";
+        <?php
+        // Database connection
+        if (!isset($_SESSION['currentUser'])) {
+            die("User not logged in. Please log in first.");
+        }
+        $logged_in_user_id = $_SESSION['currentUser'];
+        
+        try {
+            // Check if a search query was submitted
+            $searchQuery = isset($_POST['room-number']) ? trim($_POST['room-number']) : null;
+        
+            if ($searchQuery) {
+                // Fetch rooms matching the search query for the logged-in user
+                $sql = "
+                    SELECT r.room_num, r.department, t.start_time, t.end_time, t.days 
+                    FROM transaction t
+                    JOIN rooms r ON t.room_num = r.room_num
+                    WHERE t.userid = ? AND r.room_num = ?";
                 $stmt = $db->prepare($sql);
-                $stmt->execute([$roomNumber]);
-                $rooms = $stmt->fetchAll();
-
-
-                if (count($rooms) > 0) {
-                    foreach ($rooms as $row) {
-                        $imageSrc = $row['image'] 
-                            ? "data:image/jpeg;base64," . base64_encode($row['image']) 
-                            : "https://placehold.co/150x150/gray/white";
-                ?>
-                <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
-                    <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
-                    <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
-                    <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
-                    <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
-                    <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
-                    <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
-                    <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
-
-                    <!-- Book Room Button -->
-                    <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
-                    
-                    <!-- Edit Room Button -->
-                    <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
-
-                    <!-- Remove Room Button -->
-                    <form action="delete_room.php" class="remove-form" method="POST" style="display:inline-block;width: 100%;">
-                        <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="book-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
-                    </form>
-                    
-                </div>
-                
-                <?php
-                    }
-                } else {
-                    echo "<p>No rooms available.</p>";
-                }
-
+                $stmt->bindValue(1, $logged_in_user_id, PDO::PARAM_INT);
+                $stmt->bindValue(2, $searchQuery, PDO::PARAM_STR);
             } else {
-                // Fetch all rooms if no search is performed
-                $sql = "SELECT * FROM rooms";
+                // Fetch all rooms for the logged-in user
+                $sql = "
+                    SELECT r.room_num, r.department, t.start_time, t.end_time, t.days 
+                    FROM transaction t
+                    JOIN rooms r ON t.room_num = r.room_num
+                    WHERE t.userid = ?";
                 $stmt = $db->prepare($sql);
-                $stmt->execute();
-                $rooms = $stmt->fetchAll();
-
-                if (count($rooms) > 0) {
-                    foreach ($rooms as $row) {
-                        $imageSrc = $row['image'] 
-                            ? "data:image/jpeg;base64," . base64_encode($row['image']) 
-                            : "https://placehold.co/150x150/gray/white";
-
-                ?>
-
-                <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
-                <img src="<?= $imageSrc ?>" alt="Room <?= htmlspecialchars($row['room_num']) ?>" class="room-image">
-                <p><strong>Room Number:</strong> <?= htmlspecialchars($row['room_num']) ?></p>
-                <p><strong>Department:</strong> <?= htmlspecialchars($row['department']) ?></p>
-                <p><strong>Capacity:</strong> <?= htmlspecialchars($row['capacity']) ?> people</p>
-                <p><strong>Lab:</strong> <?= $row['lab'] ? 'Yes' : 'No' ?></p>
-                <p><strong>Smartboard:</strong> <?= $row['smartboard'] ? 'Yes' : 'No' ?></p>
-                <p><strong>Datashow:</strong> <?= $row['datashow'] ? 'Yes' : 'No' ?></p>
-
-                <!-- Book Room Button -->
-                    <button class="book-room-button" onclick="openBookingForm(<?= htmlspecialchars($row['room_num']) ?>)">Book</button>
-                    
-                    <!-- Edit Room Button -->
-                    <a href="edit_room.php?room_num=<?= htmlspecialchars($row['room_num']) ?>" class="edit-room-button">Edit</a>
-                    
-                    <!-- Remove Room Button -->
-                    <form action="delete_room.php" class="remove-form" method="POST" style="display:inline-block;width: 100%;">
-                        <input type="hidden" name="room_num" value="<?= htmlspecialchars($row['room_num']) ?>">
-                        <button type="submit" class="book-room-button" onclick="return confirm('Are you sure you want to delete this room?')">Remove</button>
-                    </form>
-            </div>
-            
-            <?php
-                    }
-                } else {
-                    echo "<p>No rooms available.</p>";
-                }
+                $stmt->bindValue(1, $logged_in_user_id, PDO::PARAM_INT);
             }
-            ?>
+        
+            $stmt->execute();
+            $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch results as an associative array
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+        ?>
 
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="search-bar-container">
+                    <form id="search-form" method="POST" action="dashboard-user.php" enctype="multipart/form-data">
+                    <input type="text" id="room-number" name="room-number" placeholder="Search by Room Number" required>
+                    <button class = search-button type="submit">Search</button>
+                    </form>
+                </div>
             </div>
-            <div id="room-table-container" class="room-table"></div>
-        </div>
-    </div>
+        </nav>
+        
 
-    <!-- Modal Form -->
-    <div id="booking-form-modal" class="modal" style="display:none;">
-        <div class="modal-content">
-            <span class="close-button" onclick="closeBookingForm()">&times;</span>
-            <h3>Book Room</h3>
-            <form id="booking-form" onsubmit="handleBooking(event)">
-                <label for="user-id">User ID:</label>
-                <!-- <input type="text" id="user-id" name="user_id" readonly> -->
-                <input type="text" id="user-id" name="user_id" value="<?php echo htmlspecialchars($userId); ?>" readonly>
-
-
-                <label for="room-num">Room Number:</label>
-                <input type="text" id="room-num" name="room_num" readonly>
-
-                <label for="semester">Semester:</label>
-                <input type="text" id="semester" name="semester" required>
-
-                <label for="start-date">Start Date:</label>
-                <input type="date" id="start-date" name="start_date" required>
-
-                <label for="end-date">End Date:</label>
-                <input type="date" id="end-date" name="end_date" required>
-
-                <label for="start-time">Start Time:</label>
-                <input type="time" id="start-time" name="start_time" required>
-
-                <label for="end-time">End Time:</label>
-                <input type="time" id="end-time" name="end_time" required>
-
-                <label for="days">Days (MW or UTH):</label>
-                <input type="text" id="days" name="days" pattern="MW|UTH" required>
-
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    </div>
-
-    
-<!-- Filter Modal -->
-    <div id="filter-modal" class="modal-filter" style="display:none;">
-    <div class="modal-content-filter">
-        <span class="close-button" onclick="closeFilterModal()">&times;</span>
-        <h3>Filter Rooms</h3>
-        <form id="filter-form" onsubmit="handleFilter(event)">
-            <label for="filter-start-date">Start Date:</label>
-            <input type="date" id="filter-start-date" name="start_date" required>
-
-            <label for="filter-end-date">End Date:</label>
-            <input type="date" id="filter-end-date" name="end_date" required>
-
-            <label for="filter-start-time">Start Time:</label>
-            <input type="time" id="filter-start-time" name="start_time" required>
-
-            <label for="filter-end-time">End Time:</label>
-            <input type="time" id="filter-end-time" name="end_time" required>
-
-            <button type="submit">Filter</button>
-        </form>
-    </div>
+        <div class="main-content">
+        <div class="rooms-container">
+    <?php if (!empty($rooms)): ?>
+        <?php foreach ($rooms as $room): ?>
+            <div class="room" onmouseover="showTransactionTable(this, <?= htmlspecialchars($row['room_num']) ?>)" onmouseout="hideTransactionTable()">
+                <p><strong>Department:</strong> <?= htmlspecialchars($room['department']) ?></p>
+                <p><strong>Room Number:</strong> <?= htmlspecialchars($room['room_num']) ?></p>
+                <p><strong>Time:</strong> <?= htmlspecialchars($room['start_time']) ?> to <?= htmlspecialchars($room['end_time']) ?></p>
+                <p><strong>Days:</strong> <?= htmlspecialchars($room['days']) ?></p>
+                <button 
+                    class="cancel-button" 
+                    onclick="showCancelPopup(<?= htmlspecialchars(json_encode($room)) ?>)">
+                    Cancel Reservation
+                </button>
+            </div>
+            <?php endforeach; ?>
+    <?php else: ?>
+        <?php if (!empty($searchQuery)): ?>
+            <p>No rooms found for Room Number <?= htmlspecialchars($searchQuery) ?>.</p>
+        <?php else: ?>
+            <p>No rooms booked.</p>
+        <?php endif; ?>
+    <?php endif; ?>
 </div>
 
+        <!-- Cancel Reservation Popup -->
+        <div id="popup-overlay" class="popup-overlay" onclick="closeCancelPopup()"></div>
 
+        <div id="cancel-popup" class="popup">
+            <div class="popup-content">
+                <h3>Cancel Reservation</h3>
+                <form id="cancel-form" method="POST" action="cancel-reservation.php">
+                    <input type="hidden" name="room_num" id="room-num">
+                    <div id="reservation-options"></div>
+                    <button id="cancel-button"type="submit">Cancel</button>
+                    <button id="close-button" type="button" onclick="closeCancelPopup()">Close</button>
+                </form>
+            </div>
+        </div>
 
-
-    
         <!-- Right Section: Map -->
         <div class="right-section">
             <div class="map-container">
@@ -411,8 +263,67 @@ if (isset($_SESSION['currentUser'])) {
                 </iframe>
             </div>
         </div>
+    </div>
 
-        <script>
+    <script>
+
+    function showCancelPopup(room) {
+    const popup = document.getElementById('cancel-popup');
+    const overlay = document.getElementById('popup-overlay');
+    const roomNumInput = document.getElementById('room-num');
+    const optionsContainer = document.getElementById('reservation-options');
+
+    // Show the overlay and popup
+    overlay.style.display = 'block';
+    popup.style.display = 'block';
+
+    // Fetch reservations matching the logged-in user, room, and time
+    fetch(`get-user-reservations.php?room_num=${room.room_num}&start_time=${room.start_time}&end_time=${room.end_time}&days=${room.days}`)
+        .then(response => response.json())
+        .then(data => {
+            roomNumInput.value = room.room_num;
+            optionsContainer.innerHTML = ''; // Clear any existing options
+
+            if (data.length === 0) {
+                optionsContainer.innerHTML = '<p>No reservations found for this selection.</p>';
+                return;
+            }
+
+            // Create radio buttons for each matching reservation
+            data.forEach(reservation => {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'reservation_id';
+                radio.value = reservation.record_id;
+
+                label.appendChild(radio);
+                label.appendChild(
+                    document.createTextNode(
+                        `Date: ${reservation.start_date} - Time: ${reservation.start_time} to ${reservation.end_time}`
+                    )
+                );
+                optionsContainer.appendChild(label);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching reservations:', error);
+            optionsContainer.innerHTML = '<p>Error loading reservations. Please try again.</p>';
+        });
+}
+
+    function closeCancelPopup() {
+        const popup = document.getElementById('cancel-popup');
+        const overlay = document.getElementById('popup-overlay');
+
+        // Hide the overlay and popup
+        overlay.style.display = 'none';
+        popup.style.display = 'none';
+    }
+    </script>
+
+
+<script>
         // Toggle sidebar visibility
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
@@ -421,16 +332,10 @@ if (isset($_SESSION['currentUser'])) {
 
         // Attach toggle function to the hamburger button
         document.querySelector('.hamburger').addEventListener('click', toggleSidebar);
-
-
-
     </script>
 
-
-
-    <footer class="university-footer">
-  <div class="footer-content">
-    
+<footer class="university-footer">
+  <div class="footer-content">   
     <!-- Right Section (Social Media Icons) -->
     <div class="footer-right">
       <div class="footer-item">
@@ -449,6 +354,7 @@ if (isset($_SESSION['currentUser'])) {
       ©️ 2024 University of Bahrain.all right reserved.
     </div>
     </footer>
-</body>
-</html>
 
+</body>
+
+</html>
