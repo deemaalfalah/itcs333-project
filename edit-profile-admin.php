@@ -147,6 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <nav class="nav-menu">
             <ul>
                 <li><a href="dashboard-admin.php">Dashboard</a></li>
+                <li><a href="ManageRooms.php">Manage Rooms</a></li>
                 <li><a href="add_room.php">Add Room</a></li>
                 <li><a href="edit-profile-admin.php">My Account</a></li>
                 <li><a href="change-password-admin.php">Change Password</a></li>
